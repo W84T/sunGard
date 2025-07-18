@@ -1,5 +1,6 @@
 @import '../../../../vendor/filament/filament/resources/css/theme.css';
-@import '../../../../vendor/pxlrbt/filament-activity-log/resources/css/styles.css';
+@import '../../../../vendor/mansoor/filament-versionable/resources/css/plugin.css';
 @source '../../../../vendor/bezhansalleh/filament-language-switch/resources/views/**/*.blade.php';
+@source '../../../../vendor/mansoor/filament-versionable/resources/**/*.blade.php';
 @source '../../../../app/Filament/**/*';
 @source '../../../../resources/views/filament/**/*';

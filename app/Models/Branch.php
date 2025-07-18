@@ -4,13 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Overtrue\LaravelVersionable\Versionable;
+use Overtrue\LaravelVersionable\VersionStrategy;
 use Spatie\Permission\Traits\HasRoles;
-
 class Branch extends Model
 {
+    use Versionable;
     use HasRoles;
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+    protected $versionable = ['name', 'address'];
+
+    protected $versionStrategy = VersionStrategy::SNAPSHOT;
+    public function creator(): BelongsTo{
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }
