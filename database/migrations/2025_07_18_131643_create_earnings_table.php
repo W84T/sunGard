@@ -15,9 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('agent_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('coupon_id')->constrained('coupons')->cascadeOnDelete();
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullonDelete();
+
             $table->decimal('amount', 10, 2);
             $table->boolean('is_paid')->default(false);
             $table->timestamp('paid_at')->nullable();
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -34,7 +34,7 @@ return new class extends Migration
             $table->datetime('reserved_date')->nullable();
             $table->datetime('reached_at')->nullable();
 
-            
+            $table->softDeletes();
             $table->timestamps();
         });
     }
