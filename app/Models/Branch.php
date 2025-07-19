@@ -9,17 +9,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Overtrue\LaravelVersionable\Versionable;
 use Overtrue\LaravelVersionable\VersionStrategy;
 use Spatie\Permission\Traits\HasRoles;
+
 class Branch extends Model
 {
-    use Versionable;
-    use HasRoles;
     use HasFactory, SoftDeletes;
+    use HasRoles;
+    use Versionable;
 
     protected $guarded = [];
+
     protected $versionable = ['name', 'address'];
 
     protected $versionStrategy = VersionStrategy::SNAPSHOT;
-    public function creator(): BelongsTo{
+
+    public function creator(): BelongsTo
+    {
         return $this->belongsTo(User::class, 'created_by');
     }
 }

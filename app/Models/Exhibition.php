@@ -11,9 +11,9 @@ use Spatie\Permission\Traits\HasRoles;
 
 class Exhibition extends Model
 {
-//    use Versionable;
-    use HasRoles;
     use HasFactory, SoftDeletes;
+    //    use Versionable;
+    use HasRoles;
 
     protected $guarded = [];
 

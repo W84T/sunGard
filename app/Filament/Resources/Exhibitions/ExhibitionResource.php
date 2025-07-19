@@ -36,7 +36,7 @@ class ExhibitionResource extends Resource
         return $schema
             ->components([
                 Hidden::make('created_by')
-                    ->default(fn() => auth()->id()),
+                    ->default(fn () => auth()->id()),
                 TextInput::make('name')
                     ->required(),
                 TextInput::make('address'),
@@ -74,7 +74,7 @@ class ExhibitionResource extends Resource
                 DeleteAction::make(),
                 ForceDeleteAction::make(),
                 RestoreAction::make(),
-//                RevisionsAction::make(),
+                //                RevisionsAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
@@ -89,7 +89,7 @@ class ExhibitionResource extends Resource
     {
         return [
             'index' => ManageExhibitions::route('/'),
-//            'revisions' => Pages\ExhibitionRevisions::route('/{record}/revisions'),
+            //            'revisions' => Pages\ExhibitionRevisions::route('/{record}/revisions'),
         ];
     }
 

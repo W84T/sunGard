@@ -36,7 +36,7 @@ class BranchResource extends Resource
         return $schema
             ->components([
                 Hidden::make('created_by')
-                    ->default(fn() => auth()->id()),
+                    ->default(fn () => auth()->id()),
                 TextInput::make('name')
                     ->required(),
                 TextInput::make('address'),
@@ -75,7 +75,7 @@ class BranchResource extends Resource
                 DeleteAction::make(),
                 ForceDeleteAction::make(),
                 RestoreAction::make(),
-//                RevisionsAction::make(),
+                //                RevisionsAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
@@ -90,7 +90,7 @@ class BranchResource extends Resource
     {
         return [
             'index' => ManageBranches::route('/'),
-//            'revisions' => Pages\BranchRevisions::route('/{record}/revisions'),
+            //            'revisions' => Pages\BranchRevisions::route('/{record}/revisions'),
         ];
     }
 
