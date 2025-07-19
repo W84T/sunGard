@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Resources\Branches;
+namespace App\Filament\Resources\Exhibitions;
 
-use App\Filament\Resources\Branches\Pages\ManageBranches;
-use App\Models\Branch;
+use App\Filament\Resources\Exhibitions\Pages\ManageExhibitions;
+use App\Models\Exhibition;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -25,9 +25,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Mansoor\FilamentVersionable\Table\RevisionsAction;
 
-class BranchResource extends Resource
+class ExhibitionResource extends Resource
 {
-    protected static ?string $model = Branch::class;
+    protected static ?string $model = Exhibition::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
@@ -48,7 +48,6 @@ class BranchResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('creator.name')
-                    ->numeric()
                     ->sortable(),
                 TextColumn::make('name')
                     ->searchable(),
@@ -89,8 +88,8 @@ class BranchResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ManageBranches::route('/'),
-//            'revisions' => Pages\BranchRevisions::route('/{record}/revisions'),
+            'index' => ManageExhibitions::route('/'),
+//            'revisions' => Pages\ExhibitionRevisions::route('/{record}/revisions'),
         ];
     }
 
