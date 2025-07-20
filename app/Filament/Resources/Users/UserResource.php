@@ -22,6 +22,17 @@ class UserResource extends Resource
 
     protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::Users;
 
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        $user = auth()->user();
+        $query = parent::getEloquentQuery();
+
+        if ($user->hasRole('marketer')) {
+            return $query->where('created_by', $user->id);
+        }
+
+        return $query;
+    }
     public static function getModelLabel(): string
     {
         return __('user.singular');
