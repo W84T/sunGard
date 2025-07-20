@@ -20,7 +20,19 @@ class CouponResource extends Resource
 {
     protected static ?string $model = Coupon::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTicket;
+
+    protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::Ticket;
+
+    public static function getModelLabel(): string
+    {
+        return __('coupon.singular');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('coupon.plural');
+    }
 
     public static function form(Schema $schema): Schema
     {

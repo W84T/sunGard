@@ -22,33 +22,40 @@ class CouponForm
                 Group::make()
                     ->columnSpan(2)
                     ->schema([
-                        Section::make('Customer Information')
+                        Section::make(__('coupon.form.customer_information'))
                             ->columns(2)
                             ->schema([
                                 TextInput::make('customer_name')
+                                    ->label(__('coupon.form.customer_name'))
                                     ->required(),
 
                                 TextInput::make('customer_phone')
+                                    ->label(__('coupon.form.customer_phone'))
                                     ->tel()
                                     ->required(),
 
                                 TextInput::make('customer_email')
+                                    ->label(__('coupon.form.customer_email'))
                                     ->email()
                                     ->columnSpan(2),
                             ]),
 
-                        Section::make('Vehicle Information')
+                        Section::make(__('coupon.form.vehicle_information'))
                             ->columns(2)
                             ->schema([
                                 TextInput::make('car_model')
+                                    ->label(__('coupon.form.car_model'))
                                     ->required(),
 
                                 TextInput::make('plate_number')
+                                    ->label(__('coupon.form.plate_number'))
                                     ->required(),
 
-                                TextInput::make('car_brand'),
+                                TextInput::make('car_brand')
+                                    ->label(__('coupon.form.car_brand')),
 
-                                TextInput::make('car_category'),
+                                TextInput::make('car_category')
+                                    ->label(__('coupon.form.car_category')),
                             ]),
                     ]),
 
@@ -56,7 +63,7 @@ class CouponForm
                 Group::make()
                     ->columnSpan(1)
                     ->schema([
-                        Section::make('Coupon & Assignment')
+                        Section::make(__('coupon.form.coupon_assignment'))
                             ->columns(1)
                             ->schema([
                                 Select::make('agent_id')
@@ -68,7 +75,7 @@ class CouponForm
                                     ->searchable()
                                     ->preload()
                                     ->required()
-                                    ->label('Agent'),
+                                    ->label(__('coupon.form.agent')),
 
                                 Select::make('employee_id')
                                     ->relationship(
@@ -79,37 +86,40 @@ class CouponForm
                                     ->searchable()
                                     ->preload()
                                     ->required()
-                                    ->label('Customer Service'),
+                                    ->label(__('coupon.form.customer_service')),
 
                                 Select::make('branch_id')
                                     ->relationship('branchRelation', 'name')
+                                    ->label(__('coupon.form.branch'))
                                     ->searchable()
                                     ->preload()
                                     ->required(),
 
                                 Select::make('exhibition_id')
                                     ->relationship('exhibitionRelation', 'name')
+                                    ->label(__('coupon.form.exhibition'))
                                     ->searchable()
                                     ->preload()
                                     ->required(),
                             ]),
-                        Section::make('Status & Reservation')
+                        Section::make(__('coupon.form.status_reservation'))
                             ->columns(1)
                             ->schema([
                                 Toggle::make('is_confirmed')
                                     ->required()
-                                    ->label('Confirmed'),
+                                    ->label(__('coupon.form.confirmed')),
 
                                 TextInput::make('status')
                                     ->required()
                                     ->numeric()
-                                    ->default(1),
+                                    ->default(1)
+                                    ->label(__('coupon.form.status')),
 
                                 DateTimePicker::make('reserved_date')
-                                    ->label('Reserved Date'),
+                                    ->label(__('coupon.form.reserved_date')),
 
                                 DateTimePicker::make('reached_at')
-                                    ->label('Reached At'),
+                                    ->label(__('coupon.form.reached_at')),
                             ]),
                     ]),
             ]);

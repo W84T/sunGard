@@ -29,7 +29,19 @@ class BranchResource extends Resource
 {
     protected static ?string $model = Branch::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice2;
+
+    protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::BuildingOffice2;
+
+    public static function getModelLabel(): string
+    {
+        return __('branch.singular');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('branch.plural');
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -38,8 +50,10 @@ class BranchResource extends Resource
                 Hidden::make('created_by')
                     ->default(fn () => auth()->id()),
                 TextInput::make('name')
+                    ->label(__('branch.form.name'))
                     ->required(),
-                TextInput::make('address'),
+                TextInput::make('address')
+                    ->label(__('branch.form.address')),
             ]);
     }
 
@@ -48,21 +62,27 @@ class BranchResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('creator.name')
+                    ->label(__('branch.table.creator_name'))
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('name')
+                    ->label(__('branch.table.name'))
                     ->searchable(),
                 TextColumn::make('address')
+                    ->label(__('branch.table.address'))
                     ->searchable(),
                 TextColumn::make('deleted_at')
+                    ->label(__('branch.table.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('branch.table.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('branch.table.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

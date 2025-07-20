@@ -29,7 +29,19 @@ class ExhibitionResource extends Resource
 {
     protected static ?string $model = Exhibition::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingStorefront;
+
+    protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::BuildingStorefront;
+
+    public static function getModelLabel(): string
+    {
+        return __('exhibition.singular');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('exhibition.plural');
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -38,8 +50,10 @@ class ExhibitionResource extends Resource
                 Hidden::make('created_by')
                     ->default(fn () => auth()->id()),
                 TextInput::make('name')
+                    ->label(__('exhibition.form.name'))
                     ->required(),
-                TextInput::make('address'),
+                TextInput::make('address')
+                    ->label(__('exhibition.form.address')),
             ]);
     }
 
@@ -48,20 +62,26 @@ class ExhibitionResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('creator.name')
+                    ->label(__('exhibition.table.creator_name'))
                     ->sortable(),
                 TextColumn::make('name')
+                    ->label(__('exhibition.table.name'))
                     ->searchable(),
                 TextColumn::make('address')
+                    ->label(__('exhibition.table.address'))
                     ->searchable(),
                 TextColumn::make('deleted_at')
+                    ->label(__('exhibition.table.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('exhibition.table.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('exhibition.table.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
