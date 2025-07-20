@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Branches;
 use App\Filament\Resources\Branches\Pages\ManageBranches;
 use App\Models\Branch;
 use BackedEnum;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -25,7 +26,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Mansoor\FilamentVersionable\Table\RevisionsAction;
 
-class BranchResource extends Resource
+class BranchResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = Branch::class;
 
@@ -120,5 +121,17 @@ class BranchResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+            'delete',
+            'delete_any',
+        ];
     }
 }

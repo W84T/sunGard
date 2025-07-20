@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Exhibitions;
 use App\Filament\Resources\Exhibitions\Pages\ManageExhibitions;
 use App\Models\Exhibition;
 use BackedEnum;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -25,7 +26,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Mansoor\FilamentVersionable\Table\RevisionsAction;
 
-class ExhibitionResource extends Resource
+class ExhibitionResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = Exhibition::class;
 
@@ -119,5 +120,17 @@ class ExhibitionResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+            'delete',
+            'delete_any',
+        ];
     }
 }
