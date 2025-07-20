@@ -25,6 +25,7 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            ->databaseNotifications()
             ->brandName('Sun Gard')
             ->brandLogo(asset('images/logo.svg'))
             ->favicon(asset('images/favicon.png'))
