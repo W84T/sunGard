@@ -21,17 +21,61 @@ enum Status: int
     public function label(): string
     {
         return match ($this) {
-            self::POSTPONED_BY_CUSTOMER => 'Postponed by Customer',
-            self::NO_REPLY_OR_WHATSAPP_SENT => 'No Reply or WhatsApp Sent',
-            self::DUPLICATE_POSTPONED => 'Duplicate Postponed',
-            self::NOT_INTERESTED => 'Not Interested',
-            self::MULTIPLE_POSTPONES_OR_AVOID => 'Multiple Postpones / Avoiding Booking',
-            self::BOOKED => 'Booked',
-            self::HEADING_TO_BRANCH => 'Heading to Branch',
-            self::TRANSFERRED_OUTSIDE_COMPANY => 'Transferred Outside Company',
-            self::PRICE_INQUIRY => 'Price Inquiry',
-            self::CUSTOMER_SERVED => 'Customer Served',
+            self::POSTPONED_BY_CUSTOMER =>          __('status.postponed_by_customer'),
+            self::NO_REPLY_OR_WHATSAPP_SENT =>      __('status.no_reply_or_whatsapp_sent'),
+            self::DUPLICATE_POSTPONED =>            __('status.duplicate_postponed'),
+
+            self::NOT_INTERESTED =>                 __('status.not_interested'),
+            self::MULTIPLE_POSTPONES_OR_AVOID =>    __('status.multiple_postpones_or_avoid'),
+            self::BOOKED =>                         __('status.booked'),
+            self::HEADING_TO_BRANCH =>              __('status.heading_to_branch'),
+            self::TRANSFERRED_OUTSIDE_COMPANY =>    __('status.transferred_outside_company'),
+            self::PRICE_INQUIRY =>                  __('status.price_inquiry'),
+            self::CUSTOMER_SERVED =>                __('status.customer_served'),
         };
+    }
+
+    public function isScheduled(): bool
+    {
+        return in_array($this, self::getScheduledCases());
+    }
+
+    public function isNotBooked(): bool
+    {
+        return in_array($this, self::getNotBookedCases());
+    }
+
+    public function isBooked(): bool
+    {
+        return in_array($this, self::getBookedCases());
+    }
+
+    public static function getScheduledCases(): array
+    {
+        return [
+            self::POSTPONED_BY_CUSTOMER,
+            self::NO_REPLY_OR_WHATSAPP_SENT,
+            self::DUPLICATE_POSTPONED,
+        ];
+    }
+
+    public static function getNotBookedCases(): array
+    {
+        return [
+            self::NOT_INTERESTED,
+            self::MULTIPLE_POSTPONES_OR_AVOID,
+        ];
+    }
+
+    public static function getBookedCases(): array
+    {
+        return [
+            self::BOOKED,
+            self::HEADING_TO_BRANCH,
+            self::TRANSFERRED_OUTSIDE_COMPANY,
+            self::PRICE_INQUIRY,
+            self::CUSTOMER_SERVED,
+        ];
     }
 
     public static function options(): array

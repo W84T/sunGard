@@ -47,4 +47,10 @@ return [
         'created_at' => 'Created At',
         'updated_at' => 'Updated At',
     ],
+    'tabs' => [
+        'all' => 'All',
+        'scheduled' => 'Scheduled',
+        'not_booked' => 'Not Booked',
+        'booked' => 'Booked',
+    ],
 ];

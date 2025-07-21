@@ -17,6 +17,10 @@ class Coupon extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'status' => \App\Status::class,
+    ];
+
     public function branchRelation(): BelongsTo
     {
         return $this->belongsTo(Branch::class, 'branch_id');

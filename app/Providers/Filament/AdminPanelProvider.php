@@ -17,7 +17,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;use Filament\Support\Colors\Color;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -25,6 +25,14 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+//            ->colors([
+//                'danger' => Color::Rose,
+//                'gray' => Color::Gray,
+//                'info' => Color::Blue,
+//                'primary' => Color::Indigo,
+//                'success' => Color::Emerald,
+//                'warning' => Color::Orange,
+//            ])
             ->databaseNotifications()
             ->brandName('Sun Gard')
             ->brandLogo(asset('images/logo.svg'))

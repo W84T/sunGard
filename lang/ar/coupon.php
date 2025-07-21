@@ -47,4 +47,10 @@ return [
         'created_at' => 'أنشئ في',
         'updated_at' => 'تم التحديث في',
     ],
+    'tabs' => [
+        'all' => 'الكل',
+        'scheduled' => 'المجدولة',
+        'not_booked' => 'غير المحجوزة',
+        'booked' => 'المحجوزة',
+    ],
 ];

@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources\Coupons\Tables;
 
+use App\Status;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
@@ -18,17 +20,17 @@ class CouponsTable
     {
         return $table
             ->columns([
-                TextColumn::make('agent_id')
+                TextColumn::make('agent.name')
                     ->label(__('coupon.table.agent_id'))
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault:  true),
-                TextColumn::make('branch_id')
+                TextColumn::make('branchRelation.name')
                     ->label(__('coupon.table.branch_id'))
                     ->numeric()
                     ->sortable()
                     ->toggleable(),
-                TextColumn::make('exhibition_id')
+                TextColumn::make('exhibitionRelation.name')
                     ->label(__('coupon.table.exhibition_id'))
                     ->numeric()
                     ->sortable()
@@ -69,11 +71,11 @@ class CouponsTable
                     ->label(__('coupon.table.is_confirmed'))
                     ->boolean()
                     ->toggleable(isToggledHiddenByDefault:  true),
-                TextColumn::make('status')
-                    ->label(__('coupon.table.status'))
-                    ->numeric()
+                SelectColumn::make('status')
+                    ->options(Status::options())
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable(isToggledHiddenByDefault: false),
+
                 TextColumn::make('reserved_date')
                     ->label(__('coupon.table.reserved_date'))
                     ->dateTime()

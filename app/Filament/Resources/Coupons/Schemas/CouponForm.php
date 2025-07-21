@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Coupons\Schemas;
 
+use App\Status;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -15,6 +16,7 @@ class CouponForm
 {
     public static function configure(Schema $schema): Schema
     {
+        $user = auth()->user();
         return $schema
             ->columns(3)
             ->components([
@@ -72,6 +74,7 @@ class CouponForm
                                         titleAttribute: 'name',
                                         modifyQueryUsing: fn (Builder $query) => $query->whereHas('roles', fn (Builder $query) => $query->where('name', 'agent'))
                                     )
+                                    ->visible($user->roles->contains('slug', 'admin') || $user->roles->contains('slug', 'employee'))
                                     ->searchable()
                                     ->preload()
                                     ->required()
@@ -85,7 +88,7 @@ class CouponForm
                                     )
                                     ->searchable()
                                     ->preload()
-                                    ->required()
+                                    ->visible($user->roles->contains('slug', 'admin') || $user->roles->contains('slug', 'employee'))
                                     ->label(__('coupon.form.customer_service')),
 
                                 Select::make('branch_id')
@@ -109,9 +112,9 @@ class CouponForm
                                     ->required()
                                     ->label(__('coupon.form.confirmed')),
 
-                                TextInput::make('status')
-                                    ->required()
-                                    ->numeric()
+                                Select::make('status')
+                                    ->options(Status::options())
+                                    ->searchable()
                                     ->default(1)
                                     ->label(__('coupon.form.status')),
 
@@ -120,7 +123,7 @@ class CouponForm
 
                                 DateTimePicker::make('reached_at')
                                     ->label(__('coupon.form.reached_at')),
-                            ]),
+                            ])->visible($user->roles->contains('slug', 'admin') || $user->roles->contains('slug', 'employee')),
                     ]),
             ]);
     }
