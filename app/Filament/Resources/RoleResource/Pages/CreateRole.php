@@ -28,7 +28,7 @@ class CreateRole extends CreateRecord
             return Arr::only($data, ['name', 'guard_name', Utils::getTenantModelForeignKey()]);
         }
 
-        return Arr::only($data, ['name','slug', 'guard_name']);
+        return Arr::only($data, ['name', 'slug', 'guard_name']);
     }
 
     protected function afterCreate(): void

@@ -33,6 +33,7 @@ class UserResource extends Resource
 
         return $query;
     }
+
     public static function getModelLabel(): string
     {
         return __('user.singular');

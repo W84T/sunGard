@@ -75,6 +75,7 @@ class CouponResource extends Resource implements HasShieldPermissions
 
         if ($user->roles->contains('slug', 'marketer')) {
             $agentIds = \App\Models\User::where('created_by', $user->id)->pluck('id');
+
             return $query->whereIn('agent_id', $agentIds)
                 ->withoutGlobalScopes([SoftDeletingScope::class]);
         }
@@ -90,10 +91,9 @@ class CouponResource extends Resource implements HasShieldPermissions
             SoftDeletingScope::class,
         ]);
 
-//        return parent::getEloquentQuery()
+        //        return parent::getEloquentQuery()
 
     }
-
 
     public static function getPermissionPrefixes(): array
     {

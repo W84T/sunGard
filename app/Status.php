@@ -21,17 +21,17 @@ enum Status: int
     public function label(): string
     {
         return match ($this) {
-            self::POSTPONED_BY_CUSTOMER =>          __('status.postponed_by_customer'),
-            self::NO_REPLY_OR_WHATSAPP_SENT =>      __('status.no_reply_or_whatsapp_sent'),
-            self::DUPLICATE_POSTPONED =>            __('status.duplicate_postponed'),
+            self::POSTPONED_BY_CUSTOMER => __('status.postponed_by_customer'),
+            self::NO_REPLY_OR_WHATSAPP_SENT => __('status.no_reply_or_whatsapp_sent'),
+            self::DUPLICATE_POSTPONED => __('status.duplicate_postponed'),
 
-            self::NOT_INTERESTED =>                 __('status.not_interested'),
-            self::MULTIPLE_POSTPONES_OR_AVOID =>    __('status.multiple_postpones_or_avoid'),
-            self::BOOKED =>                         __('status.booked'),
-            self::HEADING_TO_BRANCH =>              __('status.heading_to_branch'),
-            self::TRANSFERRED_OUTSIDE_COMPANY =>    __('status.transferred_outside_company'),
-            self::PRICE_INQUIRY =>                  __('status.price_inquiry'),
-            self::CUSTOMER_SERVED =>                __('status.customer_served'),
+            self::NOT_INTERESTED => __('status.not_interested'),
+            self::MULTIPLE_POSTPONES_OR_AVOID => __('status.multiple_postpones_or_avoid'),
+            self::BOOKED => __('status.booked'),
+            self::HEADING_TO_BRANCH => __('status.heading_to_branch'),
+            self::TRANSFERRED_OUTSIDE_COMPANY => __('status.transferred_outside_company'),
+            self::PRICE_INQUIRY => __('status.price_inquiry'),
+            self::CUSTOMER_SERVED => __('status.customer_served'),
         };
     }
 
@@ -82,6 +82,7 @@ enum Status: int
     {
         return array_reduce(self::cases(), function ($carry, $case) {
             $carry[$case->value] = $case->label();
+
             return $carry;
         }, []);
     }

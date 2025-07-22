@@ -12,6 +12,7 @@ use Spatie\Permission\Traits\HasRoles;
 class Exhibition extends Model
 {
     use HasFactory, SoftDeletes;
+
     //    use Versionable;
     use HasRoles;
 

@@ -37,9 +37,9 @@ class UserForm
                 TextInput::make('password')
                     ->label(__('user.form.password'))
                     ->password()
-                    ->dehydrated(fn($state) => filled($state))
-                    ->required(fn(Page $livewire): bool => $livewire instanceof CreateRecord)
-                    ->unique(ignoreRecord:  true),
+                    ->dehydrated(fn ($state) => filled($state))
+                    ->required(fn (Page $livewire): bool => $livewire instanceof CreateRecord)
+                    ->unique(ignoreRecord: true),
             ]);
     }
 }

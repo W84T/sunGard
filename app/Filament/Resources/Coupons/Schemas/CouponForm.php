@@ -17,6 +17,7 @@ class CouponForm
     public static function configure(Schema $schema): Schema
     {
         $user = auth()->user();
+
         return $schema
             ->columns(3)
             ->components([
