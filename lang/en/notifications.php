@@ -24,4 +24,5 @@ return [
         'body' => 'The coupon :name has been confirmed.',
     ],
     'view' => 'View',
+    'fk' => 'shit'
 ];

@@ -25,9 +25,4 @@ class EditCoupon extends EditRecord
             RestoreAction::make(),
         ];
     }
-
-    protected function afterSave(): void
-    {
-        $this->sendNotification();
-    }
 }

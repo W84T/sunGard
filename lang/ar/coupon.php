@@ -1,56 +1,22 @@
 <?php
 
 return [
-    'navigation' => [
-        'group' => 'الإدارة',
-    ],
-    'singular' => 'كوبون',
-    'plural' => 'الكوبونات',
-    'form' => [
-        'customer_information' => 'بيانات العميل',
-        'vehicle_information' => 'بيانات المركبة',
-        'coupon_assignment' => 'الكوبون والتعيين',
-        'status_reservation' => 'الحالة والحجز',
-        'customer_name' => 'اسم العميل',
-        'customer_phone' => 'هاتف العميل',
-        'customer_email' => 'البريد الإلكتروني للعميل',
-        'car_model' => 'موديل السيارة',
-        'plate_number' => 'رقم اللوحة',
-        'car_brand' => 'ماركة السيارة',
-        'car_category' => 'فئة السيارة',
-        'agent' => 'الوكيل',
-        'customer_service' => 'خدمة العملاء',
-        'branch' => 'الفرع',
-        'exhibition' => 'المعرض',
-        'confirmed' => 'مؤكد',
-        'status' => 'الحالة',
-        'reserved_date' => 'تاريخ الحجز',
-        'reached_at' => 'وصل في',
-    ],
-    'table' => [
-        'agent_id' => 'الوكيل',
-        'branch_id' => 'الفرع',
-        'exhibition_id' => 'المعرض',
-        'employee_id' => 'الموظف',
-        'customer_name' => 'اسم العميل',
-        'customer_email' => 'البريد الإلكتروني للعميل',
-        'customer_phone' => 'هاتف العميل',
-        'car_model' => 'موديل السيارة',
-        'car_brand' => 'ماركة السيارة',
-        'car_category' => 'فئة السيارة',
-        'plate_number' => 'رقم اللوحة',
-        'is_confirmed' => 'مؤكد',
-        'status' => 'الحالة',
-        'reserved_date' => 'تاريخ الحجز',
-        'reached_at' => 'وصل في',
-        'deleted_at' => 'حذف في',
-        'created_at' => 'أنشئ في',
-        'updated_at' => 'تم التحديث في',
-    ],
-    'tabs' => [
-        'all' => 'الكل',
-        'scheduled' => 'المجدولة',
-        'not_booked' => 'غير المحجوزة',
-        'booked' => 'المحجوزة',
+    'notifications' => [
+        'scheduled' => [
+            'title' => 'تم جدولة الكوبون',
+            'body' => 'تم جدولة الكوبون بنجاح.',
+        ],
+        'confirmed' => [
+            'title' => 'تم تأكيد الكوبون',
+            'body' => 'المشرف قام بمراجعة وتأكيد الكوبون.',
+        ],
+        'not_booked' => [
+            'title' => 'لم يتم حجز الكوبون',
+            'body' => 'العميل لم يقم بحجز الكوبون.',
+        ],
+        'customer_served' => [
+            'title' => 'تم خدمة العميل',
+            'body' => 'تم خدمة العميل بنجاح وإضافة المبلغ إلى حسابك.',
+        ],
     ],
 ];
