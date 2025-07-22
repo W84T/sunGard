@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('plate_number');
 
             $table->boolean('is_confirmed')->default(false);
-            $table->smallInteger('status')->default(1);
+            $table->smallInteger('status')->nullable();
 
             $table->datetime('reserved_date')->nullable();
             $table->datetime('reached_at')->nullable();

@@ -17,7 +17,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
-use Illuminate\View\Middleware\ShareErrorsFromSession;use Filament\Support\Colors\Color;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -25,18 +25,27 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-//            ->colors([
-//                'danger' => Color::Rose,
-//                'gray' => Color::Gray,
-//                'info' => Color::Blue,
-//                'primary' => Color::Indigo,
-//                'success' => Color::Emerald,
-//                'warning' => Color::Orange,
-//            ])
+            ->colors([
+                'primary' => [
+                    50 => '255, 241, 233',    // Very light peach
+                    100 => '255, 226, 209',   // Light pastel orange
+                    200 => '255, 210, 182',   // Soft orange tint
+                    300 => '255, 185, 143',   // Brighter tint
+                    400 => '255, 151, 97',    // Light orange
+                    500 => '243, 98, 30',     // Base: #f3621e
+                    600 => '217, 80, 16',     // Slightly darker
+                    700 => '191, 66, 10',     // Deeper orange
+                    800 => '166, 55, 8',      // Burnt orange
+                    900 => '140, 46, 6',      // Very dark orange
+                    950 => '102, 30, 4',      // Almost brown
+                ],
+            ])
             ->databaseNotifications()
+            ->sidebarCollapsibleOnDesktop()
             ->brandName('Sun Gard')
-            ->brandLogo(asset('images/logo.svg'))
-            ->favicon(asset('images/favicon.png'))
+            ->brandLogo(asset('storage/logo.png'))
+            ->favicon(asset('storage/favicon.png'))
+            ->brandLogoHeight('50px')
             ->id('admin')
             ->maxContentWidth('full')
             ->login()

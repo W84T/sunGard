@@ -9,12 +9,13 @@ use App\Filament\Resources\Coupons\Schemas\CouponForm;
 use App\Filament\Resources\Coupons\Tables\CouponsTable;
 use App\Models\Coupon;
 use BackedEnum;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CouponResource extends Resource implements HasShieldPermissions
 {
@@ -62,11 +63,37 @@ class CouponResource extends Resource implements HasShieldPermissions
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
+        $user = auth()->user();
+        $query = parent::getEloquentQuery();
+
+        if ($user->roles->contains('slug', 'agent')) {
+            return $query->where('agent_id', $user->id)
+                ->withoutGlobalScopes([
+                    SoftDeletingScope::class,
+                ]);
+        }
+
+        if ($user->roles->contains('slug', 'marketer')) {
+            $agentIds = \App\Models\User::where('created_by', $user->id)->pluck('id');
+            return $query->whereIn('agent_id', $agentIds)
+                ->withoutGlobalScopes([SoftDeletingScope::class]);
+        }
+
+        if ($user->roles->contains('slug', 'employee')) {
+            return $query->where('employee_id', $user->id)
+                ->withoutGlobalScopes([
+                    SoftDeletingScope::class,
+                ]);
+        }
+
+        return $query->withoutGlobalScopes([
+            SoftDeletingScope::class,
+        ]);
+
+//        return parent::getEloquentQuery()
+
     }
+
 
     public static function getPermissionPrefixes(): array
     {
