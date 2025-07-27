@@ -25,6 +25,6 @@ class Exhibition extends Model
 
     public function branches()
     {
-        return $this->hasMany(Branch::class);
+        return $this->hasMany(Branch::class, 'exhibition_id'); // or the appropriate foreign key
     }
 }

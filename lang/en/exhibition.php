@@ -6,6 +6,8 @@ return [
     ],
     'singular' => 'Exhibition',
     'plural' => 'Exhibitions',
+    'create' => 'Create Exhibition',
+    'edit' => 'Edit Exhibition',
     'form' => [
         'name' => 'Name',
         'address' => 'Address',
