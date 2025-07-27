@@ -18,4 +18,7 @@ return [
         'created_at' => 'تاريخ الإنشاء',
         'updated_at' => 'تاريخ التعديل',
     ],
+    'actions' => [
+        'linked_branches' => 'الفروع المرتبطة',
+    ]
 ];

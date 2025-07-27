@@ -26,4 +26,9 @@ class Branch extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function exhibition(): BelongsTo
+    {
+        return $this->belongsTo(Exhibition::class);
+    }
 }

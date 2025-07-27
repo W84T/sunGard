@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('customer_email')->nullable()->unique();
             $table->string('customer_phone')->unique();
 
+            $table->string('coupon_link')->nullable();
+
             $table->string('car_model');
             $table->string('car_brand')->nullable();
             $table->string('car_category')->nullable();

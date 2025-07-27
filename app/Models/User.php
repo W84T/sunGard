@@ -25,6 +25,7 @@ class User extends Authenticatable
         'password',
         'created_by',
         'email_verified_at',
+        'branch_id',
     ];
 
     /**
@@ -53,5 +54,15 @@ class User extends Authenticatable
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function branch(): BelongsTo
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
+    public function exhibition(): BelongsTo
+    {
+        return $this->belongsTo(Exhibition::class);
     }
 }

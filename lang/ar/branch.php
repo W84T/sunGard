@@ -7,6 +7,7 @@ return [
     'singular' => 'فرع',
     'plural' => 'الفروع',
     'form' => [
+        'exhibition_name' => 'المعرض',
         'name' => 'الاسم',
         'address' => 'العنوان',
     ],
@@ -17,5 +18,6 @@ return [
         'deleted_at' => 'تاريخ الحذف',
         'created_at' => 'تاريخ الإنشاء',
         'updated_at' => 'تاريخ التعديل',
+        'exhibition_name' => 'المعرض'
     ],
 ];

@@ -3,9 +3,11 @@
 namespace App\Filament\Resources\Exhibitions;
 
 use App\Filament\Resources\Exhibitions\Pages\ManageExhibitions;
+use App\Filament\Resources\Exhibitions\RelationManagers\BranchRelationManager;
 use App\Models\Exhibition;
 use BackedEnum;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -22,6 +24,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Guava\FilamentModalRelationManagers\Actions\RelationManagerAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Mansoor\FilamentVersionable\Table\RevisionsAction;
@@ -91,11 +94,13 @@ class ExhibitionResource extends Resource implements HasShieldPermissions
                 TrashedFilter::make(),
             ])
             ->recordActions([
-                EditAction::make(),
-                DeleteAction::make(),
-                ForceDeleteAction::make(),
-                RestoreAction::make(),
-                //                RevisionsAction::make(),
+               ActionGroup::make([
+                   EditAction::make(),
+                   DeleteAction::make(),
+                   ForceDeleteAction::make(),
+                   RestoreAction::make(),
+                   //                RevisionsAction::make(),
+               ])
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

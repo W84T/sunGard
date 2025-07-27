@@ -19,6 +19,9 @@ return [
         'deleted_at' => 'تاريخ الحذف',
         'created_at' => 'تاريخ الإنشاء',
         'updated_at' => 'تاريخ التعديل',
+
+        'exhibition_name' => 'المعرض',
+        'branch_name' => 'الفرع',
     ],
     'table' => [
         'name' => 'الاسم',
@@ -29,5 +32,8 @@ return [
         'deleted_at' => 'تاريخ الحذف',
         'created_at' => 'تاريخ الإنشاء',
         'updated_at' => 'تاريخ التعديل',
+
+        'exhibition_name' => 'المعرض',
+        'branch_name' => 'الفرع',
     ],
 ];

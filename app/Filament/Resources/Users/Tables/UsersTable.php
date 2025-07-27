@@ -23,6 +23,10 @@ class UsersTable
                             ->sortable()
                         : null,
 
+                    TextCOlumn::make('exhibition.name')
+                        ->label(__('user.table.exhibition_name')),
+                    TextColumn::make('branch.name')
+                        ->label(__('user.table.branch_name')),
                     TextColumn::make('name')
                         ->label(__('user.table.name'))
                         ->searchable(),
@@ -62,7 +66,7 @@ class UsersTable
                         ->sortable()
                         ->toggleable(isToggledHiddenByDefault: true),
                 ])
-                    ->filter() // 🔥 removes nulls (e.g., hidden columns)
+                    ->filter()
                     ->all()
             )
             ->filters([])

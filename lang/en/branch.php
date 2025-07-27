@@ -7,6 +7,7 @@ return [
     'singular' => 'Branch',
     'plural' => 'Branches',
     'form' => [
+        'exhibition_name' => 'Exhibition',
         'name' => 'Name',
         'address' => 'Address',
     ],
@@ -17,5 +18,6 @@ return [
         'deleted_at' => 'Deleted At',
         'created_at' => 'Created At',
         'updated_at' => 'Updated At',
+        'exhibition_name' => 'Exhibition',
     ],
 ];

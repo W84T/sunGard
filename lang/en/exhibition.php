@@ -18,4 +18,7 @@ return [
         'created_at' => 'Created At',
         'updated_at' => 'Updated At',
     ],
+    'actions' => [
+        'linked_branches' => 'Linked Branches',
+    ]
 ];

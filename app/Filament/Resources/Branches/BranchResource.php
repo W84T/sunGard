@@ -15,6 +15,8 @@ use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -24,7 +26,6 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Mansoor\FilamentVersionable\Table\RevisionsAction;
 
 class BranchResource extends Resource implements HasShieldPermissions
 {
@@ -50,10 +51,15 @@ class BranchResource extends Resource implements HasShieldPermissions
             ->components([
                 Hidden::make('created_by')
                     ->default(fn () => auth()->id()),
+                Select::make('exhibition_id')
+                    ->label(__('branch.form.exhibition_name'))
+                    ->relationship('exhibition', 'name')
+                    ->required(),
                 TextInput::make('name')
                     ->label(__('branch.form.name'))
                     ->required(),
-                TextInput::make('address')
+                Textarea::make('address')
+                    ->columnSpan('full')
                     ->label(__('branch.form.address')),
             ]);
     }
@@ -66,6 +72,8 @@ class BranchResource extends Resource implements HasShieldPermissions
                     ->label(__('branch.table.creator_name'))
                     ->numeric()
                     ->sortable(),
+                TextColumn::make('exhibition.name')
+                    ->label(__('branch.table.exhibition_name')),
                 TextColumn::make('name')
                     ->label(__('branch.table.name'))
                     ->searchable(),

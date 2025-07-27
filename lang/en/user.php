@@ -19,6 +19,8 @@ return [
         'deleted_at' => 'Deleted At',
         'created_at' => 'Created At',
         'updated_at' => 'Updated At',
+        'exhibition_name' => 'Exhibition',
+        'branch_name' => 'Branch',
     ],
     'table' => [
         'name' => 'Name',
@@ -29,5 +31,8 @@ return [
         'deleted_at' => 'Deleted At',
         'created_at' => 'Created At',
         'updated_at' => 'Updated At',
+
+        'exhibition_name' => 'Exhibition',
+        'branch_name' => 'Branch',
     ],
 ];

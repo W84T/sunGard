@@ -1,0 +1,45 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Branch;
+use App\Models\Coupon;
+use App\Models\Exhibition;
+use App\Models\User;
+use Faker\Factory as Faker;
+use Illuminate\Database\Seeder;
+
+class CouponSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $faker = Faker::create();
+        $agents = User::whereHas('roles', fn($q) => $q->where('name', 'agent'))->get();
+        $employees = User::whereHas('roles', fn($q) => $q->where('name', 'customer service'))->get();
+        $branches = Branch::all();
+        $exhibitions = Exhibition::all();
+
+        for ($i = 0; $i < 100; $i++) {
+            Coupon::create([
+                'agent_id' => $agents->random()->id,
+                'branch_id' => $branches->random()->id,
+                'exhibition_id' => $exhibitions->random()->id,
+                'employee_id' => $employees->random()->id,
+                'customer_name' => $faker->name,
+                'customer_email' => $faker->unique()->safeEmail,
+                'customer_phone' => $faker->unique()->phoneNumber,
+                'car_model' => $faker->word,
+                'car_brand' => $faker->word,
+                'car_category' => $faker->word,
+                'plate_number' => $faker->bothify('???-####'),
+                'is_confirmed' => $faker->boolean,
+                'status' => $faker->numberBetween(1, 5),
+                'reserved_date' => $faker->dateTimeBetween('-1 month', '+1 month'),
+                'reached_at' => $faker->optional()->dateTimeBetween('-1 month', '+1 month'),
+            ]);
+        }
+    }
+}

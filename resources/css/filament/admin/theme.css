@@ -1,9 +1,11 @@
 @import '../../../../vendor/filament/filament/resources/css/theme.css';
 @import '../../../../vendor/mansoor/filament-versionable/resources/css/plugin.css';
-@source '../../../../vendor/bezhansalleh/filament-language-switch/resources/views/**/*.blade.php';
-@source '../../../../vendor/mansoor/filament-versionable/resources/**/*.blade.php';
-@source '../../../../app/Filament/**/*';
-@source '../../../../resources/views/filament/**/*';
+@source "../../../../vendor/bezhansalleh/filament-language-switch/resources/views/**/*.blade.php";
+@source '../../../../vendor/guava/filament-modal-relation-managers/resources/**/*.blade.php';
+@source "../../../../vendor/mansoor/filament-versionable/resources/**/*.blade.php";
+@source "../../../../app/Filament/**/*";
+@source "../../../../resources/views/filament/**/*";
+@source "../../../../vendor/guava/calendar/resources/**/*.blade.php";
 
 /*:root {*/
 /*    !* Light mode (default) *!*/
