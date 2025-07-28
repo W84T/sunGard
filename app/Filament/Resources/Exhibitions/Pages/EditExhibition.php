@@ -15,9 +15,12 @@ class EditExhibition extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
-            ForceDeleteAction::make(),
-            RestoreAction::make(),
+            DeleteAction::make()
+                ->color('danger'),
+            ForceDeleteAction::make()
+                ->color('danger'),
+            RestoreAction::make()
+                ->color('success'),
         ];
     }
 }

@@ -13,7 +13,8 @@ class ViewRole extends ViewRecord
     protected function getActions(): array
     {
         return [
-            EditAction::make(),
+            EditAction::make()
+                ->color('primary'),
         ];
     }
 }

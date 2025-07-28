@@ -133,17 +133,22 @@ class CouponsTable
             ->recordActions([
                 ActionGroup::make([
                     ReserveCouponAction::make()
-                        ->label(__('coupon.actions.reserve_coupon')),
+                        ->label(__('coupon.actions.reserve_coupon'))
+                        ->color('success'),
                     ChangeStatusAction::make()
-                        ->label(__('coupon.actions.change_status')),
-                    ViewAction::make(),
-                    EditAction::make(),
+                        ->label(__('coupon.actions.change_status'))
+                        ->color('info'),
+                    ViewAction::make()
+                        ->color('gray'),
+                    EditAction::make()
+                        ->color('primary'),
                 ])
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
 //                    ChangeStatusAction::make()->bulk(),
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->color('danger'),
                     ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),
                 ]),

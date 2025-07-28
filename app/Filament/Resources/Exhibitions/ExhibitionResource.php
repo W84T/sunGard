@@ -95,18 +95,25 @@ class ExhibitionResource extends Resource implements HasShieldPermissions
             ])
             ->recordActions([
                ActionGroup::make([
-                   EditAction::make(),
-                   DeleteAction::make(),
-                   ForceDeleteAction::make(),
-                   RestoreAction::make(),
+                   EditAction::make()
+                       ->color('primary'),
+                   DeleteAction::make()
+                       ->color('danger'),
+                   ForceDeleteAction::make()
+                       ->color('danger'),
+                   RestoreAction::make()
+                       ->color('success'),
                    //                RevisionsAction::make(),
                ])
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->color('danger'),
+                    ForceDeleteBulkAction::make()
+                        ->color('danger'),
+                    RestoreBulkAction::make()
+                        ->color('success'),
                 ]),
             ]);
     }

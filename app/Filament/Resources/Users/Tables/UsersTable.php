@@ -71,11 +71,13 @@ class UsersTable
             )
             ->filters([])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()
+                    ->color('primary'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->color('danger'),
                 ]),
             ]);
     }

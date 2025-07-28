@@ -135,11 +135,14 @@ class RoleResource extends Resource implements HasShieldPermissions
                 //
             ])
             ->recordActions([
-                EditAction::make(),
-                DeleteAction::make(),
+                EditAction::make()
+                    ->color('primary'),
+                DeleteAction::make()
+                    ->color('danger'),
             ])
             ->toolbarActions([
-                DeleteBulkAction::make(),
+                DeleteBulkAction::make()
+                    ->color('danger'),
             ]);
     }
 

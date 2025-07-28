@@ -14,8 +14,10 @@ class ViewCoupon extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            ChangeStatusAction::make(),
-            EditAction::make(),
+            ChangeStatusAction::make()
+                ->color('info'),
+            EditAction::make()
+                ->color('primary'),
         ];
     }
 }
