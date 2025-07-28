@@ -23,22 +23,22 @@ class Coupon extends Model
     ];
 
 
-    protected static function booted(): void
-    {
-        static::updating(function ($coupon) {
-            $originalStatus = $coupon->getOriginal('status');
-            $newStatus = $coupon->status;
-
-            // Only act if status is actually changing
-            if ($originalStatus !== $newStatus) {
-                $user = Auth::user();
-
-                if ($user && $user->roles->contains('slug', 'employee')) {
-                    $coupon->employee_id= $user->id;
-                }
-            }
-        });
-    }
+//    protected static function booted(): void
+//    {
+//        static::updating(function ($coupon) {
+//            $originalStatus = $coupon->getOriginal('status');
+//            $newStatus = $coupon->status;
+//
+//            // Only act if status is actually changing
+//            if ($originalStatus !== $newStatus) {
+//                $user = Auth::user();
+//
+//                if ($user && $user->roles->contains('slug', 'employee')) {
+//                    $coupon->employee_id= $user->id;
+//                }
+//            }
+//        });
+//    }
 
     public function branchRelation(): BelongsTo
     {

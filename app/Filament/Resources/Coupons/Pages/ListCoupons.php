@@ -37,18 +37,27 @@ class ListCoupons extends ListRecords
                     ->whereNull('status')
                     ->count()),
 
+            'reserved ' =>  Tab::make(__('coupon.tabs.reserved'))
+                ->icon('heroicon-o-clock')
+                ->modifyQueryUsing(fn (Builder $query) => $query->whereIn('status', Status::getReservedCases()))
+                ->badge(CouponResource::getEloquentQuery()
+                    ->whereIn('status', Status::getReservedCases())
+                    ->count()),
+
             'scheduled' => Tab::make(__('coupon.tabs.scheduled'))
                 ->icon('heroicon-o-clock')
                 ->modifyQueryUsing(fn (Builder $query) => $query->whereIn('status', Status::getScheduledCases()))
                 ->badge(CouponResource::getEloquentQuery()
                     ->whereIn('status', Status::getScheduledCases())
                     ->count()),
+
             'not_booked' => Tab::make(__('coupon.tabs.not_booked'))
                 ->icon('heroicon-o-x-circle')
                 ->modifyQueryUsing(fn (Builder $query) => $query->whereIn('status', Status::getNotBookedCases()))
                 ->badge(CouponResource::getEloquentQuery()
                     ->whereIn('status', Status::getNotBookedCases())
                     ->count()),
+
             'booked' => Tab::make(__('coupon.tabs.booked'))
                 ->icon('heroicon-o-check-circle')
                 ->modifyQueryUsing(fn (Builder $query) => $query->whereIn('status', Status::getBookedCases()))

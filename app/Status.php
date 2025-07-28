@@ -4,6 +4,7 @@ namespace App;
 
 enum Status: int
 {
+    case  RESERVED = 0;
     case POSTPONED_BY_CUSTOMER = 1;
     case NO_REPLY_OR_WHATSAPP_SENT = 2;
     case DUPLICATE_POSTPONED = 3;
@@ -32,6 +33,8 @@ enum Status: int
             self::TRANSFERRED_OUTSIDE_COMPANY => __('status.transferred_outside_company'),
             self::PRICE_INQUIRY => __('status.price_inquiry'),
             self::CUSTOMER_SERVED => __('status.customer_served'),
+
+            self::RESERVED => __('status.reserved'),
         };
     }
 
@@ -50,6 +53,17 @@ enum Status: int
         return in_array($this, self::getBookedCases());
     }
 
+    public function isReserved(): bool
+    {
+        return in_array($this, self::getReservedCases());
+    }
+
+    public static function getReservedCases(): array
+    {
+        return [
+            self::RESERVED,
+        ];
+    }
     public static function getScheduledCases(): array
     {
         return [
