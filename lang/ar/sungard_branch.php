@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'singular' => 'فرع سنغارد',
+    'plural' => 'فروع سنغارد',
     'form' => [
         'name' => 'الاسم',
         'address' => 'العنوان',

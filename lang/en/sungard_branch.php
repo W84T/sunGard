@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'singular' => 'Sungard Branch',
+    'plural' => 'Sungard Branches',
     'form' => [
         'name' => 'Name',
         'address' => 'Address',

@@ -38,4 +38,12 @@ return [
         'exhibition_name' => 'Exhibition',
         'branch_name' => 'Branch',
     ],
+    'tabs' => [
+        'admin' => 'Admins',
+        'agent' => 'Agents',
+        'marketer' => 'Marketers',
+        'employee' => 'Employees',
+        'reporter' => 'Reporter',
+        'branch_manager' => 'Branch Managers',
+    ],
 ];

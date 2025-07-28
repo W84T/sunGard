@@ -39,4 +39,12 @@ return [
         'exhibition_name' => 'المعرض',
         'branch_name' => 'الفرع',
     ],
+    'tabs' => [
+        'admin' => 'المسؤولون',
+        'agent' => 'الوكلاء',
+        'marketer' => 'المسوقون',
+        'employee' => 'الموظفون',
+        'reporter' => 'المراسلون',
+        'branch_manager' => 'مديرو الفروع',
+    ],
 ];

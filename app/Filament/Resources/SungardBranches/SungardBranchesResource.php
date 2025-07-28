@@ -20,6 +20,16 @@ class SungardBranchesResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+    public static function getModelLabel(): string
+    {
+        return __('sungard_branch.singular');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('sungard_branch.plural');
+    }
+
     public static function form(Schema $schema): Schema
     {
         return SungardBranchesForm::configure($schema);

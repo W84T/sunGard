@@ -18,32 +18,32 @@ class ListUsers extends ListRecords
     public function getTabs(): array
     {
         return [
-            'admin' => Tab::make('Admins')
+            'admin' => Tab::make(__('user.tabs.admin'))
                 ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'admin')))
                 ->badge(\App\Models\User::whereHas('roles', fn($q) => $q->where('slug', 'admin'))
                     ->count()),
 
-            'agent' => Tab::make('Agents')
+            'agent' => Tab::make(__('user.tabs.agent'))
                 ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'agent')))
                 ->badge(\App\Models\User::whereHas('roles', fn($q) => $q->where('slug', 'agent'))
                     ->count()),
 
-            'marketer' => Tab::make('Marketers')
+            'marketer' => Tab::make(__('user.tabs.marketer'))
                 ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'marketer')))
                 ->badge(\App\Models\User::whereHas('roles', fn($q) => $q->where('slug', 'marketer'))
                     ->count()),
 
-            'employee' => Tab::make('Employees')
+            'employee' => Tab::make(__('user.tabs.employee'))
                 ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'employee')))
                 ->badge(\App\Models\User::whereHas('roles', fn($q) => $q->where('slug', 'employee'))
                     ->count()),
 
-            'reporter' => Tab::make('Reporter')
+            'reporter' => Tab::make(__('user.tabs.reporter'))
                 ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'reporter')))
                 ->badge(\App\Models\User::whereHas('roles', fn($q) => $q->where('slug', 'reporter'))
                     ->count()),
 
-            'branch manager' => Tab::make('Branch Manager')
+            'branch manager' => Tab::make(__('user.tabs.branch_manager'))
                 ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'branch manager')))
                 ->badge(\App\Models\User::whereHas('roles', fn($q) => $q->where('slug', 'branch manager'))
                     ->count()),
