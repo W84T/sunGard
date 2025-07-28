@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             ShieldSeeder::class,
+            SungardBranchesSeeder::class,
             InitialUserSeeder::class,
             ExhibitionSeeder::class,
             BranchSeeder::class,

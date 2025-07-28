@@ -23,11 +23,23 @@ class CouponSeeder extends Seeder
         $exhibitions = Exhibition::all();
 
         for ($i = 0; $i < 100; $i++) {
+            $employeeId = null;
+            $status = null;
+
+            // 70% of coupons will have employee_id and status as null
+            if ($faker->boolean(70)) {
+                $employeeId = null;
+                $status = null;
+            } else {
+                $employeeId = $employees->random()->id;
+                $status = $faker->numberBetween(1, 5);
+            }
+
             Coupon::create([
                 'agent_id' => $agents->random()->id,
                 'branch_id' => $branches->random()->id,
                 'exhibition_id' => $exhibitions->random()->id,
-                'employee_id' => $employees->random()->id,
+                'employee_id' => $employeeId,
                 'customer_name' => $faker->name,
                 'customer_email' => $faker->unique()->safeEmail,
                 'customer_phone' => $faker->unique()->phoneNumber,
@@ -36,7 +48,7 @@ class CouponSeeder extends Seeder
                 'car_category' => $faker->word,
                 'plate_number' => $faker->bothify('???-####'),
                 'is_confirmed' => $faker->boolean,
-                'status' => $faker->numberBetween(1, 5),
+                'status' => $status,
                 'reserved_date' => $faker->dateTimeBetween('-1 month', '+1 month'),
                 'reached_at' => $faker->optional()->dateTimeBetween('-1 month', '+1 month'),
             ]);
