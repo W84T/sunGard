@@ -132,8 +132,10 @@ class CouponsTable
             ])
             ->recordActions([
                 ActionGroup::make([
-                    ReserveCouponAction::make(),
-                    ChangeStatusAction::make(),
+                    ReserveCouponAction::make()
+                        ->label(__('coupon.actions.reserve_coupon')),
+                    ChangeStatusAction::make()
+                        ->label(__('coupon.actions.change_status')),
                     ViewAction::make(),
                     EditAction::make(),
                 ])

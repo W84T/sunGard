@@ -1,26 +1,18 @@
 <?php
 
 return [
-    'navigation' => [
-        'group' => 'الإدارة',
-    ],
     'singular' => 'معرض',
-    'plural' => 'المعارض',
-    'create' => 'إنشاء معرض',
-    'edit' => 'تعديل المعرض',
+    'plural' => 'معارض',
     'form' => [
-        'name' => 'الاسم',
+        'name' => 'اسم المعرض',
         'address' => 'العنوان',
     ],
     'table' => [
-        'creator_name' => 'المنشئ',
-        'name' => 'الاسم',
+        'creator_name' => 'اسم المنشئ',
+        'name' => 'اسم المعرض',
         'address' => 'العنوان',
         'deleted_at' => 'تاريخ الحذف',
         'created_at' => 'تاريخ الإنشاء',
-        'updated_at' => 'تاريخ التعديل',
+        'updated_at' => 'تاريخ التحديث',
     ],
-    'actions' => [
-        'linked_branches' => 'الفروع المرتبطة',
-    ]
 ];

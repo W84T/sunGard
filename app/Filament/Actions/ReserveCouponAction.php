@@ -14,7 +14,7 @@ class ReserveCouponAction
     public static function make(): Action
     {
         return Action::make('reserve')
-            ->label('Reserve Coupon')
+            ->label(__('Reserve Coupon'))
             ->icon('heroicon-o-bookmark')
             ->requiresConfirmation()
             ->schema([])
@@ -29,8 +29,8 @@ class ReserveCouponAction
 
                 if (!$user) {
                     Notification::make()
-                        ->title('Authentication Error')
-                        ->body('You must be logged in to reserve a coupon.')
+                        ->title('خطأ في المصادقة')
+                        ->body('يجب عليك تسجيل الدخول لحجز قسيمة.')
                         ->danger()
                         ->send();
                     return;
@@ -38,8 +38,8 @@ class ReserveCouponAction
 
                 if (!$record instanceof Coupon) {
                     Notification::make()
-                        ->title('Invalid Coupon')
-                        ->body('This record is not a valid coupon.')
+                        ->title('قسيمة غير صالحة')
+                        ->body('هذا السجل ليس قسيمة صالحة.')
                         ->danger()
                         ->send();
                     return;
@@ -58,8 +58,8 @@ class ReserveCouponAction
                     $waitMinutes = ceil(now()->diffInRealMinutes($nextAvailable));
 
                     Notification::make()
-                        ->title('Cooldown Active')
-                        ->body("Please wait {$waitMinutes} more minute(s) before reserving another coupon.")
+                        ->title('فترة تهدئة نشطة')
+                        ->body("الرجاء الانتظار {\$waitMinutes} دقيقة (دقائق) أخرى قبل حجز قسيمة أخرى.")
                         ->warning()
                         ->send();
 
@@ -79,8 +79,8 @@ class ReserveCouponAction
 
                 if ($activeCount >= $max) {
                     Notification::make()
-                        ->title('Limit Reached')
-                        ->body('You’ve reached your daily coupon reservation limit (' . $max . ').')
+                        ->title('تم الوصول إلى الحد الأقصى')
+                        ->body('لقد وصلت إلى الحد الأقصى اليومي لحجز القسائم (' . $max . ').')
                         ->warning()
                         ->send();
                     return;
@@ -98,8 +98,8 @@ class ReserveCouponAction
                 ]);
 
                 Notification::make()
-                    ->title('Success')
-                    ->body('Coupon successfully reserved!')
+                    ->title('نجاح')
+                    ->body('تم حجز القسيمة بنجاح!')
                     ->success()
                     ->send();
             });

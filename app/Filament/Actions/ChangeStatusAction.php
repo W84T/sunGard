@@ -25,6 +25,6 @@ class ChangeStatusAction
                     'status' => $data['status'],
                 ]);
             })
-            ->successNotificationTitle('Status updated successfully!');
+            ->successNotificationTitle('تم تحديث الحالة بنجاح!');
     }
 }

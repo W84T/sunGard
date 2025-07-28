@@ -103,7 +103,7 @@ class UserForm
                                     }),
 
                                 Select::make('sungard_branch_id')
-                                    ->label(__('user.form.subgard_branch'))
+                                    ->label(__('user.form.sungard_branch'))
                                     ->relationship('subgard', 'name')
                                     ->preload()
                                     ->searchable()

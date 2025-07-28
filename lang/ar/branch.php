@@ -1,23 +1,20 @@
 <?php
 
 return [
-    'navigation' => [
-        'group' => 'الإدارة',
-    ],
     'singular' => 'فرع',
-    'plural' => 'الفروع',
+    'plural' => 'فروع',
     'form' => [
-        'exhibition_name' => 'المعرض',
-        'name' => 'الاسم',
+        'exhibition_name' => 'اسم المعرض',
+        'name' => 'اسم الفرع',
         'address' => 'العنوان',
     ],
     'table' => [
-        'creator_name' => 'المنشئ',
-        'name' => 'الاسم',
+        'creator_name' => 'اسم المنشئ',
+        'exhibition_name' => 'اسم المعرض',
+        'name' => 'اسم الفرع',
         'address' => 'العنوان',
         'deleted_at' => 'تاريخ الحذف',
         'created_at' => 'تاريخ الإنشاء',
-        'updated_at' => 'تاريخ التعديل',
-        'exhibition_name' => 'المعرض'
+        'updated_at' => 'تاريخ التحديث',
     ],
 ];
