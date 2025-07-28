@@ -26,6 +26,8 @@ class User extends Authenticatable
         'created_by',
         'email_verified_at',
         'branch_id',
+        'exhibition_id',
+        'sungard_branch_id'
     ];
 
     /**
@@ -68,7 +70,8 @@ class User extends Authenticatable
 
     public function subgard(): BelongsTo
     {
-        return $this->belongsTo(SungardBranches::class);
+        return $this->belongsTo(SungardBranches::class, 'sungard_branch_id');
+
     }
 
 

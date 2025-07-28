@@ -13,4 +13,8 @@ class SungardBranches extends Model
     use HasRoles;
     protected $guarded = [];
 
+    public function users()
+    {
+        return $this->hasMany(User::class, 'sungard_branch_id');
+    }
 }

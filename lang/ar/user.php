@@ -44,7 +44,7 @@ return [
         'agent' => 'الوكلاء',
         'marketer' => 'المسوقون',
         'employee' => 'الموظفون',
-        'reporter' => 'المراسلون',
+        'reporter' => 'مُنشئ التقارير',
         'branch_manager' => 'مديرو الفروع',
     ],
 ];
