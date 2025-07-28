@@ -19,20 +19,35 @@ class ListUsers extends ListRecords
     {
         return [
             'admin' => Tab::make('Admins')
-                ->modifyQueryUsing(fn (Builder $query) => $query->whereHas('roles', fn ($q) => $q->where('slug', 'admin')))
-                ->badge(\App\Models\User::whereHas('roles', fn ($q) => $q->where('slug', 'admin'))->count()),
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'admin')))
+                ->badge(\App\Models\User::whereHas('roles', fn($q) => $q->where('slug', 'admin'))
+                    ->count()),
 
             'agent' => Tab::make('Agents')
-                ->modifyQueryUsing(fn (Builder $query) => $query->whereHas('roles', fn ($q) => $q->where('slug', 'agent')))
-                ->badge(\App\Models\User::whereHas('roles', fn ($q) => $q->where('slug', 'agent'))->count()),
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'agent')))
+                ->badge(\App\Models\User::whereHas('roles', fn($q) => $q->where('slug', 'agent'))
+                    ->count()),
 
             'marketer' => Tab::make('Marketers')
-                ->modifyQueryUsing(fn (Builder $query) => $query->whereHas('roles', fn ($q) => $q->where('slug', 'marketer')))
-                ->badge(\App\Models\User::whereHas('roles', fn ($q) => $q->where('slug', 'marketer'))->count()),
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'marketer')))
+                ->badge(\App\Models\User::whereHas('roles', fn($q) => $q->where('slug', 'marketer'))
+                    ->count()),
 
             'employee' => Tab::make('Employees')
-                ->modifyQueryUsing(fn (Builder $query) => $query->whereHas('roles', fn ($q) => $q->where('slug', 'employee')))
-                ->badge(\App\Models\User::whereHas('roles', fn ($q) => $q->where('slug', 'employee'))->count()),
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'employee')))
+                ->badge(\App\Models\User::whereHas('roles', fn($q) => $q->where('slug', 'employee'))
+                    ->count()),
+
+            'reporter' => Tab::make('Reporter')
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'reporter')))
+                ->badge(\App\Models\User::whereHas('roles', fn($q) => $q->where('slug', 'reporter'))
+                    ->count()),
+
+            'branch manager' => Tab::make('Branch Manager')
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'branch manager')))
+                ->badge(\App\Models\User::whereHas('roles', fn($q) => $q->where('slug', 'branch manager'))
+                    ->count()),
+
         ];
     }
 
@@ -41,6 +56,7 @@ class ListUsers extends ListRecords
     {
         return 'admin';
     }
+
     protected function getHeaderActions(): array
     {
         return [

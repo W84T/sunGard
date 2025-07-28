@@ -66,6 +66,12 @@ class User extends Authenticatable
         return $this->belongsTo(Exhibition::class);
     }
 
+    public function subgard(): BelongsTo
+    {
+        return $this->belongsTo(SungardBranches::class);
+    }
+
+
     public function role()
     {
         return $this->belongsTo(Role::class);
