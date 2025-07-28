@@ -29,6 +29,12 @@ return [
     'field.select_all.name' => 'Select All',
     'field.select_all.message' => 'Enables/Disables all Permissions for this role',
     'field.slug' =>'Slug',
+    'field.slug_options.admin' => 'Admin',
+    'field.slug_options.agent' => 'Agent',
+    'field.slug_options.branch_manager' => 'Branch Manager',
+    'field.slug_options.employee' => 'Employee',
+    'field.slug_options.marketer' => 'Marketer',
+    'field.slug_options.reporter' => 'Reporter',
 
     /*
     |--------------------------------------------------------------------------

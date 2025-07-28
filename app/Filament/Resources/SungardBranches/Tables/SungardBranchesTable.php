@@ -15,14 +15,18 @@ class SungardBranchesTable
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label(__('sungard_branch.table.name'))
                     ->searchable(),
                 TextColumn::make('address')
+                    ->label(__('sungard_branch.table.address'))
                     ->searchable(),
                 TextColumn::make('created_at')
+                    ->label(__('sungard_branch.table.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('sungard_branch.table.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

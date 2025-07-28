@@ -11,6 +11,8 @@ return [
     'password_confirmation' => 'Password Confirmation',
     'roles' => 'Roles',
     'form' => [
+        'user_information' => 'User Information',
+        'roles_associations' => 'Roles & Associations',
         'name' => 'Name',
         'email' => 'Email',
         'email_verified_at' => 'Email Verified At',
@@ -21,6 +23,7 @@ return [
         'updated_at' => 'Updated At',
         'exhibition_name' => 'Exhibition',
         'branch_name' => 'Branch',
+        'subgard_branch' => 'Sungard Branch',
     ],
     'table' => [
         'name' => 'Name',

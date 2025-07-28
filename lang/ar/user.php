@@ -11,6 +11,8 @@ return [
     'password_confirmation' => 'تأكيد كلمة المرور',
     'roles' => 'الأدوار',
     'form' => [
+        'user_information' => 'معلومات المستخدم',
+        'roles_associations' => 'الأدوار والارتباطات',
         'name' => 'الاسم',
         'email' => 'البريد الإلكتروني',
         'email_verified_at' => 'تاريخ التحقق من البريد الإلكتروني',
@@ -22,6 +24,7 @@ return [
 
         'exhibition_name' => 'المعرض',
         'branch_name' => 'الفرع',
+        'subgard_branch' => 'فرع سنغارد',
     ],
     'table' => [
         'name' => 'الاسم',

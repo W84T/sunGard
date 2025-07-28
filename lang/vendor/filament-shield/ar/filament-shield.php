@@ -27,6 +27,12 @@ return [
     'field.select_all.name' => 'تحديد الكل',
     'field.select_all.message' => 'تفعيل كافة الصلاحيات لهذا الدور',
     'field.slug' =>'المُعرّف',
+    'field.slug_options.admin' => 'مسؤول',
+    'field.slug_options.agent' => 'وكيل',
+    'field.slug_options.branch_manager' => 'مدير فرع',
+    'field.slug_options.employee' => 'موظف',
+    'field.slug_options.marketer' => 'مسوق',
+    'field.slug_options.reporter' => 'مراسل',
     /*
     |--------------------------------------------------------------------------
     | Navigation & Resource

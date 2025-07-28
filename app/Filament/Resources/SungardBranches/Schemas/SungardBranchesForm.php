@@ -15,8 +15,10 @@ class SungardBranchesForm
                 Hidden::make('created_by')
                     ->default(fn () => auth()->id()),
                 TextInput::make('name')
+                    ->label(__('sungard_branch.form.name'))
                     ->required(),
-                TextInput::make('address'),
+                TextInput::make('address')
+                    ->label(__('sungard_branch.form.address')),
             ]);
     }
 }

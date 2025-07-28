@@ -27,7 +27,7 @@ class UserForm
                 Hidden::make('created_by')
                     ->default(fn() => auth()->id()),
 
-                Section::make('User Information')
+                Section::make(__('user.form.user_information'))
                     ->schema([
                         Grid::make(2)
                             ->schema([
@@ -53,7 +53,7 @@ class UserForm
                             ]),
                     ]),
 
-                Section::make('Roles & Associations')
+                Section::make(__('user.form.roles_associations'))
                     ->schema([
                         Select::make('roles')
                             ->label(__('user.form.roles'))
@@ -66,7 +66,7 @@ class UserForm
                         Grid::make(2)
                             ->schema([
                                 Select::make('exhibition_id')
-                                    ->label('Exhibition')
+                                    ->label(__('user.form.exhibition_name'))
                                     ->options(Exhibition::all()
                                         ->pluck('name', 'id'))
                                     ->searchable()
@@ -82,7 +82,7 @@ class UserForm
                                     }),
 
                                 Select::make('branch_id')
-                                    ->label('Branch')
+                                    ->label(__('user.form.branch_name'))
                                     ->options(fn(Get $get): Collection => Branch::query()
                                         ->where('exhibition_id', $get('exhibition_id'))
                                         ->pluck('name', 'id'))
@@ -103,7 +103,7 @@ class UserForm
                                     }),
 
                                 Select::make('subgard_branch_id')
-                                    ->label('subgard branch')
+                                    ->label(__('user.form.subgard_branch'))
                                     ->relationship('subgard', 'name')
                                     ->preload()
                                     ->searchable()
