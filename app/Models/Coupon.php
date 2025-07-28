@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Overtrue\LaravelVersionable\Versionable;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -20,6 +21,24 @@ class Coupon extends Model
     protected $casts = [
         'status' => \App\Status::class,
     ];
+
+
+    protected static function booted(): void
+    {
+        static::updating(function ($coupon) {
+            $originalStatus = $coupon->getOriginal('status');
+            $newStatus = $coupon->status;
+
+            // Only act if status is actually changing
+            if ($originalStatus !== $newStatus) {
+                $user = Auth::user();
+
+                if ($user && $user->roles->contains('slug', 'employee')) {
+                    $coupon->employee_id= $user->id;
+                }
+            }
+        });
+    }
 
     public function branchRelation(): BelongsTo
     {

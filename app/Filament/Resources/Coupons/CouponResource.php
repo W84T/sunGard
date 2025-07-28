@@ -73,25 +73,36 @@ class CouponResource extends Resource
         $user = auth()->user();
         $query = parent::getEloquentQuery();
 
+        if ($user->roles->contains('slug', 'employee')) {
+            return $query->where(function ($q) use ($user) {
+                $q->where('employee_id', $user->id)
+                    ->orWhere(function ($sub) {
+                        $sub->whereNull('employee_id')
+                            ->whereNull('status');
+                    });
+            });
+        }
+
         if ($user->roles->contains('slug', 'agent')) {
-            return $query->where('agent_id', $user->id)
-                ->withoutGlobalScopes([
-                    SoftDeletingScope::class,
-                ]);
+            return $query->where(function ($q) use ($user) {
+                $q->where('agent_id', $user->id)
+                    ->orWhere(function ($sub) {
+                        $sub->whereNull('agent_id')
+                            ->whereNull('status');
+                    });
+            });
         }
 
         if ($user->roles->contains('slug', 'marketer')) {
             $agentIds = \App\Models\User::where('created_by', $user->id)->pluck('id');
 
-            return $query->whereIn('agent_id', $agentIds)
-                ->withoutGlobalScopes([SoftDeletingScope::class]);
-        }
-
-        if ($user->roles->contains('slug', 'employee')) {
-            return $query->where('employee_id', $user->id)
-                ->withoutGlobalScopes([
-                    SoftDeletingScope::class,
-                ]);
+            return $query->where(function ($q) use ($agentIds) {
+                $q->whereIn('agent_id', $agentIds)
+                    ->orWhere(function ($sub) {
+                        $sub->whereNull('agent_id')
+                            ->whereNull('status');
+                    });
+            });
         }
 
         return $query->withoutGlobalScopes([

@@ -30,10 +30,13 @@ class ListCoupons extends ListRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make(__('coupon.tabs.all'))
+            'Not scheduled' => Tab::make(__('coupon.tabs.not_scheduled'))
                 ->icon('heroicon-o-rectangle-stack')
+                ->modifyQueryUsing(fn (Builder $query) => $query->whereNull('status'))
                 ->badge(CouponResource::getEloquentQuery()
+                    ->whereNull('status')
                     ->count()),
+
             'scheduled' => Tab::make(__('coupon.tabs.scheduled'))
                 ->icon('heroicon-o-clock')
                 ->modifyQueryUsing(fn (Builder $query) => $query->whereIn('status', Status::getScheduledCases()))
