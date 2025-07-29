@@ -59,4 +59,9 @@ class Coupon extends Model
     {
         return $this->belongsTo(User::class, 'employee_id');
     }
+
+    public function sungard(): BelongsTo
+    {
+        return $this->belongsTo(SungardBranches::class, 'sungard_branch_id');
+    }
 }

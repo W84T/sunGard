@@ -12,12 +12,18 @@ class ChangeStatusAction
     public static function make(): Action
     {
         return Action::make('change_status')
-            ->label(__('Change Status'))
             ->icon('heroicon-o-pencil-square')
-            ->form([
+            ->visible(function ($record) {
+                $user = auth()->user();
+                $isVisible = $record->employee_id && $user?->roles->contains('slug', 'employee');
+
+                return $isVisible;
+            })
+            ->schema(fn (Action $action): array => [
                 Select::make('status')
                     ->label(__('New Status'))
-                    ->options(Status::options())
+                    ->options(Status::optionsExcept([Status::RESERVED]))
+                    ->default($action->getRecord()->status)
                     ->required(),
             ])
             ->action(function (array $data, Model $record): void {

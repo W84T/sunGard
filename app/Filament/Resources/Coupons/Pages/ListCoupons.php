@@ -31,6 +31,11 @@ class ListCoupons extends ListRecords
     public function getTabs(): array
     {
         return [
+            'all' => Tab::make(__('coupon.tabs.all'))
+                ->icon('heroicon-o-rectangle-stack')
+                ->badge(CouponResource::getEloquentQuery()
+                    ->count()),
+
             'Not scheduled' => Tab::make(__('coupon.tabs.not_scheduled'))
                 ->icon('heroicon-o-rectangle-stack')
                 ->modifyQueryUsing(fn (Builder $query) => $query->whereNull('status'))

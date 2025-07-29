@@ -2,16 +2,19 @@
 
 namespace App\Filament\Resources\Coupons\Schemas;
 
+use App\Models\Branch;
 use App\Status;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-    use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 class CouponForm
 {
@@ -99,17 +102,20 @@ class CouponForm
                                     ->visible($user->roles->contains('slug', 'admin') || $user->roles->contains('slug', 'employee'))
                                     ->label(__('coupon.form.customer_service')),
 
-                                Select::make('branch_id')
-                                    ->relationship('branchRelation', 'name')
-                                    ->label(__('coupon.form.branch'))
-                                    ->searchable()
-                                    ->preload()
-                                    ->required(),
-
                                 Select::make('exhibition_id')
                                     ->relationship('exhibitionRelation', 'name')
                                     ->label(__('coupon.form.exhibition'))
                                     ->searchable()
+                                    ->preload()
+                                    ->required(),
+
+                                Select::make('branch_id')
+                                    ->options(fn(Get $get): Collection => Branch::query()
+                                        ->where('exhibition_id', $get('exhibition_id'))
+                                        ->pluck('name', 'id'))
+                                    ->label(__('coupon.form.branch'))
+                                    ->searchable()
+                                    ->live()
                                     ->preload()
                                     ->required(),
                             ]),

@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Coupons\Tables;
 
 use App\Filament\Actions\ChangeStatusAction;
 use App\Filament\Actions\ReserveCouponAction;
+use App\Filament\Actions\ReserveDate;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -138,6 +139,8 @@ class CouponsTable
                     ChangeStatusAction::make()
                         ->label(__('coupon.actions.change_status'))
                         ->color('info'),
+                    ReserveDate::make()
+                        ->label(__('coupon.actions.reserve_date')),
                     ViewAction::make()
                         ->color('gray'),
                     EditAction::make()

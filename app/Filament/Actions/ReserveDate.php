@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Filament\Actions;
+
+use App\Models\User;
+use Filament\Actions\Action;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
+use Illuminate\Database\Eloquent\Model;
+
+class ReserveDate
+{
+    public static function make():Action
+    {
+        return Action::make('reserve_date')
+            ->icon('heroicon-s-calendar')
+            ->visible(function ($record) {
+                $user = auth()->user();
+                $isVisible = $record->employee_id && $user?->roles->contains('slug', 'employee');
+
+                return $isVisible;
+            })
+            ->schema([
+                DateTimePicker::make('reserved_date')
+                    ->label(__('coupon.form.reserved_date'))
+                    ->required(),
+                Select::make('sungard_branch_id')
+                    ->label(__('coupon.form.sungard_branch_name'))
+                    ->relationship('sungard', 'name')
+                    ->required()
+
+            ])
+            ->action(function (array $data, Model $record): void {
+                $record->update([
+                    'reserved_date' => $data['reserved_date'],
+                    'sungard_branch_id' => $data['sungard_branch_id'],
+                ]);
+
+                $usersToNotify = User::where('sungard_branch_id', $data['sungard_branch_id'])->get();
+                foreach ($usersToNotify as $user) {
+                    Notification::make()
+                        ->title('New Reservation')
+                        ->body("A reservation has been scheduled by employee: {$record->employee?->name}")
+                        ->success()
+                        ->sendToDatabase($user);
+                }
+
+            })
+            ->successNotificationTitle('تم الحجز بنجاح!');
+    }
+}

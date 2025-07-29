@@ -100,4 +100,15 @@ enum Status: int
             return $carry;
         }, []);
     }
+
+    public static function optionsExcept(array $except): array
+    {
+        return array_reduce(self::cases(), function ($carry, $case) use ($except) {
+            if (!in_array($case, $except)) {
+                $carry[$case->value] = $case->label();
+            }
+            return $carry;
+        }, []);
+    }
+
 }

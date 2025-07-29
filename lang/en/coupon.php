@@ -42,6 +42,7 @@ return [
         'status' => 'Status',
         'reserved_date' => 'Reserved Date',
         'reached_at' => 'Reached At',
+        'sungard_branch_name' => 'Sungard Branch Name',
     ],
     'infolist' => [
         'customer_information' => 'Customer Information',
@@ -68,6 +69,7 @@ return [
         'no' => 'No',
     ],
     'tabs' => [
+        'all' => 'All',
         'not_scheduled' => 'Not Scheduled',
         'reserved' => 'Reserved',
         'scheduled' => 'Scheduled',
@@ -77,5 +79,6 @@ return [
     'actions' => [
         'reserve_coupon' => 'Reserve Coupon',
         'change_status' => 'Change Status',
+        'reserve_date' => 'Reserve a Date',
     ],
 ];

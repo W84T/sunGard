@@ -42,6 +42,7 @@ return [
         'status' => 'الحالة',
         'reserved_date' => 'تاريخ الحجز',
         'reached_at' => 'تاريخ الوصول',
+        'sungard_branch_name' => 'اسم فرع سنغارد',
     ],
     'infolist' => [
         'customer_information' => 'معلومات العميل',
@@ -61,13 +62,14 @@ return [
         'employee_name' => 'اسم الموظف',
         'reached_at' => 'تاريخ الإتصال بالعميل',
         'reservation_date' => 'تاريخ الحجز',
-        'sungard_branch_name' => 'اسم فرع صنغارد',
+        'sungard_branch_name' => 'اسم فرع سنغارد',
         'confirmed' => 'مؤكد',
         'not_confirmed' => 'غير مؤكد',
         'yes' => 'نعم',
         'no' => 'لا',
     ],
     'tabs' => [
+        'all' => 'الكل',
         'not_scheduled' => 'غير مجدول',
         'reserved' => 'محجوز',
         'scheduled' => 'مجدول',
@@ -77,5 +79,6 @@ return [
     'actions' => [
         'reserve_coupon' => 'حجز قسيمة',
         'change_status' => 'تغيير الحالة',
+        'reserve_date' => 'حجز موعد',
     ],
 ];
