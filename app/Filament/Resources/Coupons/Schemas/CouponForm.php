@@ -4,10 +4,11 @@ namespace App\Filament\Resources\Coupons\Schemas;
 
 use App\Status;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Schemas\Components\Group;
+    use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
@@ -60,6 +61,12 @@ class CouponForm
                                 TextInput::make('car_category')
                                     ->label(__('coupon.form.car_category')),
                             ]),
+                        FileUpload::make('coupon_link')
+                            ->image()
+                            ->directory('coupons')
+                            ->preserveFilenames()
+                            ->visibility('public')
+
                     ]),
 
                 // Right 1/3 (Sidebar)
@@ -73,7 +80,7 @@ class CouponForm
                                     ->relationship(
                                         name: 'agent',
                                         titleAttribute: 'name',
-                                        modifyQueryUsing: fn (Builder $query) => $query->whereHas('roles', fn (Builder $query) => $query->where('name', 'agent'))
+                                        modifyQueryUsing: fn(Builder $query) => $query->whereHas('roles', fn(Builder $query) => $query->where('name', 'agent'))
                                     )
                                     ->visible($user->roles->contains('slug', 'admin') || $user->roles->contains('slug', 'employee'))
                                     ->searchable()
@@ -85,7 +92,7 @@ class CouponForm
                                     ->relationship(
                                         name: 'employee',
                                         titleAttribute: 'name',
-                                        modifyQueryUsing: fn (Builder $query) => $query->whereHas('roles', fn (Builder $query) => $query->where('name', 'employee'))
+                                        modifyQueryUsing: fn(Builder $query) => $query->whereHas('roles', fn(Builder $query) => $query->where('slug', 'employee'))
                                     )
                                     ->searchable()
                                     ->preload()
@@ -124,7 +131,9 @@ class CouponForm
 
                                 DateTimePicker::make('reached_at')
                                     ->label(__('coupon.form.reached_at')),
-                            ])->visible($user->roles->contains('slug', 'admin') || $user->roles->contains('slug', 'employee')),
+                            ])
+                            ->visible($user->roles->contains('slug', 'admin') || $user->roles->contains('slug', 'employee')),
+
                     ]),
             ]);
     }

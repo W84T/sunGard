@@ -1,5 +1,6 @@
 @import '../../../../vendor/filament/filament/resources/css/theme.css';
 @import '../../../../vendor/mansoor/filament-versionable/resources/css/plugin.css';
+@import 'photoswipe/style.css';
 @source "../../../../vendor/bezhansalleh/filament-language-switch/resources/views/**/*.blade.php";
 @source '../../../../vendor/guava/filament-modal-relation-managers/resources/**/*.blade.php';
 @source "../../../../vendor/mansoor/filament-versionable/resources/**/*.blade.php";

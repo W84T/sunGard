@@ -4,8 +4,11 @@ namespace App\Providers;
 
 use App\Models\Coupon;
 use App\Observers\CouponObserver;
-use App\Observers\StatusObserve;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
+use Filament\Support\Assets\Css;
+use Filament\Support\Assets\Js;
+use Filament\Support\Facades\FilamentAsset;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,5 +31,10 @@ class AppServiceProvider extends ServiceProvider
             $switch
                 ->locales(['ar', 'en']);
         });
+
+        FilamentAsset::register([
+            Js::make('photoswipe', Vite::asset('resources/js/app.js'))->module(),
+            Css::make('photoswipe', Vite::asset('resources/css/app.css')),
+        ]);
     }
 }

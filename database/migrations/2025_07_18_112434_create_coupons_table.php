@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->foreignId('exhibition_id')->nullable()->constrained('exhibitions')->nullOnDelete();
             $table->foreignId('employee_id')->nullable()->constrained('users')->nullOnDelete();  // the customer service employee that handled that record
+            $table->foreignId('sungard_branch_id')->nullable()->constrained('sungard_branches')->nullOnDelete();
 
             $table->string('customer_name');
             $table->string('customer_email')->nullable()->unique();
