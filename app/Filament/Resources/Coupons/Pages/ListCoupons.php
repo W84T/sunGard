@@ -30,14 +30,18 @@ class ListCoupons extends ListRecords
 
     public function getTabs(): array
     {
+        $user = auth()->user();
+
         return [
             'all' => Tab::make(__('coupon.tabs.all'))
                 ->icon('heroicon-o-rectangle-stack')
+                ->visible(!$user->roles->contains('slug', 'employee'))
                 ->badge(CouponResource::getEloquentQuery()
                     ->count()),
 
             'Not scheduled' => Tab::make(__('coupon.tabs.not_scheduled'))
                 ->icon('heroicon-o-rectangle-stack')
+                ->visible($user->roles->contains('slug', 'employee'))
                 ->modifyQueryUsing(fn (Builder $query) => $query->whereNull('status'))
                 ->badge(CouponResource::getEloquentQuery()
                     ->whereNull('status')
@@ -45,6 +49,7 @@ class ListCoupons extends ListRecords
 
             'reserved ' =>  Tab::make(__('coupon.tabs.reserved'))
                 ->icon('heroicon-o-clock')
+                ->visible($user->roles->contains('slug', 'employee'))
                 ->modifyQueryUsing(fn (Builder $query) => $query->whereIn('status', Status::getReservedCases()))
                 ->badge(CouponResource::getEloquentQuery()
                     ->whereIn('status', Status::getReservedCases())

@@ -37,7 +37,7 @@ class CouponObserver
         $notification = null;
 
         // Scenario 1: Scheduled
-        if (is_null($originalStatus) && in_array($currentStatus, Status::getScheduledCases())) {
+        if ($originalStatus == Status::RESERVED && in_array($currentStatus, Status::getScheduledCases())) {
             $notification = Notification::make()
                 ->title(__('coupon.notifications.scheduled.title'))
                 ->body(__('coupon.notifications.scheduled.body'))
