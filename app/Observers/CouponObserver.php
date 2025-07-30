@@ -39,8 +39,8 @@ class CouponObserver
         // Scenario 1: Scheduled
         if ($originalStatus == Status::RESERVED && in_array($currentStatus, Status::getScheduledCases())) {
             $notification = Notification::make()
-                ->title(__('coupon.notifications.scheduled.title'))
-                ->body(__('coupon.notifications.scheduled.body'))
+                ->title('تم جدولة الكوبون')
+                ->body('تم جدولة الكوبون ' . $coupon->name)
                 ->success()
                 ->actions([
                     Action::make('view')
@@ -55,8 +55,8 @@ class CouponObserver
         // Scenario 2: Confirmed
         if (!is_null($currentStatus) && $currentIsConfirmed === true) {
             $notification = Notification::make()
-                ->title(__('coupon.notifications.confirmed.title'))
-                ->body(__('coupon.notifications.confirmed.body'))
+                ->title('تم تأكيد الكوبون')
+                ->body('تم تأكيد الكوبون ' . $coupon->name)
                 ->success()
                 ->actions([
                     Action::make('view')
@@ -71,8 +71,8 @@ class CouponObserver
         // Scenario 3: Not Booked
         if ($currentStatus && in_array($currentStatus, Status::getNotBookedCases())) {
             $notification = Notification::make()
-                ->title(__('coupon.notifications.not_booked.title'))
-                ->body(__('coupon.notifications.not_booked.body'))
+                ->title('لم يتم حجز الكوبون')
+                ->body('لم يتم حجز الكوبون ' . $coupon->name)
                 ->danger()
                 ->actions([
                     Action::make('view')
@@ -87,8 +87,8 @@ class CouponObserver
         // Scenario 4: Customer Served
         if ($currentStatus === Status::CUSTOMER_SERVED) {
             $notification = Notification::make()
-                ->title(__('coupon.notifications.customer_served.title'))
-                ->body(__('coupon.notifications.customer_served.body'))
+                ->title('تم خدمة العميل')
+                ->body('تم خدمة العميل ' . $coupon->name)
                 ->success()
                 ->actions([
                     Action::make('view')
