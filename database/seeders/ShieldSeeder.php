@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use BezhanSalleh\FilamentShield\Support\Utils;
+use Illuminate\Database\Seeder;
 use Spatie\Permission\PermissionRegistrar;
 
 class ShieldSeeder extends Seeder
@@ -60,7 +60,19 @@ class ShieldSeeder extends Seeder
       "delete_any_users::user",
       "force_delete_users::user",
       "force_delete_any_users::user",
-      "widget_MyCalendarWidget"
+      "widget_MyCalendarWidget",
+      "view_sungard::branches::sungard::branches",
+      "view_any_sungard::branches::sungard::branches",
+      "create_sungard::branches::sungard::branches",
+      "update_sungard::branches::sungard::branches",
+      "restore_sungard::branches::sungard::branches",
+      "restore_any_sungard::branches::sungard::branches",
+      "replicate_sungard::branches::sungard::branches",
+      "reorder_sungard::branches::sungard::branches",
+      "delete_sungard::branches::sungard::branches",
+      "delete_any_sungard::branches::sungard::branches",
+      "force_delete_sungard::branches::sungard::branches",
+      "force_delete_any_sungard::branches::sungard::branches"
     ]
   },
   {
@@ -94,8 +106,7 @@ class ShieldSeeder extends Seeder
       "force_delete_any_coupons::coupon",
       "view_exhibitions::exhibition",
       "view_any_exhibitions::exhibition",
-      "creat' .
-            'e_exhibitions::exhibition",
+      "create_exhibitions::exhibition",
       "update_exhibitions::exhibition",
       "delete_exhibitions::exhibition",
       "delete_any_exhibitions::exhibition",
@@ -145,7 +156,6 @@ class ShieldSeeder extends Seeder
       "view_coupons::coupon",
       "view_any_coupons::coupon",
       "create_coupons::coupon",
-      "update_coupons::coupon",
       "delete_coupons::coupon"
     ]
   },
@@ -155,6 +165,7 @@ class ShieldSeeder extends Seeder
     "slug": "employee",
     "permissions": [
       "view_coupons::coupon",
+      "view_any_coupons::coupon",
       "update_coupons::coupon",
       "restore_coupons::coupon",
       "restore_any_coupons::coupon",
@@ -172,18 +183,115 @@ class ShieldSeeder extends Seeder
   },
   {
     "name": "reporter",
-    "slug": "reporter",
     "guard_name": "web",
+    "slug": "reporter",
     "permissions": []
   },
   {
     "name": "branch manager",
-    "slug": "branch manager",
     "guard_name": "web",
+    "slug": "branch manager",
     "permissions": []
   }
 ]';
-        $directPermissions = '{"6":{"name":"view_any_permission","guard_name":"web"},"7":{"name":"view_permission","guard_name":"web"},"8":{"name":"create_permission","guard_name":"web"},"9":{"name":"update_permission","guard_name":"web"},"10":{"name":"delete_permission","guard_name":"web"},"11":{"name":"delete_any_permission","guard_name":"web"},"12":{"name":"view_any_shield::seeder","guard_name":"web"},"13":{"name":"view_shield::seeder","guard_name":"web"},"14":{"name":"create_shield::seeder","guard_name":"web"},"15":{"name":"update_shield::seeder","guard_name":"web"},"16":{"name":"delete_shield::seeder","guard_name":"web"},"17":{"name":"delete_any_shield::seeder","guard_name":"web"},"18":{"name":"view_any_shield::generate","guard_name":"web"},"19":{"name":"view_shield::generate","guard_name":"web"},"20":{"name":"create_shield::generate","guard_name":"web"},"21":{"name":"update_shield::generate","guard_name":"web"},"22":{"name":"delete_shield::generate","guard_name":"web"},"23":{"name":"delete_any_shield::generate","guard_name":"web"},"24":{"name":"view_any_shield::scan","guard_name":"web"},"25":{"name":"view_shield::scan","guard_name":"web"},"26":{"name":"create_shield::scan","guard_name":"web"},"27":{"name":"update_shield::scan","guard_name":"web"},"28":{"name":"delete_shield::scan","guard_name":"web"},"29":{"name":"delete_any_shield::scan","guard_name":"web"}}';
+        $directPermissions = '{
+  "43": {
+    "name": "view_any_permission",
+    "guard_name": "web"
+  },
+  "44": {
+    "name": "view_permission",
+    "guard_name": "web"
+  },
+  "45": {
+    "name": "create_permission",
+    "guard_name": "web"
+  },
+  "46": {
+    "name": "update_permission",
+    "guard_name": "web"
+  },
+  "47": {
+    "name": "delete_permission",
+    "guard_name": "web"
+  },
+  "48": {
+    "name": "delete_any_permission",
+    "guard_name": "web"
+  },
+  "49": {
+    "name": "view_any_shield::seeder",
+    "guard_name": "web"
+  },
+  "50": {
+    "name": "view_shield::seeder",
+    "guard_name": "web"
+  },
+  "51": {
+    "name": "create_shield::seeder",
+    "guard_name": "web"
+  },
+  "52": {
+    "name": "update_shield::seeder",
+    "guard_name": "web"
+  },
+  "53": {
+    "name": "delete_shield::seeder",
+    "guard_name": "web"
+  },
+  "54": {
+    "name": "delete_any_shield::seeder",
+    "guard_name": "web"
+  },
+  "55": {
+    "name": "view_any_shield::generate",
+    "guard_name": "web"
+  },
+  "56": {
+    "name": "view_shield::generate",
+    "guard_name": "web"
+  },
+  "57": {
+    "name": "create_shield::generate",
+    "guard_name": "web"
+  },
+  "58": {
+    "name": "update_shield::generate",
+    "guard_name": "web"
+  },
+  "59": {
+    "name": "delete_shield::generate",
+    "guard_name": "web"
+  },
+  "60": {
+    "name": "delete_any_shield::generate",
+    "guard_name": "web"
+  },
+  "61": {
+    "name": "view_any_shield::scan",
+    "guard_name": "web"
+  },
+  "62": {
+    "name": "view_shield::scan",
+    "guard_name": "web"
+  },
+  "63": {
+    "name": "create_shield::scan",
+    "guard_name": "web"
+  },
+  "64": {
+    "name": "update_shield::scan",
+    "guard_name": "web"
+  },
+  "65": {
+    "name": "delete_shield::scan",
+    "guard_name": "web"
+  },
+  "66": {
+    "name": "delete_any_shield::scan",
+    "guard_name": "web"
+  }
+}';
 
         static::makeRolesWithPermissions($rolesWithPermissions);
         static::makeDirectPermissions($directPermissions);
@@ -203,7 +311,6 @@ class ShieldSeeder extends Seeder
                 $role = $roleModel::firstOrCreate([
                     'name' => $rolePlusPermission['name'],
                     'guard_name' => $rolePlusPermission['guard_name'],
-                    'slug' => $rolePlusPermission['slug'],
                 ]);
 
                 if (!blank($rolePlusPermission['permissions'])) {
