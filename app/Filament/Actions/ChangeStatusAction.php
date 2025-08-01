@@ -4,7 +4,9 @@ namespace App\Filament\Actions;
 
 use App\Status;
 use Filament\Actions\Action;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
+use Filament\Schemas\Components\Utilities\Get;
 use Illuminate\Database\Eloquent\Model;
 
 class ChangeStatusAction
@@ -24,7 +26,18 @@ class ChangeStatusAction
                     ->label(__('New Status'))
                     ->options(Status::optionsExcept([Status::RESERVED]))
                     ->default($action->getRecord()->status)
+                    ->live()
                     ->required(),
+
+                DateTimePicker::make('reserved_date')
+                    ->label(__('coupon.form.reserved_date'))
+                    ->visible(fn (Get $get) => $get('status') === Status::BOOKED)
+                    ->required(fn (Get $get) => $get('status') === Status::BOOKED),
+                Select::make('sungard_branch_id')
+                    ->label(__('coupon.form.sungard_branch_name'))
+                    ->relationship('sungard', 'name')
+                    ->visible(fn (Get $get) => $get('status') === Status::BOOKED)
+                    ->required(fn (Get $get) => $get('status') === Status::BOOKED),
             ])
             ->action(function (array $data, Model $record): void {
                 $record->update([

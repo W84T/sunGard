@@ -4,12 +4,14 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\Coupons\CouponResource;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\FontProviders\LocalFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -18,12 +20,14 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        $user = auth()->user();
         return $panel
             ->default()
             ->colors([
@@ -75,6 +79,15 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+            ])
+            ->navigationItems([
+                NavigationItem::make('Add Coupon')
+                    ->icon('heroicon-o-plus-circle')
+                    ->activeIcon('heroicon-s-plus-circle')
+                    ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.records.create'))
+                    ->sort(1)
+                    ->visible(fn () => auth()->check() && auth()->user()->roles->contains('slug', 'agent'))
+                    ->url(fn () => CouponResource::getUrl('create')),
             ])
             ->plugins([
                 FilamentShieldPlugin::make(),

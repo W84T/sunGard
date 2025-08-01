@@ -4,7 +4,7 @@ namespace App\Filament\Resources\Coupons\Tables;
 
 use App\Filament\Actions\ChangeStatusAction;
 use App\Filament\Actions\ReserveCouponAction;
-use App\Filament\Actions\ReserveDate;
+use App\Filament\Actions\ChangeReservation;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -132,14 +132,14 @@ class CouponsTable
                 TrashedFilter::make(),
             ])
             ->recordActions([
+                ReserveCouponAction::make()
+                    ->label(__('coupon.actions.reserve_coupon'))
+                    ->color('success'),
+                ChangeStatusAction::make()
+                    ->label(__('coupon.actions.change_status'))
+                    ->color('info'),
                 ActionGroup::make([
-                    ReserveCouponAction::make()
-                        ->label(__('coupon.actions.reserve_coupon'))
-                        ->color('success'),
-                    ChangeStatusAction::make()
-                        ->label(__('coupon.actions.change_status'))
-                        ->color('info'),
-                    ReserveDate::make()
+                    ChangeReservation::make()
                         ->label(__('coupon.actions.reserve_date')),
                     ViewAction::make()
                         ->color('gray'),

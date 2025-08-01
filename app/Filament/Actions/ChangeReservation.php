@@ -3,6 +3,7 @@
 namespace App\Filament\Actions;
 
 use App\Models\User;
+use App\Status;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
@@ -10,16 +11,16 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 
-class ReserveDate
+class ChangeReservation
 {
     public static function make():Action
     {
         return Action::make('reserve_date')
             ->icon('heroicon-s-calendar')
             ->visible(function ($record) {
-                $user = auth()->user();
-                $isVisible = $record->employee_id && $user?->roles->contains('slug', 'employee');
-
+//                $user = auth()->user();
+//                $isVisible = $record->employee_id && $user?->roles->contains('slug', 'employee');
+                  $isVisible = $record->status === Status::BOOKED;
                 return $isVisible;
             })
             ->schema([
