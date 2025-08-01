@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources\Coupons\Tables;
 
+use App\Filament\Actions\ChangeReservation;
 use App\Filament\Actions\ChangeStatusAction;
 use App\Filament\Actions\ReserveCouponAction;
-use App\Filament\Actions\ChangeReservation;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;

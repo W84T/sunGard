@@ -10,7 +10,8 @@ class Settings extends Model
 
     public static function get(string $key, $default = null)
     {
-        return static::where('key', $key)->value('value') ?? $default;
+        return static::where('key', $key)
+            ->value('value') ?? $default;
     }
 
     public static function set(string $key, $value): void

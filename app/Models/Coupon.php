@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use App\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Auth;
 use Overtrue\LaravelVersionable\Versionable;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -19,7 +19,7 @@ class Coupon extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'status' => \App\Status::class,
+        'status' => Status::class,
     ];
 
 

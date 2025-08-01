@@ -12,7 +12,7 @@ class CreateCoupon extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        if (! array_key_exists('agent_id', $data) || empty($data['agent_id'])) {
+        if (!array_key_exists('agent_id', $data) || empty($data['agent_id'])) {
             $data['agent_id'] = Auth::id();
         }
 

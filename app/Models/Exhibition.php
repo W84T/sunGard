@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Overtrue\LaravelVersionable\Versionable;
 use Spatie\Permission\Traits\HasRoles;
 
 class Exhibition extends Model
@@ -25,6 +24,6 @@ class Exhibition extends Model
 
     public function branches()
     {
-        return $this->hasMany(Branch::class, 'exhibition_id'); // or the appropriate foreign key
+        return $this->hasMany(Branch::class, 'exhibition_id');
     }
 }

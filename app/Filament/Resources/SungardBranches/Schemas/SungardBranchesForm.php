@@ -13,7 +13,7 @@ class SungardBranchesForm
         return $schema
             ->components([
                 Hidden::make('created_by')
-                    ->default(fn () => auth()->id()),
+                    ->default(fn() => auth()->id()),
                 TextInput::make('name')
                     ->label(__('sungard_branch.form.name'))
                     ->required(),

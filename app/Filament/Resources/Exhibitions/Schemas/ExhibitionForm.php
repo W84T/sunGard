@@ -13,15 +13,17 @@ class ExhibitionForm
     {
         return $schema
             ->components([
-              Section::make([
-                  Hidden::make('created_by')
-                      ->default(fn () => auth()->id()),
-                  TextInput::make('name')
-                      ->label(__('exhibition.form.name'))
-                      ->required(),
-                  TextInput::make('address')
-                      ->label(__('exhibition.form.address')),
-              ])->columnSpan(2)->columns(2),
+                Section::make([
+                    Hidden::make('created_by')
+                        ->default(fn() => auth()->id()),
+                    TextInput::make('name')
+                        ->label(__('exhibition.form.name'))
+                        ->required(),
+                    TextInput::make('address')
+                        ->label(__('exhibition.form.address')),
+                ])
+                    ->columnSpan(2)
+                    ->columns(2),
             ]);
     }
 }

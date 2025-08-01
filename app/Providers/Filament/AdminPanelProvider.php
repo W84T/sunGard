@@ -20,7 +20,6 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
@@ -84,10 +83,10 @@ class AdminPanelProvider extends PanelProvider
                 NavigationItem::make('Add Coupon')
                     ->icon('heroicon-o-plus-circle')
                     ->activeIcon('heroicon-s-plus-circle')
-                    ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.records.create'))
+                    ->isActiveWhen(fn() => request()->routeIs('filament.admin.resources.records.create'))
                     ->sort(1)
-                    ->visible(fn () => auth()->check() && auth()->user()->roles->contains('slug', 'agent'))
-                    ->url(fn () => CouponResource::getUrl('create')),
+                    ->visible(fn() => auth()->check() && auth()->user()->roles->contains('slug', 'agent'))
+                    ->url(fn() => CouponResource::getUrl('create')),
             ])
             ->plugins([
                 FilamentShieldPlugin::make(),

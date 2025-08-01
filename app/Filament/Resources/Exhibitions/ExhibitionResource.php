@@ -24,10 +24,8 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
-use Guava\FilamentModalRelationManagers\Actions\RelationManagerAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Mansoor\FilamentVersionable\Table\RevisionsAction;
 
 class ExhibitionResource extends Resource implements HasShieldPermissions
 {
@@ -52,7 +50,7 @@ class ExhibitionResource extends Resource implements HasShieldPermissions
         return $schema
             ->components([
                 Hidden::make('created_by')
-                    ->default(fn () => auth()->id()),
+                    ->default(fn() => auth()->id()),
                 TextInput::make('name')
                     ->label(__('exhibition.form.name'))
                     ->required(),
@@ -94,17 +92,17 @@ class ExhibitionResource extends Resource implements HasShieldPermissions
                 TrashedFilter::make(),
             ])
             ->recordActions([
-               ActionGroup::make([
-                   EditAction::make()
-                       ->color('primary'),
-                   DeleteAction::make()
-                       ->color('danger'),
-                   ForceDeleteAction::make()
-                       ->color('danger'),
-                   RestoreAction::make()
-                       ->color('success'),
-                   //                RevisionsAction::make(),
-               ])
+                ActionGroup::make([
+                    EditAction::make()
+                        ->color('primary'),
+                    DeleteAction::make()
+                        ->color('danger'),
+                    ForceDeleteAction::make()
+                        ->color('danger'),
+                    RestoreAction::make()
+                        ->color('success'),
+                    //                RevisionsAction::make(),
+                ])
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

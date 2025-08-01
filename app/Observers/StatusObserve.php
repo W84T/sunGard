@@ -3,8 +3,6 @@
 namespace App\Observers;
 
 use App\Models\Coupon;
-use Filament\Notifications\Notification;
-use Illuminate\Support\Facades\App;
 
 class StatusObserve
 {

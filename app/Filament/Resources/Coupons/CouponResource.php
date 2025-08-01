@@ -10,6 +10,7 @@ use App\Filament\Resources\Coupons\Schemas\CouponForm;
 use App\Filament\Resources\Coupons\Schemas\CouponInfolist;
 use App\Filament\Resources\Coupons\Tables\CouponsTable;
 use App\Models\Coupon;
+use App\Models\User;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -95,7 +96,8 @@ class CouponResource extends Resource
         }
 
         if ($user->roles->contains('slug', 'marketer')) {
-            $agentIds = \App\Models\User::where('created_by', $user->id)->pluck('id');
+            $agentIds = User::where('created_by', $user->id)
+                ->pluck('id');
 
             return $query->where(function ($q) use ($agentIds) {
                 $q->whereIn('agent_id', $agentIds)

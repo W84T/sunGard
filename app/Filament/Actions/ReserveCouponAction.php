@@ -47,7 +47,7 @@ class ReserveCouponAction
 
                 $max = Settings::get('max_active_coupons', 5);
 
-                $cooldownMinutes = (int) Settings::get('reservation_cooldown_minutes', 10);
+                $cooldownMinutes = (int)Settings::get('reservation_cooldown_minutes', 10);
 
                 $lastReservation = CouponReservation::where('employee_id', $user->id)
                     ->latest('reserved_at')

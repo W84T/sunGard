@@ -7,20 +7,19 @@ use App\Status;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 
 class ChangeReservation
 {
-    public static function make():Action
+    public static function make(): Action
     {
         return Action::make('reserve_date')
             ->icon('heroicon-s-calendar')
             ->visible(function ($record) {
 //                $user = auth()->user();
 //                $isVisible = $record->employee_id && $user?->roles->contains('slug', 'employee');
-                  $isVisible = $record->status === Status::BOOKED;
+                $isVisible = $record->status === Status::BOOKED;
                 return $isVisible;
             })
             ->schema([
@@ -39,7 +38,8 @@ class ChangeReservation
                     'sungard_branch_id' => $data['sungard_branch_id'],
                 ]);
 
-                $usersToNotify = User::where('sungard_branch_id', $data['sungard_branch_id'])->get();
+                $usersToNotify = User::where('sungard_branch_id', $data['sungard_branch_id'])
+                    ->get();
                 foreach ($usersToNotify as $user) {
                     Notification::make()
                         ->title('New Reservation')

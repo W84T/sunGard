@@ -107,8 +107,8 @@ class CouponForm
                                     ->label(__('coupon.form.exhibition'))
                                     ->searchable()
                                     ->preload()
-                                    ->default(fn () => $user->roles->contains('slug', 'agent') ? $user->exhibition_id : null)
-                                    ->disabled(fn () => $user->roles->contains('slug', 'agent'))
+                                    ->default(fn() => $user->roles->contains('slug', 'agent') ? $user->exhibition_id : null)
+                                    ->disabled(fn() => $user->roles->contains('slug', 'agent'))
                                     ->dehydrated()
                                     ->required(),
 
@@ -118,8 +118,8 @@ class CouponForm
                                         ->pluck('name', 'id'))
                                     ->label(__('coupon.form.branch'))
                                     ->searchable()
-                                    ->default(fn () => $user->roles->contains('slug', 'agent') ? $user->branch_id : null)
-                                    ->disabled(fn () => $user->roles->contains('slug', 'agent'))
+                                    ->default(fn() => $user->roles->contains('slug', 'agent') ? $user->branch_id : null)
+                                    ->disabled(fn() => $user->roles->contains('slug', 'agent'))
                                     ->dehydrated()
                                     ->live()
                                     ->preload()

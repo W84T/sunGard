@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
-use App\Models\SungardBranches;
+use App\Models\Branch;
+use App\Models\Exhibition;
+use App\Models\Role;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
@@ -14,9 +16,6 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Collection;
-use App\Models\Role;
-use App\Models\Exhibition;
-use App\Models\Branch;
 
 class UserForm
 {
@@ -89,7 +88,9 @@ class UserForm
                                     ->searchable()
                                     ->live()
                                     ->required(function (Get $get) {
-                                        $roles = Role::whereIn('id', $get('roles') ?? [])->pluck('name')->toArray();
+                                        $roles = Role::whereIn('id', $get('roles') ?? [])
+                                            ->pluck('name')
+                                            ->toArray();
                                         return in_array('agent', $roles);
                                     })
                                     ->visible(function (Get $get) {
@@ -110,11 +111,15 @@ class UserForm
                                     ->live()
                                     ->columnSpan('full')
                                     ->required(function (Get $get) {
-                                        $roles = Role::whereIn('id', $get('roles') ?? [])->pluck('name')->toArray();
+                                        $roles = Role::whereIn('id', $get('roles') ?? [])
+                                            ->pluck('name')
+                                            ->toArray();
                                         return in_array('agent', $roles);
                                     })
                                     ->required(function (Get $get) {
-                                        $roles = Role::whereIn('id', $get('roles') ?? [])->pluck('name')->toArray();
+                                        $roles = Role::whereIn('id', $get('roles') ?? [])
+                                            ->pluck('name')
+                                            ->toArray();
                                         return in_array('branch manager', $roles);
                                     })
                                     ->visible(function (Get $get) {

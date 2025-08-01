@@ -19,8 +19,8 @@ class UsersTable
                 collect([
                     $user->roles->contains('slug', 'admin')
                         ? TextColumn::make('creator.name')
-                            ->label(__('user.table.creator_name'))
-                            ->sortable()
+                        ->label(__('user.table.creator_name'))
+                        ->sortable()
                         : null,
 
                     TextCOlumn::make('exhibition.name')
@@ -39,12 +39,12 @@ class UsersTable
                     TextColumn::make('roles.name')
                         ->label(__('user.table.roles'))
                         ->badge()
-                        ->color(fn (string $state): string => match ($state) {
+                        ->color(fn(string $state): string => match ($state) {
                             'super_admin' => 'danger',
                             'admin' => 'primary',
                             default => 'success',
                         })
-                        ->formatStateUsing(fn (string $state): string => str($state)
+                        ->formatStateUsing(fn(string $state): string => str($state)
                             ->replace('_', ' ')
                             ->title()),
 

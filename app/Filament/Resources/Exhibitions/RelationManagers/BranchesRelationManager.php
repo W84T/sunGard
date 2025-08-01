@@ -33,7 +33,7 @@ class BranchesRelationManager extends RelationManager
         return $schema
             ->components([
                 Hidden::make('created_by')
-                    ->default(fn () => auth()->id()),
+                    ->default(fn() => auth()->id()),
                 TextInput::make('name')
                     ->label(__('branch.form.name'))
                     ->required(),
@@ -95,7 +95,7 @@ class BranchesRelationManager extends RelationManager
                     RestoreBulkAction::make(),
                 ]),
             ])
-            ->modifyQueryUsing(fn (Builder $query) => $query
+            ->modifyQueryUsing(fn(Builder $query) => $query
                 ->withoutGlobalScopes([
                     SoftDeletingScope::class,
                 ]));

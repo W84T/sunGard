@@ -16,6 +16,15 @@ enum Status: int
     case PRICE_INQUIRY = 9;
     case CUSTOMER_SERVED = 10;
 
+    public static function options(): array
+    {
+        return array_reduce(self::cases(), function ($carry, $case) {
+            $carry[$case->value] = $case->label();
+
+            return $carry;
+        }, []);
+    }
+
     /**
      * Get the English label
      */
@@ -38,32 +47,21 @@ enum Status: int
         };
     }
 
+    public static function optionsExcept(array $except): array
+    {
+        return array_reduce(self::cases(), function ($carry, $case) use ($except) {
+            if (!in_array($case, $except)) {
+                $carry[$case->value] = $case->label();
+            }
+            return $carry;
+        }, []);
+    }
+
     public function isScheduled(): bool
     {
         return in_array($this, self::getScheduledCases());
     }
 
-    public function isNotBooked(): bool
-    {
-        return in_array($this, self::getNotBookedCases());
-    }
-
-    public function isBooked(): bool
-    {
-        return in_array($this, self::getBookedCases());
-    }
-
-    public function isReserved(): bool
-    {
-        return in_array($this, self::getReservedCases());
-    }
-
-    public static function getReservedCases(): array
-    {
-        return [
-            self::RESERVED,
-        ];
-    }
     public static function getScheduledCases(): array
     {
         return [
@@ -73,12 +71,22 @@ enum Status: int
         ];
     }
 
+    public function isNotBooked(): bool
+    {
+        return in_array($this, self::getNotBookedCases());
+    }
+
     public static function getNotBookedCases(): array
     {
         return [
             self::NOT_INTERESTED,
             self::MULTIPLE_POSTPONES_OR_AVOID,
         ];
+    }
+
+    public function isBooked(): bool
+    {
+        return in_array($this, self::getBookedCases());
     }
 
     public static function getBookedCases(): array
@@ -92,23 +100,16 @@ enum Status: int
         ];
     }
 
-    public static function options(): array
+    public function isReserved(): bool
     {
-        return array_reduce(self::cases(), function ($carry, $case) {
-            $carry[$case->value] = $case->label();
-
-            return $carry;
-        }, []);
+        return in_array($this, self::getReservedCases());
     }
 
-    public static function optionsExcept(array $except): array
+    public static function getReservedCases(): array
     {
-        return array_reduce(self::cases(), function ($carry, $case) use ($except) {
-            if (!in_array($case, $except)) {
-                $carry[$case->value] = $case->label();
-            }
-            return $carry;
-        }, []);
+        return [
+            self::RESERVED,
+        ];
     }
 
 }
