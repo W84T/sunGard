@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Status;
+use ArPHP\I18N\Arabic;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 use Overtrue\LaravelVersionable\Versionable;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -39,6 +42,77 @@ class Coupon extends Model
 //            }
 //        });
 //    }
+
+    protected static function booted()
+    {
+        static::saved(function ($coupon) {
+            $coupon->generateCouponImage();
+        });
+    }
+
+
+    public function generateCouponImage()
+    {
+        require_once base_path('vendor/khaled.alshamaa/ar-php/src/Arabic.php');
+
+        $templatePath = public_path('templates/coupon_template.jpg');
+        $arabicFont = public_path('fonts/NotoNaskhArabic-VariableFont_wght.ttf');
+        $englishFont = public_path('fonts/Roboto-VariableFont_wdth,wght.ttf');
+
+        if (!file_exists($templatePath)) {
+            return;
+        }
+
+        $ar = new Arabic('Glyphs');
+
+        $prepareText = function ($text) use ($ar) {
+            if (preg_match('/\p{Arabic}/u', $text)) {
+                return [
+                    'text' => $ar->utf8Glyphs($text),
+                    'isArabic' => true
+                ];
+            }
+            return [
+                'text' => $text,
+                'isArabic' => false
+            ];
+        };
+
+        $manager = new \Intervention\Image\ImageManager(new \Intervention\Image\Drivers\Gd\Driver());
+        $img = $manager->read($templatePath);
+
+        $fields = [
+            [$this->customer_name, 200, 150, 32],
+            [$this->customer_phone, 200, 200, 28],
+            [$this->car_model, 200, 250, 28],
+            [$this->plate_number, 200, 300, 28],
+        ];
+
+        foreach ($fields as [$text, $x, $y, $size]) {
+            $data = $prepareText($text);
+
+            $img->text($data['text'], $x, $y, function ($font) use ($data, $arabicFont, $englishFont, $size) {
+                $font->filename($data['isArabic'] ? $arabicFont : $englishFont);
+                $font->size($size);
+                $font->color('#000000');
+                $font->align($data['isArabic'] ? 'right' : 'left');
+            });
+        }
+
+        $outputDir = public_path('generated');
+        if (!file_exists($outputDir)) {
+            mkdir($outputDir, 0755, true);
+        }
+
+        $outputPath = $outputDir . "/coupon_{$this->id}.jpg";
+        $img->save($outputPath);
+
+        $this->updateQuietly([
+            'coupon_link' => "generated/coupon_{$this->id}.jpg"
+        ]);
+    }
+
+
 
     public function branchRelation(): BelongsTo
     {

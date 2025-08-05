@@ -12,6 +12,8 @@
         "filament/filament": "^4.0",
         "guava/calendar": "^2.0@beta",
         "guava/filament-modal-relation-managers": "^2.0@beta",
+        "intervention/image": "^3.11",
+        "khaled.alshamaa/ar-php": "^7.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "mansoor/filament-versionable": "^4.0@beta"

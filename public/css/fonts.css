@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap');
 
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
@@ -7,5 +7,5 @@
 
 /* Custom fonts for Arabic and English */
 html[lang="ar"] {
-    font-family: "Rubik", serif;
+    font-family: "Noto Sans Arabic", sans-serif;
 }

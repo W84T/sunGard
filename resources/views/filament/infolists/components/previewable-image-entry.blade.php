@@ -1,6 +1,6 @@
 @php
     $images = \Illuminate\Support\Arr::wrap($getState());
-    $imageUrl = fn($path) => $getImageUrl($path) ?? $getDefaultImageUrl();
+    $imageUrl = fn($path) => $path ? asset($path) : $getDefaultImageUrl();
 @endphp
 
 <x-dynamic-component :component="$getEntryWrapperView()" :entry="$entry">
@@ -10,12 +10,9 @@
             <a href="{{ $url }}"
                data-pswp-width="2500"
                data-pswp-height="1667"
-               target="_blank">
+               target="">
                 <img src="{{ $url }}" alt="" />
             </a>
         @endforeach
-    </div>
-    <div>
-
     </div>
 </x-dynamic-component>
