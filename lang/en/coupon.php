@@ -21,6 +21,12 @@ return [
         'deleted_at' => 'Deleted At',
         'created_at' => 'Created At',
         'updated_at' => 'Updated At',
+        'status' => 'Status',
+        'sungard_branch_id' => 'Sungard Branch',
+        'created_from' => 'Created From',
+        'created_until' => 'Created Until',
+        'confirmed' => 'Confirmed',
+        'not_confirmed' => 'Not Confirmed',
     ],
     'form' => [
         'customer_information' => 'Customer Information',

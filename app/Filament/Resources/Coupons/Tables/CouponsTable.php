@@ -5,6 +5,8 @@ namespace App\Filament\Resources\Coupons\Tables;
 use App\Filament\Actions\ChangeReservation;
 use App\Filament\Actions\ChangeStatusAction;
 use App\Filament\Actions\ReserveCouponAction;
+use App\Models\Branch;
+use App\Models\Exhibition;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -12,9 +14,12 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Select;
+use Filament\Schemas\Components\Group;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\TrashedFilter;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 
 class CouponsTable
@@ -129,8 +134,65 @@ class CouponsTable
                     ->all()
             )
             ->filters([
-                TrashedFilter::make(),
-            ])
+                Filter::make('exhibition_filter')
+                    ->schema([
+                        Group::make([
+                            Select::make('exhibition_id')
+                                ->label(__('form.exhibition'))
+                                ->live()
+                                ->options(
+                                    Exhibition::query()
+                                        ->orderByRaw("CASE WHEN name = 'other' THEN 2 WHEN name = 'SFDA' THEN 1 ELSE 0 END")
+                                        ->orderBy('name')
+                                        ->pluck('name', 'id')
+                                        ->toArray()
+                                ),
+
+                            Select::make('branch_id')
+                                ->label(__('form.resource'))
+                                ->options(function ($get) {
+                                    $exhibitionId = $get('exhibition_id');
+
+                                    if (!$exhibitionId) return [];
+
+                                    return Branch::query()
+                                        ->where('exhibition_id', $exhibitionId)
+                                        ->pluck('name', 'id') // <== FIXED
+                                        ->toArray();
+                                }),
+                        ])
+                            ->columns(1)
+                    ])
+                    ->query(function ($query, array $data) {
+                        if ($data['exhibition_id'] ?? null) {
+                            $query->where('exhibition_id', $data['exhibition_id']);
+                        }
+
+                        if ($data['branch_id'] ?? null) {
+                            $query->where('branch_id', $data['branch_id']);
+                        }
+
+                        return $query;
+                    })
+                    ->indicateUsing(function (array $data): array {
+                        $indicators = [];
+
+                        if (!empty($data['exhibition_id'])) {
+                            $exhibition = Exhibition::find($data['exhibition_id']);
+                            if ($exhibition) {
+                                $indicators[] = __('form.exhibition') . ': ' . $exhibition->name;
+                            }
+                        }
+
+                        if (!empty($data['branch_id'])) {
+                            $sector = Branch::find($data['branch_id']);
+                            if ($sector) {
+                                $indicators[] = __('form.sector') . ': ' . $sector->name;
+                            }
+                        }
+                        return $indicators;
+                    }),
+            ], layout: FiltersLayout::Dropdown)
             ->recordActions([
                 ReserveCouponAction::make()
                     ->label(__('coupon.actions.reserve_coupon'))
@@ -155,6 +217,10 @@ class CouponsTable
                     ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),
                 ]),
+            ])
+            ->headerActions([
+//                ExportAction::make()
+//                    ->exporter(CouponExporter::class),
             ]);
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\Coupons\Pages;
 
+use App\Filament\Exports\CouponExporter;
 use App\Filament\Resources\Coupons\CouponResource;
 use App\Status;
 use Filament\Actions\CreateAction;
+use Filament\Actions\ExportAction;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
@@ -78,7 +80,10 @@ class ListCoupons extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()
+
+            ExportAction::make()
+                ->exporter(CouponExporter::class)
+                ->icon('heroicon-o-arrow-up-tray')
                 ->color('primary'),
         ];
     }

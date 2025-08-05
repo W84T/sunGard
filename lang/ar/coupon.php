@@ -21,6 +21,12 @@ return [
         'deleted_at' => 'تاريخ الحذف',
         'created_at' => 'تاريخ الإنشاء',
         'updated_at' => 'تاريخ التحديث',
+        'status' => 'الحالة',
+        'sungard_branch_id' => 'فرع سنغارد',
+        'created_from' => 'أنشئ من',
+        'created_until' => 'أنشئ حتى',
+        'confirmed' => 'مؤكد',
+        'not_confirmed' => 'غير مؤكد',
     ],
     'form' => [
         'customer_information' => 'معلومات العميل',
