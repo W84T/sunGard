@@ -54,21 +54,43 @@ class CouponForm
                                     ->label(__('coupon.form.car_model'))
                                     ->required(),
 
-                                TextInput::make('plate_number')
-                                    ->label(__('coupon.form.plate_number'))
-                                    ->required(),
 
                                 TextInput::make('car_brand')
                                     ->label(__('coupon.form.car_brand')),
 
-                                TextInput::make('car_category')
-                                    ->label(__('coupon.form.car_category')),
+                                Group::make()
+                                    ->columnSpan('full')
+                                    ->columns(3)
+                                    ->schema([
+                                        TextInput::make('plate_characters')
+                                            ->label(__('coupon.form.plate_characters'))
+                                            ->minLength(3)
+                                            ->maxLength(4)
+                                            ->required()
+                                            ->rule([
+                                                'regex:/^[A-Za-z]+$/'
+                                            ])
+                                            ->validationMessages([
+                                                'regex' => 'The :attribute must contain only English letters.',
+                                            ]),
+
+                                        TextInput::make('plate_number')
+                                            ->label(__('coupon.form.plate_number'))
+                                            ->minLength(4)
+                                            ->maxLength(4)
+                                            ->required(),
+
+                                        TextInput::make('car_category')
+                                            ->label(__('coupon.form.car_category')),
+                                    ])
+
                             ]),
-                        FileUpload::make('coupon_link')
-                            ->image()
-                            ->directory('coupons')
-                            ->preserveFilenames()
-                            ->visibility('public')
+//
+//                        FileUpload::make('coupon_link')
+//                            ->image()
+//                            ->directory('coupons')
+//                            ->preserveFilenames()
+//                            ->visibility('public')
 
                     ]),
 

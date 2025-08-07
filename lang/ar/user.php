@@ -27,11 +27,11 @@ return [
         'updated_at' => 'تاريخ التحديث',
     ],
     'tabs' => [
-        'admin' => 'مسؤول',
-        'agent' => 'وكيل',
-        'marketer' => 'مسوق',
-        'employee' => 'موظف',
-        'reporter' => 'مراسل',
+        'admin' => 'مسؤولين',
+        'agent' => 'موردين',
+        'marketer' => 'مسوقين',
+        'employee' => 'موظفين',
+        'reporter' => '',
         'branch_manager' => 'مدير فرع',
     ],
 ];

@@ -21,9 +21,20 @@ class ListUsers extends ListRecords
                 ->badge(User::whereHas('roles', fn($q) => $q->where('slug', 'admin'))
                     ->count()),
 
-            'agent' => Tab::make(__('user.tabs.agent'))
-                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'agent')))
-                ->badge(User::whereHas('roles', fn($q) => $q->where('slug', 'agent'))
+            'branch manager' => Tab::make(__('user.tabs.branch_manager'))
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'branch manager')))
+                ->badge(User::whereHas('roles', fn($q) => $q->where('slug', 'branch manager'))
+                    ->count()),
+
+            'customer service manager' => Tab::make(__('user.tabs.customer_service'))
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'customer service manager')))
+                ->badge(User::whereHas('roles', fn($q) => $q->where('slug', 'customer service manager'))
+                    ->count()),
+
+
+            'customer service' => Tab::make(__('user.tabs.employee'))
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'customer service')))
+                ->badge(User::whereHas('roles', fn($q) => $q->where('slug', 'customer service'))
                     ->count()),
 
             'marketer' => Tab::make(__('user.tabs.marketer'))
@@ -31,20 +42,16 @@ class ListUsers extends ListRecords
                 ->badge(User::whereHas('roles', fn($q) => $q->where('slug', 'marketer'))
                     ->count()),
 
-            'employee' => Tab::make(__('user.tabs.employee'))
-                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'employee')))
-                ->badge(User::whereHas('roles', fn($q) => $q->where('slug', 'employee'))
+            'agent' => Tab::make(__('user.tabs.agent'))
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'agent')))
+                ->badge(User::whereHas('roles', fn($q) => $q->where('slug', 'agent'))
                     ->count()),
 
-            'reporter' => Tab::make(__('user.tabs.reporter'))
-                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'reporter')))
-                ->badge(User::whereHas('roles', fn($q) => $q->where('slug', 'reporter'))
+            'report manager' => Tab::make(__('user.tabs.reporter'))
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'report manager')))
+                ->badge(User::whereHas('roles', fn($q) => $q->where('slug', 'report manager'))
                     ->count()),
 
-            'branch manager' => Tab::make(__('user.tabs.branch_manager'))
-                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'branch manager')))
-                ->badge(User::whereHas('roles', fn($q) => $q->where('slug', 'branch manager'))
-                    ->count()),
 
         ];
     }

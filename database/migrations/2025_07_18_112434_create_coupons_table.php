@@ -27,9 +27,10 @@ return new class extends Migration
             $table->string('coupon_link')->nullable();
 
             $table->string('car_model');
-            $table->string('car_brand')->nullable();
-            $table->string('car_category')->nullable();
+            $table->string('car_brand');
             $table->string('plate_number');
+            $table->string('plate_characters');
+            $table->string('car_category')->nullable();
 
             $table->boolean('is_confirmed')->default(false);
             $table->smallInteger('status')->nullable();

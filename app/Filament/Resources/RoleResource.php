@@ -72,11 +72,12 @@ class RoleResource extends Resource implements HasShieldPermissions
                                     ->label(__('filament-shield::filament-shield.field.slug'))
                                     ->options([
                                         'admin' => __('filament-shield::filament-shield.field.slug_options.admin'),
-                                        'agent' => __('filament-shield::filament-shield.field.slug_options.agent'),
                                         'branch manager' => __('filament-shield::filament-shield.field.slug_options.branch_manager'),
-                                        'employee' => __('filament-shield::filament-shield.field.slug_options.employee'),
+                                        'customer service manager' => 'customer service manager',
+                                        'customer service' => __('filament-shield::filament-shield.field.slug_options.employee'),
                                         'marketer' => __('filament-shield::filament-shield.field.slug_options.marketer'),
-                                        'reporter' => __('filament-shield::filament-shield.field.slug_options.reporter'),
+                                        'agent' => __('filament-shield::filament-shield.field.slug_options.agent'),
+                                        'report manager' => __('filament-shield::filament-shield.field.slug_options.reporter'),
                                     ])
                                     ->required(),
 

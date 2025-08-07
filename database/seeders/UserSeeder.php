@@ -13,57 +13,55 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        $superAdmin = User::create([
+            'name' => 'Super Admin',
+            'email' => 'admin@sungard.com',
+            'password' => Hash::make('password'),
+        ]);
+        $superAdmin->assignRole('super_admin');
 
-        // Create a Marketer
         $marketer = User::create([
             'name' => 'Marketer',
             'email' => 'marketer@sungard.com',
             'password' => Hash::make('password'),
+            'created_by' => $superAdmin->id,
         ]);
         $marketer->assignRole('marketer');
 
-        // Create Agents
-        $branches = \App\Models\Branch::all();
-        $exhibitions = \App\Models\Exhibition::all();
-        $sungardBranches = \App\Models\SungardBranches::all();
-
-        for ($i = 1; $i <= 10; $i++) { // Increased agents
-            User::create([
-                'name' => 'Agent ' . $i,
-                'email' => 'agent' . $i . '@sungard.com',
-                'password' => Hash::make('password'),
-                'created_by' => $marketer->id,
-                'branch_id' => $branches->random()->id,
-                'exhibition_id' => $exhibitions->random()->id,
-            ])->assignRole('agent');
-        }
-
-        // Create Employees
-        for ($i = 1; $i <= 5; $i++) { // Increased employees
-            User::create([
-                'name' => 'Employee ' . $i,
-                'email' => 'employee' . $i . '@sungard.com',
-                'password' => Hash::make('password'),
-                'branch_id' => $branches->random()->id,
-                'exhibition_id' => $exhibitions->random()->id,
-            ])->assignRole('customer service');
-        }
-
-        // Create Branch Managers
-        for ($i = 1; $i <= 2; $i++) {
-            User::create([
-                'name' => 'Branch Manager ' . $i,
-                'email' => 'branchmanager' . $i . '@sungard.com',
-                'password' => Hash::make('password'),
-                'sungard_branch_id' => $sungardBranches->random()->id,
-            ])->assignRole('branch manager');
-        }
-
-        // Create an Observer
-        User::create([
-            'name' => 'Observer',
-            'email' => 'observer@sungard.com',
+        $customerServiceManager = User::create([
+            'name' => 'Customer Service Manager',
+            'email' => 'customerservicemanager@sungard.com',
             'password' => Hash::make('password'),
-        ])->assignRole('observer');
+            'created_by' => $superAdmin->id,
+        ]);
+        $customerServiceManager->assignRole('customer service manager');
+
+        User::create([
+            'name' => 'Report Manager',
+            'email' => 'reportmanager@sungard.com',
+            'password' => Hash::make('password'),
+            'created_by' => $superAdmin->id,
+        ])->assignRole('report manager');
+
+        User::create([
+            'name' => 'Sungard Manager',
+            'email' => 'sungardmanager@sungard.com',
+            'password' => Hash::make('password'),
+            'created_by' => $superAdmin->id,
+        ])->assignRole('branch manager');
+
+        User::create([
+            'name' => 'Customer Service',
+            'email' => 'customerservice@sungard.com',
+            'password' => Hash::make('password'),
+            'created_by' => $customerServiceManager->id,
+        ])->assignRole('customer service');
+
+        User::create([
+            'name' => 'Agent',
+            'email' => 'agent@sungard.com',
+            'password' => Hash::make('password'),
+            'created_by' => $marketer->id,
+        ])->assignRole('agent');
     }
 }

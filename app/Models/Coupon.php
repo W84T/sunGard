@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\ImageManager;
 use Overtrue\LaravelVersionable\Versionable;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -45,7 +43,7 @@ class Coupon extends Model
 
     protected static function booted()
     {
-        static::saved(function ($coupon) {
+        static::created(function ($coupon) {
             $coupon->generateCouponImage();
         });
     }
@@ -137,5 +135,10 @@ class Coupon extends Model
     public function sungard(): BelongsTo
     {
         return $this->belongsTo(SungardBranches::class, 'sungard_branch_id');
+    }
+
+    public function getCarPlateAttribute()
+    {
+        return strtoupper($this->plate_characters) . '-' .$this->plate_number   ;
     }
 }

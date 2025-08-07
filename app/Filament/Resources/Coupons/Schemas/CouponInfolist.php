@@ -80,7 +80,7 @@ class CouponInfolist
                                                 TextEntry::make('car_category')
                                                     ->label(__('coupon.infolist.car_category'))
                                                     ->size(TextSize::Large),
-                                                TextEntry::make('plate_number')
+                                                TextEntry::make('car_plate')
                                                     ->label(__('coupon.infolist.car_plate'))
                                                     ->size(TextSize::Large),
                                             ])

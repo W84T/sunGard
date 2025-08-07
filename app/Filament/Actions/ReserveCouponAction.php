@@ -5,6 +5,7 @@ namespace App\Filament\Actions;
 use App\Models\Coupon;
 use App\Models\CouponReservation;
 use App\Models\Settings;
+use App\Status;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
@@ -53,13 +54,20 @@ class ReserveCouponAction
                     ->latest('reserved_at')
                     ->first();
 
-                if ($lastReservation && $lastReservation->reserved_at >= now()->subMinutes($cooldownMinutes)) {
-                    $nextAvailable = $lastReservation->reserved_at->addMinutes($cooldownMinutes);
-                    $waitMinutes = ceil(now()->diffInRealMinutes($nextAvailable));
+                // get the coupon that related to the customer but it's status is reserved
+
+                $coupon = Coupon::where('employee_id', $user->id)
+                    ->where('status', Status::RESERVED)
+                    ->count();
+
+//                if ($lastReservation && $lastReservation->reserved_at >= now()->subMinutes($cooldownMinutes))
+                if (!$coupon == 0) {
+//                    $nextAvailable = $lastReservation->reserved_at->addMinutes($cooldownMinutes);
+//                    $waitMinutes = ceil(now()->diffInRealMinutes($nextAvailable));
 
                     Notification::make()
                         ->title('فترة تهدئة نشطة')
-                        ->body("الرجاء الانتظار {\$waitMinutes} دقيقة (دقائق) أخرى قبل حجز قسيمة أخرى.")
+                        ->body("الرجاء معالجة الكوبون المحجوز قبل حجز كوبون جديد")
                         ->warning()
                         ->send();
 
@@ -73,22 +81,22 @@ class ReserveCouponAction
                 //     ->count();
 
                 // New logic: Count how many reservations this user made today
-                $activeCount = CouponReservation::where('employee_id', $user->id)
-                    ->whereDate('reserved_at', now()->toDateString())
-                    ->count();
-
-                if ($activeCount >= $max) {
-                    Notification::make()
-                        ->title('تم الوصول إلى الحد الأقصى')
-                        ->body('لقد وصلت إلى الحد الأقصى اليومي لحجز القسائم (' . $max . ').')
-                        ->warning()
-                        ->send();
-                    return;
-                }
+//                $activeCount = CouponReservation::where('employee_id', $user->id)
+//                    ->whereDate('reserved_at', now()->toDateString())
+//                    ->count();
+//
+//                if ($activeCount >= $max) {
+//                    Notification::make()
+//                        ->title('تم الوصول إلى الحد الأقصى')
+//                        ->body('لقد وصلت إلى الحد الأقصى اليومي لحجز القسائم (' . $max . ').')
+//                        ->warning()
+//                        ->send();
+//                    return;
+//                }
 
                 $record->update([
                     'employee_id' => $user->id,
-                    'status' => '0',
+                    'status' => Status::RESERVED,
                 ]);
 
                 CouponReservation::create([

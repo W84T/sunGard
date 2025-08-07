@@ -36,7 +36,7 @@ class CouponSeeder extends Seeder
             }
 
             Coupon::create([
-                'agent_id' => $agents->random()->id,
+                'agent_id' => $agents->first()->id,
                 'branch_id' => $branches->random()->id,
                 'exhibition_id' => $exhibitions->random()->id,
                 'employee_id' => $employeeId,
@@ -46,7 +46,8 @@ class CouponSeeder extends Seeder
                 'car_model' => $faker->word,
                 'car_brand' => $faker->word,
                 'car_category' => $faker->word,
-                'plate_number' => $faker->bothify('???-####'),
+                'plate_number' => $faker->bothify('####'),
+                'plate_characters' => $faker->bothify('???'),
                 'is_confirmed' => $faker->boolean,
                 'status' => $status,
                 'reserved_date' => $faker->dateTimeBetween('-1 month', '+1 month'),

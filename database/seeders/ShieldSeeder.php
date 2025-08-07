@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use BezhanSalleh\FilamentShield\Support\Utils;
 use Illuminate\Database\Seeder;
+use BezhanSalleh\FilamentShield\Support\Utils;
 use Spatie\Permission\PermissionRegistrar;
 
 class ShieldSeeder extends Seeder
@@ -15,8 +15,8 @@ class ShieldSeeder extends Seeder
         $rolesWithPermissions = '[
   {
     "name": "super_admin",
-    "guard_name": "web",
     "slug": "admin",
+    "guard_name": "web",
     "permissions": [
       "view_any_role",
       "create_role",
@@ -76,16 +76,10 @@ class ShieldSeeder extends Seeder
     ]
   },
   {
-    "name": "supervisor",
+    "name": "marketer",
     "guard_name": "web",
-    "slug": "admin",
+    "slug": "marketer",
     "permissions": [
-      "view_any_role",
-      "create_role",
-      "view_role",
-      "update_role",
-      "delete_role",
-      "delete_any_role",
       "view_branches::branch",
       "view_any_branches::branch",
       "create_branches::branch",
@@ -94,16 +88,6 @@ class ShieldSeeder extends Seeder
       "delete_any_branches::branch",
       "view_coupons::coupon",
       "view_any_coupons::coupon",
-      "create_coupons::coupon",
-      "update_coupons::coupon",
-      "restore_coupons::coupon",
-      "restore_any_coupons::coupon",
-      "replicate_coupons::coupon",
-      "reorder_coupons::coupon",
-      "delete_coupons::coupon",
-      "delete_any_coupons::coupon",
-      "force_delete_coupons::coupon",
-      "force_delete_any_coupons::coupon",
       "view_exhibitions::exhibition",
       "view_any_exhibitions::exhibition",
       "create_exhibitions::exhibition",
@@ -125,30 +109,6 @@ class ShieldSeeder extends Seeder
     ]
   },
   {
-    "name": "marketer",
-    "guard_name": "web",
-    "slug": "marketer",
-    "permissions": [
-      "view_coupons::coupon",
-      "view_any_coupons::coupon",
-      "restore_coupons::coupon",
-      "restore_any_coupons::coupon",
-      "delete_coupons::coupon",
-      "delete_any_coupons::coupon",
-      "force_delete_coupons::coupon",
-      "force_delete_any_coupons::coupon",
-      "view_users::user",
-      "view_any_users::user",
-      "create_users::user",
-      "update_users::user",
-      "restore_users::user",
-      "delete_users::user",
-      "delete_any_users::user",
-      "force_delete_users::user",
-      "force_delete_any_users::user"
-    ]
-  },
-  {
     "name": "agent",
     "guard_name": "web",
     "slug": "agent",
@@ -162,7 +122,7 @@ class ShieldSeeder extends Seeder
   {
     "name": "customer service",
     "guard_name": "web",
-    "slug": "employee",
+    "slug": "customer service",
     "permissions": [
       "view_coupons::coupon",
       "view_any_coupons::coupon",
@@ -173,18 +133,9 @@ class ShieldSeeder extends Seeder
     ]
   },
   {
-    "name": "observer",
+    "name": "report manager",
+    "slug": "customer service",
     "guard_name": "web",
-    "slug": "admin",
-    "permissions": [
-      "view_coupons::coupon",
-      "view_any_coupons::coupon"
-    ]
-  },
-  {
-    "name": "reporter",
-    "guard_name": "web",
-    "slug": "reporter",
     "permissions": []
   },
   {
@@ -192,106 +143,40 @@ class ShieldSeeder extends Seeder
     "guard_name": "web",
     "slug": "branch manager",
     "permissions": []
+  },
+  {
+    "name": "customer service manager",
+    "guard_name": "web",
+    "slug": "customer service manager",
+    "permissions": [
+      "view_coupons::coupon",
+      "view_any_coupons::coupon",
+      "create_coupons::coupon",
+      "update_coupons::coupon",
+      "restore_coupons::coupon",
+      "restore_any_coupons::coupon",
+      "replicate_coupons::coupon",
+      "reorder_coupons::coupon",
+      "delete_coupons::coupon",
+      "delete_any_coupons::coupon",
+      "force_delete_coupons::coupon",
+      "force_delete_any_coupons::coupon",
+      "view_users::user",
+      "view_any_users::user",
+      "create_users::user",
+      "update_users::user",
+      "restore_users::user",
+      "restore_any_users::user",
+      "replicate_users::user",
+      "reorder_users::user",
+      "delete_users::user",
+      "delete_any_users::user",
+      "force_delete_users::user",
+      "force_delete_any_users::user"
+    ]
   }
 ]';
-        $directPermissions = '{
-  "43": {
-    "name": "view_any_permission",
-    "guard_name": "web"
-  },
-  "44": {
-    "name": "view_permission",
-    "guard_name": "web"
-  },
-  "45": {
-    "name": "create_permission",
-    "guard_name": "web"
-  },
-  "46": {
-    "name": "update_permission",
-    "guard_name": "web"
-  },
-  "47": {
-    "name": "delete_permission",
-    "guard_name": "web"
-  },
-  "48": {
-    "name": "delete_any_permission",
-    "guard_name": "web"
-  },
-  "49": {
-    "name": "view_any_shield::seeder",
-    "guard_name": "web"
-  },
-  "50": {
-    "name": "view_shield::seeder",
-    "guard_name": "web"
-  },
-  "51": {
-    "name": "create_shield::seeder",
-    "guard_name": "web"
-  },
-  "52": {
-    "name": "update_shield::seeder",
-    "guard_name": "web"
-  },
-  "53": {
-    "name": "delete_shield::seeder",
-    "guard_name": "web"
-  },
-  "54": {
-    "name": "delete_any_shield::seeder",
-    "guard_name": "web"
-  },
-  "55": {
-    "name": "view_any_shield::generate",
-    "guard_name": "web"
-  },
-  "56": {
-    "name": "view_shield::generate",
-    "guard_name": "web"
-  },
-  "57": {
-    "name": "create_shield::generate",
-    "guard_name": "web"
-  },
-  "58": {
-    "name": "update_shield::generate",
-    "guard_name": "web"
-  },
-  "59": {
-    "name": "delete_shield::generate",
-    "guard_name": "web"
-  },
-  "60": {
-    "name": "delete_any_shield::generate",
-    "guard_name": "web"
-  },
-  "61": {
-    "name": "view_any_shield::scan",
-    "guard_name": "web"
-  },
-  "62": {
-    "name": "view_shield::scan",
-    "guard_name": "web"
-  },
-  "63": {
-    "name": "create_shield::scan",
-    "guard_name": "web"
-  },
-  "64": {
-    "name": "update_shield::scan",
-    "guard_name": "web"
-  },
-  "65": {
-    "name": "delete_shield::scan",
-    "guard_name": "web"
-  },
-  "66": {
-    "name": "delete_any_shield::scan",
-    "guard_name": "web"
-  }
-}';
+        $directPermissions = '{"55":{"name":"view_any_permission","guard_name":"web"},"56":{"name":"view_permission","guard_name":"web"},"57":{"name":"create_permission","guard_name":"web"},"58":{"name":"update_permission","guard_name":"web"},"59":{"name":"delete_permission","guard_name":"web"},"60":{"name":"delete_any_permission","guard_name":"web"},"61":{"name":"view_any_shield::seeder","guard_name":"web"},"62":{"name":"view_shield::seeder","guard_name":"web"},"63":{"name":"create_shield::seeder","guard_name":"web"},"64":{"name":"update_shield::seeder","guard_name":"web"},"65":{"name":"delete_shield::seeder","guard_name":"web"},"66":{"name":"delete_any_shield::seeder","guard_name":"web"},"67":{"name":"view_any_shield::generate","guard_name":"web"},"68":{"name":"view_shield::generate","guard_name":"web"},"69":{"name":"create_shield::generate","guard_name":"web"},"70":{"name":"update_shield::generate","guard_name":"web"},"71":{"name":"delete_shield::generate","guard_name":"web"},"72":{"name":"delete_any_shield::generate","guard_name":"web"},"73":{"name":"view_any_shield::scan","guard_name":"web"},"74":{"name":"view_shield::scan","guard_name":"web"},"75":{"name":"create_shield::scan","guard_name":"web"},"76":{"name":"update_shield::scan","guard_name":"web"},"77":{"name":"delete_shield::scan","guard_name":"web"},"78":{"name":"delete_any_shield::scan","guard_name":"web"}}';
 
         static::makeRolesWithPermissions($rolesWithPermissions);
         static::makeDirectPermissions($directPermissions);
@@ -301,7 +186,7 @@ class ShieldSeeder extends Seeder
 
     protected static function makeRolesWithPermissions(string $rolesWithPermissions): void
     {
-        if (!blank($rolePlusPermissions = json_decode($rolesWithPermissions, true))) {
+        if (! blank($rolePlusPermissions = json_decode($rolesWithPermissions, true))) {
             /** @var Model $roleModel */
             $roleModel = Utils::getRoleModel();
             /** @var Model $permissionModel */
@@ -311,11 +196,12 @@ class ShieldSeeder extends Seeder
                 $role = $roleModel::firstOrCreate([
                     'name' => $rolePlusPermission['name'],
                     'guard_name' => $rolePlusPermission['guard_name'],
+                    'slug' => $rolePlusPermission['slug'],
                 ]);
 
-                if (!blank($rolePlusPermission['permissions'])) {
+                if (! blank($rolePlusPermission['permissions'])) {
                     $permissionModels = collect($rolePlusPermission['permissions'])
-                        ->map(fn($permission) => $permissionModel::firstOrCreate([
+                        ->map(fn ($permission) => $permissionModel::firstOrCreate([
                             'name' => $permission,
                             'guard_name' => $rolePlusPermission['guard_name'],
                         ]))
@@ -329,13 +215,12 @@ class ShieldSeeder extends Seeder
 
     public static function makeDirectPermissions(string $directPermissions): void
     {
-        if (!blank($permissions = json_decode($directPermissions, true))) {
+        if (! blank($permissions = json_decode($directPermissions, true))) {
             /** @var Model $permissionModel */
             $permissionModel = Utils::getPermissionModel();
 
             foreach ($permissions as $permission) {
-                if ($permissionModel::whereName($permission)
-                    ->doesntExist()) {
+                if ($permissionModel::whereName($permission)->doesntExist()) {
                     $permissionModel::create([
                         'name' => $permission['name'],
                         'guard_name' => $permission['guard_name'],

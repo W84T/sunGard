@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             BranchSeeder::class,
             UserSeeder::class,
             CouponSeeder::class,
+            TicketSeeder::class,
         ]);
     }
 }

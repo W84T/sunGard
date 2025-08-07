@@ -10,7 +10,7 @@
             <a href="{{ $url }}"
                data-pswp-width="2500"
                data-pswp-height="1667"
-               target="">
+               target="_blank">
                 <img src="{{ $url }}" alt="" />
             </a>
         @endforeach

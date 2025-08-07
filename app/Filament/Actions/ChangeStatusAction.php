@@ -17,9 +17,22 @@ class ChangeStatusAction
             ->icon('heroicon-o-pencil-square')
             ->visible(function ($record) {
                 $user = auth()->user();
-                $isVisible = $record->employee_id && $user?->roles->contains('slug', 'employee');
 
-                return $isVisible;
+                $isVisibleToEmployee = $record->employee_id && $user?->roles->contains('slug', 'employee');
+
+                $status = $record->status;
+
+                if (!$status) {
+                    return false;
+                }
+
+                $isNotReserved = !$status->isReserved();
+                $isNotScheduled = !$status->isScheduled();
+
+                return $isVisibleToEmployee
+                    && $isNotReserved
+                    && $isNotScheduled
+                    && $record->is_confirmed;
             })
             ->schema(fn(Action $action): array => [
                 Select::make('status')
