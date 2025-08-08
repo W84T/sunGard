@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Coupon;
+use App\Models\Ticket;
 use App\Observers\CouponObserver;
+use App\Observers\TicketObserver;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Coupon::observe(CouponObserver::class);
+        Ticket::observe(TicketObserver::class);
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
             $switch
                 ->locales(['ar', 'en']);

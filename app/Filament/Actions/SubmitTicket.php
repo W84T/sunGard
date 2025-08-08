@@ -47,7 +47,6 @@ class SubmitTicket
                     'coupon_id' => $record->id,
                     'created_by' => Auth::id(),
                     'description' => $data['description'],
-                    'reserve_date' => $data['reserve_date'],
                     'priority' => $data['priority'],
                     'submitted_to' => $data['submitted_to'],
                     'status' => 'open', // default value

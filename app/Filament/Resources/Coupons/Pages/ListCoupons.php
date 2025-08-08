@@ -5,7 +5,6 @@ namespace App\Filament\Resources\Coupons\Pages;
 use App\Filament\Exports\CouponExporter;
 use App\Filament\Resources\Coupons\CouponResource;
 use App\Status;
-use Filament\Actions\CreateAction;
 use Filament\Actions\ExportAction;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Tabs\Tab;
@@ -22,13 +21,13 @@ class ListCoupons extends ListRecords
         return [
             'all' => Tab::make(__('coupon.tabs.all'))
                 ->icon('heroicon-o-rectangle-stack')
-                ->visible(!$user->roles->contains('slug', 'employee'))
+                ->visible(!$user->roles->contains('slug', 'customer service'))
                 ->badge(CouponResource::getEloquentQuery()
                     ->count()),
 
             'Not scheduled' => Tab::make(__('coupon.tabs.not_scheduled'))
                 ->icon('heroicon-o-rectangle-stack')
-                ->visible($user->roles->contains('slug', 'employee'))
+                ->visible($user->roles->contains('slug', 'customer service'))
                 ->modifyQueryUsing(fn(Builder $query) => $query->whereNull('status'))
                 ->badge(CouponResource::getEloquentQuery()
                     ->whereNull('status')
@@ -36,7 +35,7 @@ class ListCoupons extends ListRecords
 
             'reserved ' => Tab::make(__('coupon.tabs.reserved'))
                 ->icon('heroicon-o-clock')
-                ->visible($user->roles->contains('slug', 'employee'))
+                ->visible($user->roles->contains('slug', 'customer service'))
                 ->modifyQueryUsing(fn(Builder $query) => $query->whereIn('status', Status::getReservedCases()))
                 ->badge(CouponResource::getEloquentQuery()
                     ->whereIn('status', Status::getReservedCases())

@@ -21,7 +21,7 @@ class ReserveCouponAction
             ->schema([])
             ->visible(function ($record) {
                 $user = auth()->user();
-                $isVisible = !$record->employee_id && $user?->roles->contains('slug', 'employee');
+                $isVisible = !$record->employee_id && $user?->roles->contains('slug', 'customer service');
 
                 return $isVisible;
             })
