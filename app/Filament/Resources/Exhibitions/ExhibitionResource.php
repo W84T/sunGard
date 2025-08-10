@@ -2,8 +2,13 @@
 
 namespace App\Filament\Resources\Exhibitions;
 
+use App\Filament\Resources\Exhibitions\Pages\CreateExhibition;
+use App\Filament\Resources\Exhibitions\Pages\EditExhibition;
+use App\Filament\Resources\Exhibitions\Pages\ListExhibitions;
 use App\Filament\Resources\Exhibitions\Pages\ManageExhibitions;
 use App\Filament\Resources\Exhibitions\RelationManagers\BranchRelationManager;
+use App\Filament\Resources\Exhibitions\Schemas\ExhibitionForm;
+use App\Filament\Resources\Exhibitions\Tables\ExhibitionsTable;
 use App\Models\Exhibition;
 use BackedEnum;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
@@ -56,89 +61,21 @@ class ExhibitionResource extends Resource implements HasShieldPermissions
 
     public static function form(Schema $schema): Schema
     {
-        return $schema
-            ->components([
-                Hidden::make('created_by')
-                    ->default(fn() => auth()->id()),
-                TextInput::make('name')
-                    ->label(__('exhibition.form.name'))
-                    ->required(),
-                TextInput::make('address')
-                    ->label(__('exhibition.form.address')),
-            ]);
+        return ExhibitionForm::configure($schema);
     }
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->columns([
-                TextColumn::make('creator.name')
-                    ->label(__('exhibition.table.creator_name'))
-                    ->sortable(),
-                TextColumn::make('name')
-                    ->label(__('exhibition.table.name'))
-                    ->searchable(),
-                TextColumn::make('address')
-                    ->label(__('exhibition.table.address'))
-                    ->searchable(),
-                TextColumn::make('deleted_at')
-                    ->label(__('exhibition.table.deleted_at'))
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('created_at')
-                    ->label(__('exhibition.table.created_at'))
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->label(__('exhibition.table.updated_at'))
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                TrashedFilter::make(),
-            ])
-            ->recordActions([
-                ActionGroup::make([
-                    EditAction::make()
-                        ->color('primary'),
-                    DeleteAction::make()
-                        ->color('danger'),
-                    ForceDeleteAction::make()
-                        ->color('danger'),
-                    RestoreAction::make()
-                        ->color('success'),
-                    //                RevisionsAction::make(),
-                ])
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make()
-                        ->color('danger'),
-                    ForceDeleteBulkAction::make()
-                        ->color('danger'),
-                    RestoreBulkAction::make()
-                        ->color('success'),
-                ]),
-            ]);
+        return ExhibitionsTable::configure($table);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ManageExhibitions::route('/'),
-            //            'revisions' => Pages\ExhibitionRevisions::route('/{record}/revisions'),
+            'index' => ListExhibitions::route('/'),
+            'create' => CreateExhibition::route('/create'),
+            'edit' => EditExhibition::route('/{record}/edit'),
         ];
-    }
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
     }
 
     public static function getPermissionPrefixes(): array

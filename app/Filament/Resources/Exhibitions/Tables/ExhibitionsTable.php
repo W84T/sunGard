@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Exhibitions\Tables;
 
-use App\Filament\Resources\Exhibitions\RelationManagers\BranchesRelationManager;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -12,10 +11,10 @@ use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
-use Guava\FilamentModalRelationManagers\Actions\RelationManagerAction;
 
 class ExhibitionsTable
 {
@@ -23,6 +22,10 @@ class ExhibitionsTable
     {
         return $table
             ->columns([
+                ImageColumn::make('logo_address')
+                    ->imageHeight(40)
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->circular(),
                 TextColumn::make('creator.name')
                     ->label(__('exhibition.table.creator_name'))
                     ->sortable(),

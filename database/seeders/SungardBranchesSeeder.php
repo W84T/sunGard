@@ -12,8 +12,10 @@ class SungardBranchesSeeder extends Seeder
      */
     public function run(): void
     {
-        SungardBranches::create(['name' => 'Main Sungard Branch']);
-        SungardBranches::create(['name' => 'Downtown Sungard Branch']);
-        SungardBranches::create(['name' => 'Uptown Sungard Branch']);
+        $superAdmin = \App\Models\User::where('email', 'superadmin@sungard.com')->first();
+
+        SungardBranches::create(['name' => 'Main Sungard Branch', 'created_by' => $superAdmin->id, 'color' => '#FF0000', 'address' => '123 Main St']);
+        SungardBranches::create(['name' => 'Downtown Sungard Branch', 'created_by' => $superAdmin->id, 'color' => '#00FF00', 'address' => '456 Downtown Ave']);
+        SungardBranches::create(['name' => 'Uptown Sungard Branch', 'created_by' => $superAdmin->id, 'color' => '#0000FF', 'address' => '789 Uptown Blvd']);
     }
 }

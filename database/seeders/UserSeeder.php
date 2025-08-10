@@ -13,10 +13,17 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        $branches = \App\Models\Branch::all();
+        $exhibitions = \App\Models\Exhibition::all();
+        $sungardBranches = \App\Models\SungardBranches::all();
+
         $superAdmin = User::create([
             'name' => 'Super Admin',
             'email' => 'admin@sungard.com',
             'password' => Hash::make('password'),
+            'branch_id' => $branches->random()->id,
+            'exhibition_id' => $exhibitions->random()->id,
+            'sungard_branch_id' => $sungardBranches->random()->id,
         ]);
         $superAdmin->assignRole('super_admin');
 
@@ -25,6 +32,9 @@ class UserSeeder extends Seeder
             'email' => 'marketer@sungard.com',
             'password' => Hash::make('password'),
             'created_by' => $superAdmin->id,
+            'branch_id' => $branches->random()->id,
+            'exhibition_id' => $exhibitions->random()->id,
+            'sungard_branch_id' => $sungardBranches->random()->id,
         ]);
         $marketer->assignRole('marketer');
 
@@ -33,6 +43,9 @@ class UserSeeder extends Seeder
             'email' => 'customerservicemanager@sungard.com',
             'password' => Hash::make('password'),
             'created_by' => $superAdmin->id,
+            'branch_id' => $branches->random()->id,
+            'exhibition_id' => $exhibitions->random()->id,
+            'sungard_branch_id' => $sungardBranches->random()->id,
         ]);
         $customerServiceManager->assignRole('customer service manager');
 
@@ -41,6 +54,9 @@ class UserSeeder extends Seeder
             'email' => 'reportmanager@sungard.com',
             'password' => Hash::make('password'),
             'created_by' => $superAdmin->id,
+            'branch_id' => $branches->random()->id,
+            'exhibition_id' => $exhibitions->random()->id,
+            'sungard_branch_id' => $sungardBranches->random()->id,
         ])->assignRole('report manager');
 
         User::create([
@@ -48,6 +64,9 @@ class UserSeeder extends Seeder
             'email' => 'sungardmanager@sungard.com',
             'password' => Hash::make('password'),
             'created_by' => $superAdmin->id,
+            'branch_id' => $branches->random()->id,
+            'exhibition_id' => $exhibitions->random()->id,
+            'sungard_branch_id' => $sungardBranches->random()->id,
         ])->assignRole('branch manager');
 
         User::create([
@@ -55,6 +74,9 @@ class UserSeeder extends Seeder
             'email' => 'customerservice@sungard.com',
             'password' => Hash::make('password'),
             'created_by' => $customerServiceManager->id,
+            'branch_id' => $branches->random()->id,
+            'exhibition_id' => $exhibitions->random()->id,
+            'sungard_branch_id' => $sungardBranches->random()->id,
         ])->assignRole('customer service');
 
         User::create([
@@ -62,6 +84,9 @@ class UserSeeder extends Seeder
             'email' => 'agent@sungard.com',
             'password' => Hash::make('password'),
             'created_by' => $marketer->id,
+            'branch_id' => $branches->random()->id,
+            'exhibition_id' => $exhibitions->random()->id,
+            'sungard_branch_id' => $sungardBranches->random()->id,
         ])->assignRole('agent');
     }
 }

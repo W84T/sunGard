@@ -134,7 +134,7 @@ class ShieldSeeder extends Seeder
   },
   {
     "name": "report manager",
-    "slug": "customer service",
+    "slug": "report manager",
     "guard_name": "web",
     "permissions": []
   },

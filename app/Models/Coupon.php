@@ -20,7 +20,9 @@ class Coupon extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'status' => Status::class,
+        'status'       => Status::class,
+        'reserved_date'=> 'datetime',
+        'reached_at'   => 'datetime',
     ];
 
 
@@ -132,10 +134,12 @@ class Coupon extends Model
         return $this->belongsTo(User::class, 'employee_id');
     }
 
+    // App\Models\Coupon
     public function sungard(): BelongsTo
     {
-        return $this->belongsTo(SungardBranches::class, 'sungard_branch_id');
+        return $this->belongsTo(SungardBranches ::class, 'sungard_branch_id');
     }
+
 
     public function getCarPlateAttribute()
     {

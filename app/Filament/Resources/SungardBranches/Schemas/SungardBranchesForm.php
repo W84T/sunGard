@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\SungardBranches\Schemas;
 
+use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
@@ -16,6 +17,8 @@ class SungardBranchesForm
                     ->default(fn() => auth()->id()),
                 TextInput::make('name')
                     ->label(__('sungard_branch.form.name'))
+                    ->required(),
+                ColorPicker::make('color')
                     ->required(),
                 TextInput::make('address')
                     ->label(__('sungard_branch.form.address')),

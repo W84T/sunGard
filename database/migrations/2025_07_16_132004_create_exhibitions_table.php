@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('created_by')->constrained('users')->cascadeOnDelete();
             $table->string('name');
+            $table->string('logo_address')->nullable();
             $table->string('address')->nullable();
             $table->softDeletes();
             $table->timestamps();

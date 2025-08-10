@@ -21,6 +21,7 @@ class CouponSeeder extends Seeder
         $employees = User::whereHas('roles', fn($q) => $q->where('name', 'customer service'))->get();
         $branches = Branch::all();
         $exhibitions = Exhibition::all();
+        $sungardBranches = \App\Models\SungardBranches::all();
 
         for ($i = 0; $i < 100; $i++) {
             $employeeId = null;
@@ -39,6 +40,7 @@ class CouponSeeder extends Seeder
                 'agent_id' => $agents->first()->id,
                 'branch_id' => $branches->random()->id,
                 'exhibition_id' => $exhibitions->random()->id,
+                'sungard_branch_id' => $sungardBranches->random()->id,
                 'employee_id' => $employeeId,
                 'customer_name' => $faker->name,
                 'customer_email' => $faker->unique()->safeEmail,
