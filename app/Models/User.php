@@ -6,6 +6,7 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -67,6 +68,40 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function couponsHandled(): HasMany
+    {
+        return $this->hasMany(Coupon::class, 'employee_id');
+    }
+
+    public function couponsCreated(): HasMany
+    {
+        return $this->hasMany(Coupon::class, 'agent_id');
+    }
+
+    public function hasAnyRoleSlug(array $slugs): bool
+    {
+        return $this->roles->pluck('slug')
+            ->intersect($slugs)
+            ->isNotEmpty();
+    }
+
+    public function isCustomerService(): bool
+    {
+        return $this->hasRoleSlug('customer service');
+    }
+
+    // App\Models\User.php
+
+    public function hasRoleSlug(string $slug): bool
+    {
+        return $this->roles->contains('slug', $slug);
+    }
+
+    public function createdUsers(): HasMany
+    {
+        return $this->hasMany(User::class, 'created_by');
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -79,5 +114,4 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
 }

@@ -16,16 +16,27 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
 class CouponResource extends Resource
 {
     protected static ?string $model = Coupon::class;
-
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTicket;
-
+    protected static ?int $navigationSort = 5;
     protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::Ticket;
+
+    public static function getNavigationIcon(): string|BackedEnum|Htmlable|null
+    {
+        return Phosphor::Ticket->getIconForWeight(PhosphorWeight::Regular);
+    }
+
+    public static function getActiveNavigationIcon(): string|BackedEnum|null
+    {
+        return Phosphor::Ticket->getIconForWeight(PhosphorWeight::Duotone);
+    }
 
     public static function getModelLabel(): string
     {
@@ -133,7 +144,6 @@ class CouponResource extends Resource
             'force_delete_any',
         ];
     }
-
 
 
 }

@@ -20,20 +20,29 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
 class BranchResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = Branch::class;
+    protected static ?int $navigationSort = 3;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice2;
+    public static function getNavigationIcon(): string|BackedEnum|Htmlable|null
+    {
+        return Phosphor::Storefront->getIconForWeight(PhosphorWeight::Regular);
+    }
 
-    protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::BuildingOffice2;
+    public static function getActiveNavigationIcon(): string|BackedEnum|Htmlable|null
+    {
+        return Phosphor::Storefront->getIconForWeight(PhosphorWeight::Duotone);
+    }
 
     public static function getModelLabel(): string
     {

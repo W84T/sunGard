@@ -20,20 +20,29 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
 class ExhibitionResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = Exhibition::class;
+    protected static ?int $navigationSort = 2;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingStorefront;
+    public static function getNavigationIcon(): string|BackedEnum|Htmlable|null
+    {
+        return Phosphor::BuildingOffice->getIconForWeight(PhosphorWeight::Regular);
+    }
 
-    protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::BuildingStorefront;
+    public static function getActiveNavigationIcon(): string|BackedEnum|Htmlable|null
+    {
+        return Phosphor::BuildingOffice->getIconForWeight(PhosphorWeight::Duotone);
+    }
 
     public static function getModelLabel(): string
     {

@@ -2,26 +2,40 @@
 
 namespace App\Filament\Resources\Users;
 
+use App\Filament\Resources\SungardBranches\RelationManagers\UsersRelationManager;
 use App\Filament\Resources\Users\Pages\CreateUser;
 use App\Filament\Resources\Users\Pages\EditUser;
 use App\Filament\Resources\Users\Pages\ListUsers;
+use App\Filament\Resources\Users\RelationManagers\CouponsCreatedRelationManager;
+use App\Filament\Resources\Users\RelationManagers\CouponsHandledRelationManager;
+use App\Filament\Resources\Users\RelationManagers\CreatedUsersRelationManager;
 use App\Filament\Resources\Users\Schemas\UserForm;
 use App\Filament\Resources\Users\Tables\UsersTable;
 use App\Models\User;
 use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
+    protected static ?int $navigationSort = 6;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
+    public static function getNavigationIcon(): string|BackedEnum|null
+    {
+        return Phosphor::Users->getIconForWeight(PhosphorWeight::Regular);
+    }
 
-    protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::Users;
+    public static function getActiveNavigationIcon(): string|BackedEnum|null
+    {
+        return Phosphor::Users->getIconForWeight(PhosphorWeight::Duotone);
+    }
+
 
     public static function getEloquentQuery(): Builder
     {
@@ -58,7 +72,9 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            CouponsCreatedRelationManager::class,
+            CouponsHandledRelationManager::class,
+            CreatedUsersRelationManager::class,
         ];
     }
 

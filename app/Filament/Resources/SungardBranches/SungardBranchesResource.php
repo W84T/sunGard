@@ -13,12 +13,23 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
 class SungardBranchesResource extends Resource
 {
     protected static ?string $model = SungardBranches::class;
+    protected static ?int $navigationSort = 4;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    public static function getNavigationIcon(): string|BackedEnum|Htmlable|null
+    {
+        return Phosphor::CarSimple->getIconForWeight(PhosphorWeight::Regular);
+    }
+    public static function getActiveNavigationIcon(): string|BackedEnum|Htmlable|null
+    {
+        return Phosphor::CarSimple->getIconForWeight(PhosphorWeight::Duotone);
+    }
 
     public static function getModelLabel(): string
     {
