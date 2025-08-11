@@ -16,7 +16,8 @@ class SungardBranchesTable
     {
         return $table
             ->columns([
-                ColorColumn::make('color'),
+                ColorColumn::make('color')
+                    ->label(__('sungard_branch.table.color')),
                 TextColumn::make('name')
                     ->label(__('sungard_branch.table.name'))
                     ->searchable(),

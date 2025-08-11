@@ -25,6 +25,7 @@ class ExhibitionForm
                     TextInput::make('address')
                         ->label(__('exhibition.form.address')),
                     FileUpload::make('logo_address')
+                        ->label(__('exhibition.form.logo_address'))
                         ->required()
                         ->directory('exhibition_logos')
                         ->columnSpan('full')

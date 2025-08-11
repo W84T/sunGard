@@ -21,24 +21,24 @@ class SubmitTicket
             ->icon('heroicon-m-chat-bubble-left-ellipsis')
             ->schema([
                 RichEditor::make('description')
-                    ->label('وصف التذكرة')
+                    ->label(__('coupon.ticket.description'))
                     ->required(),
 
 
                 Select::make('priority')
-                    ->label('الأولوية')
+                    ->label(__('coupon.ticket.priority'))
                     ->options([
-                        'low' => 'منخفضة',
-                        'medium' => 'متوسطة',
-                        'high' => 'مرتفعة',
+                        'low' => __('coupon.ticket.priority_options.low'),
+                        'medium' => __('coupon.ticket.priority_options.medium'),
+                        'high' => __('coupon.ticket.priority_options.high'),
                     ])
                     ->default('low'),
 
                 Select::make('submitted_to')
-                    ->label('إرسال إلى')
+                    ->label(__('coupon.ticket.submitted_to'))
                     ->options([
-                        'admin' => 'الإدارة',
-                        'customer service manager' => 'مدير خدمة العملاء',
+                        'admin' => __('coupon.ticket.submitted_to_options.admin'),
+                        'customer service manager' => __('coupon.ticket.submitted_to_options.customer_service_manager'),
                     ])
                     ->default('customer service manager'),
             ])
@@ -52,6 +52,6 @@ class SubmitTicket
                     'status' => 'open', // default value
                 ]);
             })
-            ->successNotificationTitle('تم إرسال التذكرة بنجاح!');
+            ->successNotificationTitle(__('coupon.notification.ticket_submit_success.title'));
     }
 }

@@ -33,5 +33,6 @@ return [
         'employee' => 'Employee',
         'reporter' => 'Reporter',
         'branch_manager' => 'Branch Manager',
+        'customer_service' => 'Customer Service',
     ],
 ];

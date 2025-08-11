@@ -69,9 +69,6 @@ class CouponForm
                                             ->required()
                                             ->rule([
                                                 'regex:/^[A-Za-z]+$/'
-                                            ])
-                                            ->validationMessages([
-                                                'regex' => 'The :attribute must contain only English letters.',
                                             ]),
 
                                         TextInput::make('plate_number')

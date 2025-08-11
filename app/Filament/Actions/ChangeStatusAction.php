@@ -36,7 +36,7 @@ class ChangeStatusAction
             })
             ->schema(fn(Action $action): array => [
                 Select::make('status')
-                    ->label(__('New Status'))
+                    ->label(__('coupon.status.new_status'))
                     ->options(Status::optionsExcept([Status::RESERVED]))
                     ->default($action->getRecord()->status)
                     ->live()
@@ -57,6 +57,6 @@ class ChangeStatusAction
                     'status' => $data['status'],
                 ]);
             })
-            ->successNotificationTitle('تم تحديث الحالة بنجاح!');
+            ->successNotificationTitle(__('coupon.notification.status_update_success.title'));
     }
 }

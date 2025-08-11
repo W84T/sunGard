@@ -73,7 +73,7 @@ class RoleResource extends Resource implements HasShieldPermissions
                                     ->options([
                                         'admin' => __('filament-shield::filament-shield.field.slug_options.admin'),
                                         'branch manager' => __('filament-shield::filament-shield.field.slug_options.branch_manager'),
-                                        'customer service manager' => 'customer service manager',
+                                        'customer service manager' => __('filament-shield::filament-shield.field.slug_options.customer_service_manager'),
                                         'customer service' => __('filament-shield::filament-shield.field.slug_options.employee'),
                                         'marketer' => __('filament-shield::filament-shield.field.slug_options.marketer'),
                                         'agent' => __('filament-shield::filament-shield.field.slug_options.agent'),
@@ -119,9 +119,9 @@ class RoleResource extends Resource implements HasShieldPermissions
                     ->color('warning')
                     ->label(__('filament-shield::filament-shield.column.guard_name')),
                 TextColumn::make('team.name')
-                    ->default('Global')
+                    ->default(__('filament-shield::filament-shield.column.team_name.global'))
                     ->badge()
-                    ->color(fn(mixed $state): string => str($state)->contains('Global') ? 'gray' : 'primary')
+                    ->color(fn(mixed $state): string => str($state)->contains(__('filament-shield::filament-shield.column.team_name.global')) ? 'gray' : 'primary')
                     ->label(__('filament-shield::filament-shield.column.team'))
                     ->searchable()
                     ->visible(fn(): bool => static::shield()

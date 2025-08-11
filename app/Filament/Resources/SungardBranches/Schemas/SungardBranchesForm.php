@@ -19,6 +19,7 @@ class SungardBranchesForm
                     ->label(__('sungard_branch.form.name'))
                     ->required(),
                 ColorPicker::make('color')
+                    ->label(__('sungard_branch.form.color'))
                     ->required(),
                 TextInput::make('address')
                     ->label(__('sungard_branch.form.address')),

@@ -177,8 +177,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'plate_characters' => [
+            'regex' => 'The :attribute must contain only English letters.',
         ],
     ],
 

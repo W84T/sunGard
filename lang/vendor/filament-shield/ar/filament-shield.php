@@ -33,6 +33,8 @@ return [
     'field.slug_options.employee' => 'موظف',
     'field.slug_options.marketer' => 'مسوق',
     'field.slug_options.reporter' => 'مراسل',
+    'field.slug_options.customer_service_manager' => 'مدير خدمة العملاء',
+    'column.team_name.global' => 'عالمي',
     /*
     |--------------------------------------------------------------------------
     | Navigation & Resource

@@ -177,8 +177,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'plate_characters' => [
+            'regex' => 'يجب أن يحتوي حقل :attribute على أحرف إنجليزية فقط.',
         ],
     ],
 

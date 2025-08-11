@@ -31,7 +31,8 @@ return [
         'agent' => 'موردين',
         'marketer' => 'مسوقين',
         'employee' => 'موظفين',
-        'reporter' => '',
+        'reporter' => 'مراسل',
         'branch_manager' => 'مدير فرع',
+        'customer_service' => 'خدمة العملاء',
     ],
 ];

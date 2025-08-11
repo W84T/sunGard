@@ -35,6 +35,8 @@ return [
     'field.slug_options.employee' => 'Employee',
     'field.slug_options.marketer' => 'Marketer',
     'field.slug_options.reporter' => 'Reporter',
+    'field.slug_options.customer_service_manager' => 'Customer Service Manager',
+    'column.team_name.global' => 'Global',
 
     /*
     |--------------------------------------------------------------------------

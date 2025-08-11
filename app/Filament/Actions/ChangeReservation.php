@@ -42,13 +42,13 @@ class ChangeReservation
                     ->get();
                 foreach ($usersToNotify as $user) {
                     Notification::make()
-                        ->title('New Reservation')
-                        ->body("A reservation has been scheduled by employee: {$record->employee?->name}")
+                        ->title(__('coupon.notification.new_reservation.title'))
+                        ->body(__('coupon.notification.new_reservation.body', ['employee_name' => $record->employee?->name]))
                         ->success()
                         ->sendToDatabase($user);
                 }
 
             })
-            ->successNotificationTitle('تم الحجز بنجاح!');
+            ->successNotificationTitle(__('coupon.notification.reservation_success.title'));
     }
 }

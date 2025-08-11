@@ -15,7 +15,7 @@ class ReserveCouponAction
     public static function make(): Action
     {
         return Action::make('reserve')
-            ->label(__('Reserve Coupon'))
+            ->label(__('coupon.actions.reserve_coupon'))
             ->icon('heroicon-o-bookmark')
             ->requiresConfirmation()
             ->schema([])
@@ -30,8 +30,8 @@ class ReserveCouponAction
 
                 if (!$user) {
                     Notification::make()
-                        ->title('خطأ في المصادقة')
-                        ->body('يجب عليك تسجيل الدخول لحجز قسيمة.')
+                        ->title(__('coupon.notification.auth_error.title'))
+                        ->body(__('coupon.notification.auth_error.body'))
                         ->danger()
                         ->send();
                     return;
@@ -39,8 +39,8 @@ class ReserveCouponAction
 
                 if (!$record instanceof Coupon) {
                     Notification::make()
-                        ->title('قسيمة غير صالحة')
-                        ->body('هذا السجل ليس قسيمة صالحة.')
+                        ->title(__('coupon.notification.invalid_coupon.title'))
+                        ->body(__('coupon.notification.invalid_coupon.body'))
                         ->danger()
                         ->send();
                     return;
@@ -66,8 +66,8 @@ class ReserveCouponAction
 //                    $waitMinutes = ceil(now()->diffInRealMinutes($nextAvailable));
 
                     Notification::make()
-                        ->title('فترة تهدئة نشطة')
-                        ->body("الرجاء معالجة الكوبون المحجوز قبل حجز كوبون جديد")
+                        ->title(__('coupon.notification.cooldown_period.title'))
+                        ->body(__('coupon.notification.cooldown_period.body'))
                         ->warning()
                         ->send();
 
@@ -106,8 +106,8 @@ class ReserveCouponAction
                 ]);
 
                 Notification::make()
-                    ->title('نجاح')
-                    ->body('تم حجز القسيمة بنجاح!')
+                    ->title(__('coupon.notification.reservation_success.title'))
+                    ->body(__('coupon.notification.reservation_success.body'))
                     ->success()
                     ->send();
             });

@@ -23,6 +23,7 @@ class ExhibitionsTable
         return $table
             ->columns([
                 ImageColumn::make('logo_address')
+                    ->label(__('exhibition.table.logo_address'))
                     ->imageHeight(40)
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->circular(),

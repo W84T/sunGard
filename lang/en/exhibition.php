@@ -6,6 +6,7 @@ return [
     'form' => [
         'name' => 'Exhibition Name',
         'address' => 'Address',
+        'logo_address' => 'Logo',
     ],
     'table' => [
         'creator_name' => 'Creator Name',
@@ -14,5 +15,6 @@ return [
         'deleted_at' => 'Deleted At',
         'created_at' => 'Created At',
         'updated_at' => 'Updated At',
+        'logo_address' => 'Logo',
     ],
 ];
