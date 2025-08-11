@@ -75,7 +75,7 @@ class UserForm
                                             return false;
                                         }
                                         $roles = Role::whereIn('id', $get('roles'))
-                                            ->pluck('name')
+                                            ->pluck('slug')
                                             ->toArray();
                                         return in_array('agent', $roles);
                                     }),
@@ -89,7 +89,7 @@ class UserForm
                                     ->live()
                                     ->required(function (Get $get) {
                                         $roles = Role::whereIn('id', $get('roles') ?? [])
-                                            ->pluck('name')
+                                            ->pluck('slug')
                                             ->toArray();
                                         return in_array('agent', $roles);
                                     })
@@ -98,7 +98,7 @@ class UserForm
                                             return false;
                                         }
                                         $roles = Role::whereIn('id', $get('roles'))
-                                            ->pluck('name')
+                                            ->pluck('slug')
                                             ->toArray();
                                         return in_array('agent', $roles);
                                     }),
@@ -112,24 +112,24 @@ class UserForm
                                     ->columnSpan('full')
                                     ->required(function (Get $get) {
                                         $roles = Role::whereIn('id', $get('roles') ?? [])
-                                            ->pluck('name')
+                                            ->pluck('slug')
                                             ->toArray();
                                         return in_array('agent', $roles);
                                     })
                                     ->required(function (Get $get) {
                                         $roles = Role::whereIn('id', $get('roles') ?? [])
-                                            ->pluck('name')
+                                            ->pluck('slug')
                                             ->toArray();
-                                        return in_array('branch manager', $roles);
+                                        return in_array('branch-manager', $roles);
                                     })
                                     ->visible(function (Get $get) {
                                         if (empty($get('roles'))) {
                                             return false;
                                         }
                                         $roles = Role::whereIn('id', $get('roles'))
-                                            ->pluck('name')
+                                            ->pluck('slug')
                                             ->toArray();
-                                        return in_array('branch manager', $roles);
+                                        return in_array('branch-manager', $roles);
                                     }),
                             ]),
                     ]),

@@ -181,14 +181,14 @@ class CouponsTable
                         if (!empty($data['exhibition_id'])) {
                             $exhibition = Exhibition::find($data['exhibition_id']);
                             if ($exhibition) {
-                                $indicators[] = __('form.exhibition') . ': ' . $exhibition->name;
+                                $indicators[] = __('form.exhibition') . __('form.indicator_separator') . $exhibition->name;
                             }
                         }
 
                         if (!empty($data['branch_id'])) {
                             $sector = Branch::find($data['branch_id']);
                             if ($sector) {
-                                $indicators[] = __('form.sector') . ': ' . $sector->name;
+                                $indicators[] = __('form.sector') . __('form.indicator_separator') . $sector->name;
                             }
                         }
                         return $indicators;

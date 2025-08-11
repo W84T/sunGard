@@ -87,8 +87,8 @@ class ReserveCouponAction
 //
 //                if ($activeCount >= $max) {
 //                    Notification::make()
-//                        ->title('تم الوصول إلى الحد الأقصى')
-//                        ->body('لقد وصلت إلى الحد الأقصى اليومي لحجز القسائم (' . $max . ').')
+//                        ->title(__('coupon.notification.max_coupons_reached.title'))
+//                        ->body(__('coupon.notification.max_coupons_reached.body', ['max' => $max]))
 //                        ->warning()
 //                        ->send();
 //                    return;
