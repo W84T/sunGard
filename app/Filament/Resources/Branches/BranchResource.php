@@ -2,26 +2,17 @@
 
 namespace App\Filament\Resources\Branches;
 
-use App\Filament\Resources\Branches\Pages\ManageBranches;
+use App\Filament\Resources\Branches\Pages\CreateBranch;
+use App\Filament\Resources\Branches\Pages\EditBranch;
+use App\Filament\Resources\Branches\Pages\ListBranches;
+use App\Filament\Resources\Branches\RelationManagers\CouponRelationManager;
+use App\Filament\Resources\Branches\Schemas\BranchForm;
+use App\Filament\Resources\Branches\Tables\BranchesTable;
 use App\Models\Branch;
 use BackedEnum;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ForceDeleteAction;
-use Filament\Actions\ForceDeleteBulkAction;
-use Filament\Actions\RestoreAction;
-use Filament\Actions\RestoreBulkAction;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\TrashedFilter;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
@@ -29,9 +20,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
-class BranchResource extends Resource implements HasShieldPermissions
+class BranchResource extends Resource
 {
     protected static ?string $model = Branch::class;
+
     protected static ?int $navigationSort = 3;
 
     public static function getNavigationIcon(): string|BackedEnum|Htmlable|null
@@ -56,106 +48,35 @@ class BranchResource extends Resource implements HasShieldPermissions
 
     public static function form(Schema $schema): Schema
     {
-        return $schema
-            ->components([
-                Hidden::make('created_by')
-                    ->default(fn() => auth()->id()),
-                Select::make('exhibition_id')
-                    ->label(__('branch.form.exhibition_name'))
-                    ->relationship('exhibition', 'name')
-                    ->required(),
-                TextInput::make('name')
-                    ->label(__('branch.form.name'))
-                    ->required(),
-                Textarea::make('address')
-                    ->columnSpan('full')
-                    ->label(__('branch.form.address')),
-            ]);
+        return BranchForm::configure($schema);
     }
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->columns([
-                TextColumn::make('creator.name')
-                    ->label(__('branch.table.creator_name'))
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('exhibition.name')
-                    ->label(__('branch.table.exhibition_name')),
-                TextColumn::make('name')
-                    ->label(__('branch.table.name'))
-                    ->searchable(),
-                TextColumn::make('address')
-                    ->label(__('branch.table.address'))
-                    ->searchable(),
-                TextColumn::make('deleted_at')
-                    ->label(__('branch.table.deleted_at'))
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('created_at')
-                    ->label(__('branch.table.created_at'))
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->label(__('branch.table.updated_at'))
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                TrashedFilter::make(),
-            ])
-            ->recordActions([
-                EditAction::make()
-                    ->color('primary'),
-                DeleteAction::make()
-                    ->color('danger'),
-                ForceDeleteAction::make()
-                    ->color('danger'),
-                RestoreAction::make()
-                    ->color('success'),
-                //                RevisionsAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make()
-                        ->color('danger'),
-                    ForceDeleteBulkAction::make()
-                        ->color('danger'),
-                    RestoreBulkAction::make()
-                        ->color('success'),
-                ]),
-            ]);
+        return BranchesTable::configure($table);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            CouponRelationManager::class,
+        ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ManageBranches::route('/'),
-            //            'revisions' => Pages\BranchRevisions::route('/{record}/revisions'),
+            'index' => ListBranches::route('/'),
+            'create' => CreateBranch::route('/create'),
+            'edit' => EditBranch::route('/{record}/edit'),
         ];
     }
 
-    public static function getEloquentQuery(): Builder
+    public static function getRecordRouteBindingEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()
+        return parent::getRecordRouteBindingEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
-    }
-
-    public static function getPermissionPrefixes(): array
-    {
-        return [
-            'view',
-            'view_any',
-            'create',
-            'update',
-            'delete',
-            'delete_any',
-        ];
     }
 }

@@ -5,32 +5,17 @@ namespace App\Filament\Resources\Exhibitions;
 use App\Filament\Resources\Exhibitions\Pages\CreateExhibition;
 use App\Filament\Resources\Exhibitions\Pages\EditExhibition;
 use App\Filament\Resources\Exhibitions\Pages\ListExhibitions;
-use App\Filament\Resources\Exhibitions\Pages\ManageExhibitions;
+use App\Filament\Resources\Exhibitions\RelationManagers\BranchesRelationManager;
 use App\Filament\Resources\Exhibitions\RelationManagers\BranchRelationManager;
 use App\Filament\Resources\Exhibitions\Schemas\ExhibitionForm;
 use App\Filament\Resources\Exhibitions\Tables\ExhibitionsTable;
 use App\Models\Exhibition;
 use BackedEnum;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use Filament\Actions\ActionGroup;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ForceDeleteAction;
-use Filament\Actions\ForceDeleteBulkAction;
-use Filament\Actions\RestoreAction;
-use Filament\Actions\RestoreBulkAction;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
@@ -67,6 +52,13 @@ class ExhibitionResource extends Resource implements HasShieldPermissions
     public static function table(Table $table): Table
     {
         return ExhibitionsTable::configure($table);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            BranchesRelationManager::class
+        ];
     }
 
     public static function getPages(): array

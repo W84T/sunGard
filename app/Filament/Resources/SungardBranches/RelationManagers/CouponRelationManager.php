@@ -2,16 +2,16 @@
 
 namespace App\Filament\Resources\SungardBranches\RelationManagers;
 
-use App\Filament\Resources\Users\UserResource;
+use App\Filament\Resources\Coupons\CouponResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Table;
 
-class UsersRelationManager extends RelationManager
+class CouponRelationManager extends RelationManager
 {
-    protected static string $relationship = 'users';
+    protected static string $relationship = 'coupon';
 
-    protected static ?string $relatedResource = UserResource::class;
+    protected static ?string $relatedResource = CouponResource::class;
 
     public function table(Table $table): Table
     {

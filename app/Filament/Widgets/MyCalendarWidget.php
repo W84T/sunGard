@@ -3,37 +3,39 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Coupon;
+use Closure;
 use Guava\Calendar\ValueObjects\CalendarEvent;
 use Guava\Calendar\Widgets\CalendarWidget;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 
-
 class MyCalendarWidget extends CalendarWidget
 {
-    protected string|\Closure|null|HtmlString $heading = 'Coupons Calendar';
+    protected string|Closure|null|HtmlString $heading = 'Coupons Calendar';
 
     // 1) enable event-clicks + make default click open Edit modal
     protected bool $eventClickEnabled = true;
     protected ?string $defaultEventClickAction = 'edit';
 
-    public function getEvents(array $fetchInfo = []): \Illuminate\Support\Collection|array
+    public function getEvents(array $fetchInfo = []): Collection|array
     {
         $user = auth()->user();
 
-        $coupons = \App\Models\Coupon::query()
+        $coupons = Coupon::query()
             ->with('sungard:id,name,color')
             ->whereNotNull('reserved_date')
-            ->when(! $user->roles()->where('slug', 'admin')->exists(), function ($query) use ($user) {
-                $query->where(function ($q) use ($user) {
-                    $q->where('agent_id', $user->id)
-                        ->orWhere('employee_id', $user->id);
+            ->when(
+                !$user->hasAnyRoleSlug(['admin', 'customer service']),
+                function ($query) use ($user) {
+                    $query->where(function ($q) use ($user) {
+                        $q->where('agent_id', $user->id);
 
-                    if ($user->roles()->where('slug', 'branch manager')->exists() && $user->sungard_branch_id) {
-                        $q->orWhere('sungard_branch_id', $user->sungard_branch_id);
-                    }
-                });
-            })
+                        if ($user->hasRoleSlug('branch manager') && $user->sungard_branch_id) {
+                            $q->orWhere('sungard_branch_id', $user->sungard_branch_id);
+                        }
+                    });
+                }
+            )
             ->get();
 
         return $coupons->map(function ($coupon) {
@@ -64,6 +66,7 @@ class MyCalendarWidget extends CalendarWidget
                  x-bind:title="event.extendedProps?.tooltip || event.title">
                 <span class="truncate" x-text="event.title"></span>
             </div>
-        HTML);
+        HTML
+        );
     }
 }

@@ -5,9 +5,12 @@ namespace App\Filament\Resources\SungardBranches;
 use App\Filament\Resources\SungardBranches\Pages\CreateSungardBranches;
 use App\Filament\Resources\SungardBranches\Pages\EditSungardBranches;
 use App\Filament\Resources\SungardBranches\Pages\ListSungardBranches;
+use App\Filament\Resources\SungardBranches\RelationManagers\CouponRelationManager;
+use App\Filament\Resources\SungardBranches\RelationManagers\UsersRelationManager;
 use App\Filament\Resources\SungardBranches\Schemas\SungardBranchesForm;
 use App\Filament\Resources\SungardBranches\Tables\SungardBranchesTable;
 use App\Models\SungardBranches;
+use App\Models\User;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -54,7 +57,8 @@ class SungardBranchesResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\UsersRelationManager::class,
+            CouponRelationManager::class,
+            UsersRelationManager::class,
         ];
     }
 
