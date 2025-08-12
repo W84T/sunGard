@@ -7,6 +7,7 @@ use ArPHP\I18N\Arabic;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Overtrue\LaravelVersionable\Versionable;
 use Spatie\Permission\Traits\HasRoles;
@@ -45,9 +46,9 @@ class Coupon extends Model
 
     protected static function booted()
     {
-        static::created(function ($coupon) {
-            $coupon->generateCouponImage();
-        });
+//        static::created(function ($coupon) {
+//            $coupon->generateCouponImage();
+//        });
     }
 
 
@@ -145,4 +146,10 @@ class Coupon extends Model
     {
         return strtoupper($this->plate_characters) . '-' .$this->plate_number   ;
     }
+
+    public function tickets(): hasMany
+    {
+        return $this->hasMany(Ticket::class, 'coupon_id');
+    }
+
 }

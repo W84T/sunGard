@@ -18,8 +18,7 @@ class ChangeStatusAction
             ->visible(function ($record) {
                 $user = auth()->user();
 
-                $isVisibleToEmployee = $record->employee_id && $user?->roles->contains('slug', 'customer service');
-
+               $isVisibleToEmployee = $user->hasRoleSlug('customer service');
                 $status = $record->status;
 
                 if (!$status) {

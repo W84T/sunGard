@@ -19,6 +19,10 @@ class SubmitTicket
         return Action::make('submit_ticket')
             ->label(__('coupon.actions.submit'))
             ->icon('heroicon-m-chat-bubble-left-ellipsis')
+            ->visible(function () {
+                $user = auth()->user();
+                return $user->hasAnyRoleSlug(['customer service', 'agent']);
+            })
             ->schema([
                 RichEditor::make('description')
                     ->label(__('coupon.ticket.description'))

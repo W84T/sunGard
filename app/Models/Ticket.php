@@ -18,4 +18,10 @@ class Ticket extends Model
     {
         return $this->belongsTo(User::class, 'employee_id');
     }
+
+    public function coupon(): BelongsTo
+    {
+        return $this->belongsTo(Coupon::class, 'coupon_id');
+    }
+
 }

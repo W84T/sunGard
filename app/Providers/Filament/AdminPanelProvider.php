@@ -15,6 +15,7 @@ use Filament\Navigation\NavigationItem;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -45,7 +46,10 @@ class AdminPanelProvider extends PanelProvider
                     900 => '140, 46, 6',      // Very dark orange
                     950 => '102, 30, 4',      // Almost brown
                 ],
+                // Pick your neutral. Stone = warmer, Zinc = cooler, Neutral = in-between
+                'gray'    => Color::Neutral,
             ])
+
             ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()
             ->brandName('Sun Gard')

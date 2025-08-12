@@ -30,9 +30,9 @@ return [
         'admin' => 'مسؤولين',
         'agent' => 'موردين',
         'marketer' => 'مسوقين',
-        'employee' => 'موظفين',
-        'reporter' => 'مراسل',
-        'branch_manager' => 'مدير فرع',
-        'customer_service' => 'خدمة العملاء',
+        'employee' => 'موظفو خدمة العملاء',
+        'reporter' => 'مسؤول التقارير',
+        'branch_manager' => 'مدراء افرع سنغارد',
+        'customer_service' => 'مسؤول خدمة العملاء',
     ],
 ];

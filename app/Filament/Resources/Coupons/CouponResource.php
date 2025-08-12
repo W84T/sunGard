@@ -6,6 +6,7 @@ use App\Filament\Resources\Coupons\Pages\CreateCoupon;
 use App\Filament\Resources\Coupons\Pages\EditCoupon;
 use App\Filament\Resources\Coupons\Pages\ListCoupons;
 use App\Filament\Resources\Coupons\Pages\ViewCoupon;
+use App\Filament\Resources\Coupons\RelationManagers\CouponResourceRelationManager;
 use App\Filament\Resources\Coupons\Schemas\CouponForm;
 use App\Filament\Resources\Coupons\Schemas\CouponInfolist;
 use App\Filament\Resources\Coupons\Tables\CouponsTable;
@@ -66,7 +67,6 @@ class CouponResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
         ];
     }
 

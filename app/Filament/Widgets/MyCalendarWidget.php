@@ -41,11 +41,11 @@ class MyCalendarWidget extends CalendarWidget
         return $coupons->map(function ($coupon) {
             $bg = $coupon->sungard?->color ?: '#9CA3AF';
 
-            return CalendarEvent::make($coupon)          // 2) pass the Eloquent model so key/model are set
+            return CalendarEvent::make($coupon)
             ->title($coupon->customer_name)
                 ->start($coupon->reserved_date)
                 ->end($coupon->reserved_date)
-                ->backgroundColor($bg)                   // branch color
+                ->backgroundColor($bg)
                 ->extendedProps([
                     'tooltip' => implode("\n", array_filter([
                         "Customer: {$coupon->customer_name}",
@@ -54,7 +54,7 @@ class MyCalendarWidget extends CalendarWidget
                         optional($coupon->sungard)->name ? "Branch: {$coupon->sungard->name}" : null,
                     ])),
                 ])
-                ->action('edit');                        // optional (redundant if defaultEventClickAction set)
+                ->action('view');                        // optional (redundant if defaultEventClickAction set)
         });
     }
 
