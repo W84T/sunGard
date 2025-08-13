@@ -22,6 +22,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Mansoor\FilamentVersionable\Table\RevisionsAction;
 
 class CouponsTable
 {
@@ -85,7 +86,7 @@ class CouponsTable
                         ->searchable()
                         ->toggleable(isToggledHiddenByDefault: true),
 
-                    !$user->roles->contains('slug', 'employee') ? TextColumn::make('plate_number')
+                        !$user->roles->contains('slug', 'employee') ? TextColumn::make('plate_number')
                         ->label(__('coupon.table.plate_number'))
                         ->searchable()
                         ->toggleable(isToggledHiddenByDefault: true) : null,
@@ -196,6 +197,7 @@ class CouponsTable
             ], layout: FiltersLayout::Dropdown)
             ->recordActions([
                 SubmitTicket::make(),
+                RevisionsAction::make(),
                 ReserveCouponAction::make()
                     ->label(__('coupon.actions.reserve_coupon'))
                     ->color('success'),

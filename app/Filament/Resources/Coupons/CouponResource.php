@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Coupons;
 
+use App\Filament\Resources\Coupons\Pages\CouponRevisions;
 use App\Filament\Resources\Coupons\Pages\CreateCoupon;
 use App\Filament\Resources\Coupons\Pages\EditCoupon;
 use App\Filament\Resources\Coupons\Pages\ListCoupons;
@@ -77,6 +78,7 @@ class CouponResource extends Resource
             'create' => CreateCoupon::route('/create'),
             'view' => ViewCoupon::route('/{record}'),
             'edit' => EditCoupon::route('/{record}/edit'),
+            'revisions' => CouponRevisions::route('/{record}/revisions'),
         ];
     }
 

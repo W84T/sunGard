@@ -114,11 +114,13 @@ class CouponForm
                                     ->relationship(
                                         name: 'employee',
                                         titleAttribute: 'name',
-                                        modifyQueryUsing: fn(Builder $query) => $query->whereHas('roles', fn(Builder $query) => $query->where('slug', 'employee'))
+                                        modifyQueryUsing: fn(Builder $query) => $query->whereHas('roles', fn(Builder
+                                                                                                             $query)
+                                        => $query->where('slug', 'customer service'))
                                     )
                                     ->searchable()
                                     ->preload()
-                                    ->visible($user->roles->contains('slug', 'admin') || $user->roles->contains('slug', 'employee'))
+                                    ->visible($user->roles->contains('slug', 'admin') || $user->roles->contains('slug', 'customer service'))
                                     ->label(__('coupon.form.customer_service')),
 
                                 Select::make('exhibition_id')

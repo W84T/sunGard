@@ -7,6 +7,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
 use Filament\Resources\Pages\EditRecord;
+use Mansoor\FilamentVersionable\Page\RevisionsAction;
 
 class EditCoupon extends EditRecord
 {
@@ -21,6 +22,7 @@ class EditCoupon extends EditRecord
                 ->color('danger'),
             RestoreAction::make()
                 ->color('success'),
+            RevisionsAction::make(),
         ];
     }
 }

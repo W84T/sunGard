@@ -97,7 +97,7 @@ class User extends Authenticatable
         return $this->roles->contains('slug', $slug);
     }
 
-    public function createdUsers(): HasMany
+public function createdUsers(): HasMany
     {
         return $this->hasMany(User::class, 'created_by');
     }

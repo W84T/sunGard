@@ -9,7 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 use Overtrue\LaravelVersionable\Versionable;
+use Overtrue\LaravelVersionable\VersionStrategy;
 use Spatie\Permission\Traits\HasRoles;
 
 class Coupon extends Model
@@ -19,11 +22,29 @@ class Coupon extends Model
     use Versionable;
 
     protected $guarded = [];
+    protected $versionable = [
+        'agent_id',
+        'branch_id',
+        'exhibition_id',
+        'employee_id',
+        'sungard_branch_id',
+        'customer_name',
+        'customer_email',
+        'customer_phone',
+        'car_model',
+        'car_brand',
+        'plate_number',
+        'plate_characters',
+        'car_category',
+        'is_confirmed',
+        'reserved_date'
+    ];
+    protected $versionStrategy = VersionStrategy::SNAPSHOT;
 
     protected $casts = [
-        'status'       => Status::class,
-        'reserved_date'=> 'datetime',
-        'reached_at'   => 'datetime',
+        'status' => Status::class,
+        'reserved_date' => 'datetime',
+        'reached_at' => 'datetime',
     ];
 
 
@@ -79,7 +100,7 @@ class Coupon extends Model
             ];
         };
 
-        $manager = new \Intervention\Image\ImageManager(new \Intervention\Image\Drivers\Gd\Driver());
+        $manager = new ImageManager(new Driver());
         $img = $manager->read($templatePath);
 
         $fields = [
@@ -114,7 +135,6 @@ class Coupon extends Model
     }
 
 
-
     public function branchRelation(): BelongsTo
     {
         return $this->belongsTo(Branch::class, 'branch_id');
@@ -144,7 +164,7 @@ class Coupon extends Model
 
     public function getCarPlateAttribute()
     {
-        return strtoupper($this->plate_characters) . '-' .$this->plate_number   ;
+        return strtoupper($this->plate_characters) . '-' . $this->plate_number;
     }
 
     public function tickets(): hasMany
