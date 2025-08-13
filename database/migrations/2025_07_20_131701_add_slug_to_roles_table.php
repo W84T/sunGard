@@ -4,23 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
         Schema::table('roles', function (Blueprint $table) {
-            $table->enum('slug', [
-                'admin',
-                'branch manager',
-                'customer service manager',
-                'customer service',
-                'marketer',
-                'agent',
-                'report manager',
-            ])->default('admin')->after('name');
+            $table->string('slug')
+                ->after('name')
+                ->unique();
         });
     }
 

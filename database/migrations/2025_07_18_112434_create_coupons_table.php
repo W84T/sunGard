@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,33 +13,72 @@ return new class extends Migration
         Schema::create('coupons', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('agent_id')->constrained('users')->cascadeOnDelete(); // the agent who made that record
-            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
-            $table->foreignId('exhibition_id')->nullable()->constrained('exhibitions')->nullOnDelete();
-            $table->foreignId('employee_id')->nullable()->constrained('users')->nullOnDelete();  // the customer service employee that handled that record
-            $table->foreignId('sungard_branch_id')->nullable()->constrained('sungard_branches')->nullOnDelete();
+            $table->foreignId('agent_id')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
+
+            $table->foreignId('branch_id')
+                ->nullable()
+                ->constrained('branches')
+                ->nullOnDelete();
+
+            $table->foreignId('exhibition_id')
+                ->nullable()
+                ->constrained('exhibitions')
+                ->nullOnDelete();
+
+            $table->foreignId('employee_id')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
+
+            $table->foreignId('sungard_branch_id')
+                ->nullable()
+                ->constrained('sungard_branches')
+                ->nullOnDelete();
 
             $table->string('customer_name');
-            $table->string('customer_email')->nullable()->unique();
-            $table->string('customer_phone')->unique();
+            $table->string('customer_email')
+                ->nullable()
+                ->unique();
+            $table->string('customer_phone')
+                ->unique();
 
-            $table->string('coupon_link')->nullable();
+            $table->string('coupon_link')
+                ->nullable();
 
-            $table->string('car_model');
-            $table->string('car_brand');
+            $table->string('car_model')
+                ->index();
+            $table->string('car_brand')
+                ->index();
             $table->string('plate_number');
             $table->string('plate_characters');
-            $table->string('car_category')->nullable();
+            $table->string('car_category')
+                ->nullable()
+                ->index();
 
-            $table->boolean('is_confirmed')->default(false);
-            $table->smallInteger('status')->nullable();
+            $table->boolean('is_confirmed')
+                ->default(false)
+                ->index();
+            $table->smallInteger('status')
+                ->nullable()
+                ->index();
 
-            $table->datetime('reserved_date')->nullable();
-            $table->datetime('reached_at')->nullable();
+            // Composite index for your common queries like WHERE status + is_confirmed
+            $table->index(['status', 'is_confirmed']);
 
-            $table->softDeletes();
-            $table->timestamps();
+            $table->dateTimeTz('reserved_date')
+                ->nullable()
+                ->index();
+            $table->dateTimeTz('reached_at')
+                ->nullable();
+
+            $table->softDeletes()
+                ->index(); // for faster soft delete queries
+            $table->timestampsTz();
         });
+
     }
 
     /**
