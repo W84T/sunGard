@@ -197,7 +197,6 @@ class CouponsTable
             ], layout: FiltersLayout::Dropdown)
             ->recordActions([
                 SubmitTicket::make(),
-                RevisionsAction::make(),
                 ReserveCouponAction::make()
                     ->label(__('coupon.actions.reserve_coupon'))
                     ->color('success'),

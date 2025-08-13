@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Coupons\Pages;
 
 use App\Filament\Exports\CouponExporter;
 use App\Filament\Resources\Coupons\CouponResource;
+use App\Models\Coupon;
 use App\Status;
 use Filament\Actions\ExportAction;
 use Filament\Resources\Pages\ListRecords;
@@ -18,58 +19,68 @@ class ListCoupons extends ListRecords
     {
         $user = auth()->user();
 
-        return [
-            'all' => Tab::make(__('coupon.tabs.all'))
+        $reserved   = (int) Status::RESERVED->value;
+        $scheduled  = implode(',', array_map('intval', Status::getScheduledCases()));
+        $notBooked  = implode(',', array_map('intval', Status::getNotBookedCases()));
+        $booked     = implode(',', array_map('intval', Status::getBookedCases()));
+
+        $counts = Coupon::query()
+            ->selectRaw('COUNT(*) AS allCount')
+            ->selectRaw('COUNT(CASE WHEN status IS NULL THEN 1 END) AS notScheduled')
+            ->selectRaw("COUNT(CASE WHEN status = $reserved THEN 1 END) AS reserved")
+            ->selectRaw("COUNT(CASE WHEN status IN ($scheduled) THEN 1 END) AS scheduled")
+            ->selectRaw("COUNT(CASE WHEN status IN ($notBooked) THEN 1 END) AS notBooked")
+            ->selectRaw("COUNT(CASE WHEN status IN ($booked) THEN 1 END) AS booked")
+            ->first();
+
+
+        $tabs = [];
+
+        // Only for non–customer service
+        if (! $user->hasRoleSlug('customer service')) {
+            $tabs['all'] = Tab::make(__('coupon.tabs.all'))
                 ->icon('heroicon-o-rectangle-stack')
-                ->visible(!$user->roles->contains('slug', 'customer service'))
-                ->badge(CouponResource::getEloquentQuery()
-                    ->count()),
+                ->badge($counts->allCount);
+        }
 
-            'Not scheduled' => Tab::make(__('coupon.tabs.not_scheduled'))
+        // Only for customer service
+        if ($user->hasRoleSlug('customer service')) {
+            $tabs['Not scheduled'] = Tab::make(__('coupon.tabs.not_scheduled'))
                 ->icon('heroicon-o-rectangle-stack')
-                ->visible($user->roles->contains('slug', 'customer service'))
-                ->modifyQueryUsing(fn(Builder $query) => $query->whereNull('status'))
-                ->badge(CouponResource::getEloquentQuery()
-                    ->whereNull('status')
-                    ->count()),
+                ->modifyQueryUsing(fn (Builder $query) => $query->whereNull('status'))
+                ->badge($counts->notScheduled);
 
-            'reserved ' => Tab::make(__('coupon.tabs.reserved'))
+            $tabs['reserved'] = Tab::make(__('coupon.tabs.reserved'))
                 ->icon('heroicon-o-clock')
-                ->visible($user->roles->contains('slug', 'customer service'))
-                ->modifyQueryUsing(fn(Builder $query) => $query->whereIn('status', Status::getReservedCases()))
-                ->badge(CouponResource::getEloquentQuery()
-                    ->whereIn('status', Status::getReservedCases())
-                    ->count()),
+                ->modifyQueryUsing(fn (Builder $query) => $query->whereIn('status', Status::getReservedCases()))
+                ->badge($counts->reserved);
+        }
 
-            'scheduled' => Tab::make(__('coupon.tabs.scheduled'))
-                ->icon('heroicon-o-clock')
-                ->modifyQueryUsing(fn(Builder $query) => $query->whereIn('status', Status::getScheduledCases()))
-                ->badge(CouponResource::getEloquentQuery()
-                    ->whereIn('status', Status::getScheduledCases())
-                    ->count()),
+        // Tabs visible to everyone
+        $tabs['scheduled'] = Tab::make(__('coupon.tabs.scheduled'))
+            ->icon('heroicon-o-clock')
+            ->modifyQueryUsing(fn (Builder $query) => $query->whereIn('status', Status::getScheduledCases()))
+            ->badge($counts->scheduled);
 
-            'not_booked' => Tab::make(__('coupon.tabs.not_booked'))
-                ->icon('heroicon-o-x-circle')
-                ->modifyQueryUsing(fn(Builder $query) => $query->whereIn('status', Status::getNotBookedCases()))
-                ->badge(CouponResource::getEloquentQuery()
-                    ->whereIn('status', Status::getNotBookedCases())
-                    ->count()),
+        $tabs['not_booked'] = Tab::make(__('coupon.tabs.not_booked'))
+            ->icon('heroicon-o-x-circle')
+            ->modifyQueryUsing(fn (Builder $query) => $query->whereIn('status', Status::getNotBookedCases()))
+            ->badge($counts->notBooked);
 
-            'booked' => Tab::make(__('coupon.tabs.booked'))
-                ->icon('heroicon-o-check-circle')
-                ->modifyQueryUsing(fn(Builder $query) => $query->whereIn('status', Status::getBookedCases()))
-                ->badge(CouponResource::getEloquentQuery()
-                    ->whereIn('status', Status::getBookedCases())
-                    ->count()),
-        ];
+        $tabs['booked'] = Tab::make(__('coupon.tabs.booked'))
+            ->icon('heroicon-o-check-circle')
+            ->modifyQueryUsing(fn (Builder $query) => $query->whereIn('status', Status::getBookedCases()))
+            ->badge($counts->booked);
+
+        return $tabs;
     }
 
-//    protected function getHeaderWidgets(): array
-//    {
-//        return [
-//            \App\Filament\Widgets\MyCalendarWidget::class,
-//        ];
-//    }
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            //
+        ];
+    }
 
     public function getDefaultActiveTab(): string|int|null
     {
