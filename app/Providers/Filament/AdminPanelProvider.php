@@ -4,7 +4,10 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\CouponsCalendarPage;
+use App\Filament\Pages\CustomDashboard;
 use App\Filament\Resources\Coupons\CouponResource;
+use App\Filament\Widgets\MyCalendarWidget;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\FontProviders\LocalFontProvider;
 use Filament\Http\Middleware\Authenticate;
@@ -32,6 +35,7 @@ class AdminPanelProvider extends PanelProvider
         $user = auth()->user();
         return $panel
             ->default()
+            ->spa()
             ->colors([
                 'primary' => [
                     50 => '255, 241, 233',    // Very light peach
@@ -47,9 +51,8 @@ class AdminPanelProvider extends PanelProvider
                     950 => '102, 30, 4',      // Almost brown
                 ],
                 // Pick your neutral. Stone = warmer, Zinc = cooler, Neutral = in-between
-                'gray'    => Color::Neutral,
+                'gray' => Color::Neutral,
             ])
-
             ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()
             ->brandName('Sun Gard')
@@ -66,11 +69,16 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
-            ->pages([])
+            ->pages([
+                CustomDashboard::class,
+                CouponsCalendarPage::class,
+            ])
+
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
 //                AccountWidget::class,
 //                FilamentInfoWidget::class,
+//                MyCalendarWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

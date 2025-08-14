@@ -9,4 +9,4 @@
 @source "../../../../app/Filament/**/*";
 @source "../../../../resources/views/filament/**/*";
 @source "../../../../vendor/guava/calendar/resources/**/*.blade.php";
-
+@source '../../../../vendor/awcodes/palette/resources/**/*.blade.php';

@@ -23,7 +23,7 @@ class CouponSeeder extends Seeder
         $exhibitions = Exhibition::all();
         $sungardBranches = \App\Models\SungardBranches::all();
 
-        for ($i = 0; $i < 10000; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $employeeId = null;
             $status = null;
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c7a4874c0bf1537198576c23d03c6b5c",
+    "content-hash": "a7f579c3426e53c3d6b9c8e5ab7a0cd4",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -71,6 +71,83 @@
                 "source": "https://github.com/AnourValar/eloquent-serialize/tree/1.3.4"
             },
             "time": "2025-07-30T15:45:57+00:00"
+        },
+        {
+            "name": "awcodes/palette",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/awcodes/palette.git",
+                "reference": "081a8d007764f00245f31b8b8d7ec005847fd270"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/awcodes/palette/zipball/081a8d007764f00245f31b8b8d7ec005847fd270",
+                "reference": "081a8d007764f00245f31b8b8d7ec005847fd270",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^4.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.10",
+                "orchestra/testbench": "^9.0|^10.0",
+                "pestphp/pest": "^3.7",
+                "pestphp/pest-plugin-laravel": "^3.0",
+                "pestphp/pest-plugin-livewire": "^3.0",
+                "rector/rector": "^2.0",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Palette": "Awcodes\\Palette\\Facades\\Palette"
+                    },
+                    "providers": [
+                        "Awcodes\\Palette\\PaletteServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Awcodes\\Palette\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adam Weston",
+                    "email": "awcodes1@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A color picker field for Filament Forms that uses preset color palettes.",
+            "homepage": "https://github.com/awcodes/palette",
+            "keywords": [
+                "awcodes",
+                "color picker",
+                "filament",
+                "laravel",
+                "palette",
+                "plugin"
+            ],
+            "support": {
+                "issues": "https://github.com/awcodes/palette/issues",
+                "source": "https://github.com/awcodes/palette"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/awcodes",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-08-12T16:23:28+00:00"
         },
         {
             "name": "bezhansalleh/filament-language-switch",
