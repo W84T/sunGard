@@ -3,78 +3,121 @@
 namespace App\Filament\Widgets;
 
 use App\Models\User;
-use App\Models\Branch;
 use App\Models\Coupon;
+use App\Models\Branch;
 use App\Status;
 use Carbon\Carbon;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
 class StateOverview extends StatsOverviewWidget
 {
-//    protected int|string|array $columnSpan = 1;
+    use InteractsWithPageFilters;
 
     protected function getStats(): array
     {
-        // Totals
-        $agentsTotal   = User::query()
-            ->whereHas('roles', fn ($q) => $q->where('slug', 'agent'))
+        [$start, $end] = $this->getRange();
+        $branchId = $this->filters['branch_id'] ?? '*';
+        $exhibitionId = $this->filters['exhibition_id'] ?? '*';
+
+        // Apply exhibition -> branches filter
+        $branchIds = null;
+        if ($exhibitionId !== '*') {
+            $branchIds = Branch::query()
+                ->where('exhibition_id', $exhibitionId)
+                ->pluck('id')
+                ->all();
+        }
+
+        // Agents total
+        $agentsTotal = User::query()
+            ->whereHas('roles', fn($q) => $q->where('slug', 'agent'))
+            ->when($branchId !== '*', fn($q) => $q->where('branch_id', $branchId))
+            ->when($branchId === '*' && $branchIds !== null, fn($q) => $q->whereIn('branch_id', $branchIds))
             ->count();
 
-        $branchesTotal = Branch::query()->count();
+        // Not booked total
+        $notBookedTotal = Coupon::query()
+            ->whereIn('status', Status::getNotBookedCases())
+            ->when($branchId !== '*', fn($q) => $q->where('branch_id', $branchId))
+            ->when($branchId === '*' && $branchIds !== null, fn($q) => $q->whereIn('branch_id', $branchIds))
+            ->whereBetween('created_at', [$start, $end])
+            ->count();
 
-        $servedTotal   = Coupon::query()
+        // Served total
+        $servedTotal = Coupon::query()
             ->where('status', Status::CUSTOMER_SERVED->value)
+            ->when($branchId !== '*', fn($q) => $q->where('branch_id', $branchId))
+            ->when($branchId === '*' && $branchIds !== null, fn($q) => $q->whereIn('branch_id', $branchIds))
+            ->whereBetween('created_at', [$start, $end])
             ->count();
 
         // Series
-        $agentsSeries   = $this->monthlyCounts(User::query()->whereHas('roles', fn ($q) => $q->where('slug', 'agent')));
-        $servedSeries   = $this->monthlyCounts(Coupon::query()->where('status', Status::CUSTOMER_SERVED->value));
+        $agentsSeries = $this->monthlyCounts(
+            User::query()
+                ->whereHas('roles', fn($q) => $q->where('slug', 'agent'))
+                ->when($branchId !== '*', fn($q) => $q->where('branch_id', $branchId))
+                ->when($branchId === '*' && $branchIds !== null, fn($q) => $q->whereIn('branch_id', $branchIds)),
+            'created_at',
+            $start,
+            $end
+        );
 
-        // Branches: cumulative (running total) over last 12 months
-        $branchesNewPerMonth = $this->monthlyCounts(Branch::query()); // monthly new
-        $branchesCumulative  = $this->toCumulative($branchesNewPerMonth);
+        $notBookedSeries = $this->monthlyCounts(
+            Coupon::query()
+                ->whereIn('status', Status::getNotBookedCases())
+                ->when($branchId !== '*', fn($q) => $q->where('branch_id', $branchId))
+                ->when($branchId === '*' && $branchIds !== null, fn($q) => $q->whereIn('branch_id', $branchIds)),
+            'created_at',
+            $start,
+            $end
+        );
+
+        $servedSeries = $this->monthlyCounts(
+            Coupon::query()
+                ->where('status', Status::CUSTOMER_SERVED->value)
+                ->when($branchId !== '*', fn($q) => $q->where('branch_id', $branchId))
+                ->when($branchId === '*' && $branchIds !== null, fn($q) => $q->whereIn('branch_id', $branchIds)),
+            'created_at',
+            $start,
+            $end
+        );
 
         return [
-            Stat::make('Agents (Total)', number_format($agentsTotal))
-                ->description('Total agents • last 12 mo trend')
+            Stat::make('Agents', number_format($agentsTotal))
+                ->description('Total agents')
                 ->icon('heroicon-m-user-group')
                 ->color('info')
                 ->chart($agentsSeries),
 
-            Stat::make('Branches (Total)', number_format($branchesTotal))
-                ->description('Cumulative branches • last 12 mo')
-                ->icon('heroicon-m-building-storefront')
-                ->color('warning')
-                ->chart($branchesCumulative),
+            Stat::make('Not Booked', number_format($notBookedTotal))
+                ->description('Total not booked')
+                ->icon('heroicon-m-x-circle')
+                ->color('danger')
+                ->chart($notBookedSeries),
 
-            Stat::make('Served (Total)', number_format($servedTotal))
-                ->description('Total served • last 12 mo trend')
+            Stat::make('Served', number_format($servedTotal))
+                ->description('Total served')
                 ->icon('heroicon-m-check-badge')
                 ->color('success')
                 ->chart($servedSeries),
         ];
     }
 
-    /**
-     * Monthly counts for the last N months (oldest -> newest).
-     */
-    protected function monthlyCounts(Builder $base, string $dateColumn = 'created_at', int $months = 12): array
+    protected function monthlyCounts(Builder $base, string $dateColumn, Carbon $start, Carbon $end): array
     {
-        $end   = Carbon::now()->startOfMonth();
-        $start = (clone $end)->subMonths($months - 1);
-
         $driver = DB::getDriverName();
         $formatted = match ($driver) {
             'pgsql'  => "to_char(date_trunc('month', {$dateColumn}), 'YYYY-MM')",
             'sqlite' => "strftime('%Y-%m', {$dateColumn})",
-            default  => "DATE_FORMAT({$dateColumn}, '%Y-%m')", // mysql/mariadb
+            default  => "DATE_FORMAT({$dateColumn}, '%Y-%m')",
         };
 
         $rows = (clone $base)
-            ->whereBetween($dateColumn, [$start, (clone $end)->endOfMonth()])
+            ->whereBetween($dateColumn, [$start, $end])
             ->selectRaw("{$formatted} as ym, COUNT(*) as total")
             ->groupBy('ym')
             ->orderBy('ym')
@@ -82,24 +125,30 @@ class StateOverview extends StatsOverviewWidget
             ->all();
 
         $series = [];
-        for ($i = 0; $i < $months; $i++) {
-            $ym = $start->copy()->addMonths($i)->format('Y-m');
+        $cursor = $start->copy()->startOfMonth();
+        while ($cursor <= $end) {
+            $ym = $cursor->format('Y-m');
             $series[] = (int)($rows[$ym] ?? 0);
+            $cursor->addMonth();
         }
 
         return $series;
     }
 
-    /**
-     * Convert a monthly series into a cumulative (running total) series.
-     */
-    protected function toCumulative(array $series): array
+    private function getRange(): array
     {
-        $sum = 0;
-        foreach ($series as $i => $v) {
-            $sum += (int) $v;
-            $series[$i] = $sum;
+        $start = isset($this->filters['startDate'])
+            ? Carbon::parse($this->filters['startDate'])->startOfDay()
+            : now()->startOfYear();
+
+        $end = isset($this->filters['endDate'])
+            ? Carbon::parse($this->filters['endDate'])->endOfDay()
+            : now()->endOfYear();
+
+        if ($end->lt($start)) {
+            [$start, $end] = [$end, $start];
         }
-        return $series;
+
+        return [$start, $end];
     }
 }

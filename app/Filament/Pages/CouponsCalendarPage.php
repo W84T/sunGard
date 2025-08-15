@@ -50,16 +50,11 @@ class CouponsCalendarPage extends Dashboard
                             'this_week' => 'This week',
                             'this_month' => 'This month',
                             'next_3_months' => 'Next 3 months',
-                            'custom' => 'Custom',
                         ])
                         ->default('today')
                         ->live()
                         ->afterStateUpdated(function (Set $set, string $state) {
                             $now = now();
-
-                            if ($state === 'custom') {
-                                $this->dispatch('open-modal', id: 'customDateModal');
-                            }
 
                             match ($state) {
                                 'today' => [
@@ -116,5 +111,10 @@ class CouponsCalendarPage extends Dashboard
         return [
             MyCalendarWidget::class,
         ];
+    }
+
+    public function persistsFiltersInSession(): bool
+    {
+        return false;
     }
 }

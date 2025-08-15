@@ -5,56 +5,73 @@ namespace App\Filament\Widgets;
 use App\Models\Coupon;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Illuminate\Support\Facades\DB;
 
 class GrowthWidget extends ChartWidget
 {
-    protected ?string $heading = 'Coupons Growth (This Year)';
-//    protected ?string $maxHeight = '300px';
-    protected static bool $isLazy = true;
+    use InteractsWithPageFilters;
 
+    protected ?string $heading = 'Coupons Growth';
+    protected ?string $maxHeight = '300px';
+    protected static bool $isLazy = true;
     protected int|string|array $columnSpan = 2;
-    // Optional: refresh automatically
-    // protected static ?string $pollingInterval = '30s';
+
+    public function getHeading(): ?string
+    {
+        [$start, $end] = $this->getRange();
+        $fmtStart = $start->isoFormat('MMM YYYY');
+        $fmtEnd   = $end->isoFormat('MMM YYYY');
+        $branch   = $this->filters['branch_id'] ?? '*';
+
+        $suffix = $branch !== '*' ? " • Branch #{$branch}" : '';
+        return "Coupons Growth ({$fmtStart} — {$fmtEnd}){$suffix}";
+    }
+
 
     protected function getData(): array
     {
-        $year = now()->year;
-        $driver = DB::getDriverName();
+        [$start, $end] = $this->getRange();
+        $branchId = $this->filters['branch_id'] ?? '*';
 
-        $query = match ($driver) {
-            'pgsql'  => Coupon::query()
-                ->selectRaw("to_char(date_trunc('month', created_at), 'YYYY-MM') as ym, COUNT(*) as total"),
-            'sqlite' => Coupon::query()
-                ->selectRaw("strftime('%Y-%m', created_at) as ym, COUNT(*) as total"),
-            default  => Coupon::query() // mysql/mariadb
-            ->selectRaw("DATE_FORMAT(created_at, '%Y-%m') as ym, COUNT(*) as total"),
+        // choose SQL snippet per driver
+        $driver = DB::getDriverName();
+        $ymExpr = match ($driver) {
+            'pgsql'  => "to_char(date_trunc('month', created_at), 'YYYY-MM')",
+            'sqlite' => "strftime('%Y-%m', created_at)",
+            default  => "DATE_FORMAT(created_at, '%Y-%m')", // mysql/mariadb
         };
 
-        $counts = $query
-            ->whereYear('created_at', $year)
+        $query = Coupon::query()
+            ->when($branchId !== '*', fn ($q) => $q->where('branch_id', $branchId))
+            ->whereBetween('created_at', [$start->copy()->startOfDay(), $end->copy()->endOfDay()])
+            ->selectRaw("$ymExpr as ym, COUNT(*) as total")
             ->groupBy('ym')
-            ->orderBy('ym')
-            ->pluck('total', 'ym')
-            ->all();
+            ->orderBy('ym');
 
+        $counts = $query->pluck('total', 'ym')->all();
+
+        // Build continuous month axis from start..end
         $labels = [];
         $data   = [];
 
-        for ($m = 1; $m <= 12; $m++) {
-            $ym = sprintf('%04d-%02d', $year, $m);
-            $labels[] = Carbon::create($year, $m, 1)->shortMonthName; // Jan, Feb, ...
-            $data[]   = $counts[$ym] ?? 0;
+        $cursor = $start->copy()->startOfMonth();
+        $last   = $end->copy()->startOfMonth();
+
+        while ($cursor <= $last) {
+            $ym = $cursor->format('Y-m');
+            $labels[] = $cursor->shortMonthName;        // Jan, Feb, ...
+            $data[]   = (int) ($counts[$ym] ?? 0);
+            $cursor->addMonth();
         }
 
         return [
             'datasets' => [
                 [
-                    'label' => "Coupons ($year)",
-                    'data'  => $data,
-                     'tension' => .3,
-                     'fill' => true,
-
+                    'label'   => 'Coupons',
+                    'data'    => $data,
+                    'tension' => 0.3,
+                    'fill'    => true,
                 ],
             ],
             'labels' => $labels,
@@ -63,6 +80,28 @@ class GrowthWidget extends ChartWidget
 
     protected function getType(): string
     {
-        return 'line'; // 'bar' also works nicely for monthly counts
+        return 'line';
+    }
+
+    /** Resolve date range from page filters with sensible defaults. */
+    private function getRange(): array
+    {
+        $start = isset($this->filters['startDate'])
+            ? Carbon::parse($this->filters['startDate'])
+            : now()->startOfYear();
+
+        $end = isset($this->filters['endDate'])
+            ? Carbon::parse($this->filters['endDate'])
+            : now()->endOfYear();
+
+        // normalize / guard
+        $start = $start->startOfDay();
+        $end   = $end->endOfDay();
+
+        if ($end->lt($start)) {
+            [$start, $end] = [$end->copy()->startOfDay(), $start->copy()->endOfDay()];
+        }
+
+        return [$start, $end];
     }
 }
