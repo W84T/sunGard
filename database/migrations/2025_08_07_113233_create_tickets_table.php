@@ -28,17 +28,13 @@ return new class extends Migration {
             $table->text('description')
                 ->nullable();
             $table->enum('status', ['open', 'closed'])
-                ->default('open')
-                ->index();
+                ->default('open');
             $table->enum('priority', ['low', 'medium', 'high'])
-                ->default('low')
-                ->index();
+                ->default('low');
             $table->enum('submitted_to', ['admin', 'customer service manager'])
-                ->default('customer service manager')
-                ->index();
+                ->default('customer service manager');
             $table->timestamp('closed_at')
-                ->nullable()
-                ->index();
+                ->nullable();
 
             $table->timestamps();
         });

@@ -48,34 +48,24 @@ return new class extends Migration {
             $table->string('coupon_link')
                 ->nullable();
 
-            $table->string('car_model')
-                ->index();
-            $table->string('car_brand')
-                ->index();
+            $table->string('car_model');
+            $table->string('car_brand');
             $table->string('plate_number');
             $table->string('plate_characters');
             $table->string('car_category')
-                ->nullable()
-                ->index();
+                ->nullable();
 
             $table->boolean('is_confirmed')
-                ->default(false)
-                ->index();
+                ->default(false);
             $table->smallInteger('status')
-                ->nullable()
-                ->index();
-
-            // Composite index for your common queries like WHERE status + is_confirmed
-            $table->index(['status', 'is_confirmed']);
+                ->nullable();
 
             $table->dateTimeTz('reserved_date')
-                ->nullable()
-                ->index();
+                ->nullable();
             $table->dateTimeTz('reached_at')
                 ->nullable();
 
-            $table->softDeletes()
-                ->index(); // for faster soft delete queries
+            $table->softDeletes();
             $table->timestampsTz();
         });
 

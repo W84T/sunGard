@@ -16,8 +16,7 @@ return new class extends Migration {
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();
-            $table->string('name')
-                ->index();
+            $table->string('name');
             $table->string('logo_address')
                 ->nullable();
             $table->string('address')

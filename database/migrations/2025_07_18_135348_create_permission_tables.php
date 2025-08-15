@@ -35,7 +35,6 @@ return new class extends Migration {
             if ($teams || config('permission.testing')) { // permission.testing is a fix for sqlite testing
                 $table->unsignedBigInteger($columnNames['team_foreign_key'])
                     ->nullable();
-                $table->index($columnNames['team_foreign_key'], 'roles_team_foreign_key_index');
             }
             $table->string('name');       // For MyISAM use string('name', 225); // (or 166 for InnoDB with Redundant/Compact row format)
             $table->string('guard_name'); // For MyISAM use string('guard_name', 25);
@@ -52,7 +51,6 @@ return new class extends Migration {
 
             $table->string('model_type');
             $table->unsignedBigInteger($columnNames['model_morph_key']);
-            $table->index([$columnNames['model_morph_key'], 'model_type'], 'model_has_permissions_model_id_model_type_index');
 
             $table->foreign($pivotPermission)
                 ->references('id') // permission id
@@ -60,7 +58,6 @@ return new class extends Migration {
                 ->onDelete('cascade');
             if ($teams) {
                 $table->unsignedBigInteger($columnNames['team_foreign_key']);
-                $table->index($columnNames['team_foreign_key'], 'model_has_permissions_team_foreign_key_index');
 
                 $table->primary([$columnNames['team_foreign_key'], $pivotPermission, $columnNames['model_morph_key'], 'model_type'],
                     'model_has_permissions_permission_model_type_primary');
@@ -76,7 +73,6 @@ return new class extends Migration {
 
             $table->string('model_type');
             $table->unsignedBigInteger($columnNames['model_morph_key']);
-            $table->index([$columnNames['model_morph_key'], 'model_type'], 'model_has_roles_model_id_model_type_index');
 
             $table->foreign($pivotRole)
                 ->references('id') // role id
@@ -84,7 +80,6 @@ return new class extends Migration {
                 ->onDelete('cascade');
             if ($teams) {
                 $table->unsignedBigInteger($columnNames['team_foreign_key']);
-                $table->index($columnNames['team_foreign_key'], 'model_has_roles_team_foreign_key_index');
 
                 $table->primary([$columnNames['team_foreign_key'], $pivotRole, $columnNames['model_morph_key'], 'model_type'],
                     'model_has_roles_role_model_type_primary');
