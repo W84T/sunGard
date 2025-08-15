@@ -3,7 +3,7 @@
 return [
     'singular' => 'Coupon',
     'plural' => 'Coupons',
-
+    'create' => 'Create Coupon',
     'tabs' => [
         'all' => 'All',
         'not_scheduled' => 'Not Scheduled',
@@ -86,6 +86,7 @@ return [
         'change_status' => 'Change Status',
         'reserve_date' => 'Change Reservation Date',
         'submit' => 'Submit',
+        'export' => 'Export',
     ],
 
     'status' => [

@@ -38,12 +38,16 @@ class UserResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         $user = auth()->user();
+
         $query = parent::getEloquentQuery();
 
-        if ($user->hasRole('marketer')) {
+        if ($user->hasRoleSlug('marketer')) {
             return $query->where('created_by', $user->id);
         }
 
+        if ($user->hasRoleSlug('customer service manager')) {
+            return $query->where('created_by', $user->id);
+        }
         return $query;
     }
 

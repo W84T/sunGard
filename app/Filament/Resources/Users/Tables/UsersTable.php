@@ -19,14 +19,17 @@ class UsersTable
                 collect([
                     $user->roles->contains('slug', 'admin')
                         ? TextColumn::make('creator.name')
-                            ->label(__('user.table.creator_name'))
-                            ->sortable()
+                        ->label(__('user.table.creator_name'))
+                        ->sortable()
+                        ->toggleable(isToggledHiddenByDefault: true)
                         : null,
 
                     TextCOlumn::make('exhibition.name')
-                        ->label(__('user.table.exhibition_name')),
+                        ->label(__('user.table.exhibition_name'))
+                        ->toggleable(isToggledHiddenByDefault: true),
                     TextColumn::make('branch.name')
-                        ->label(__('user.table.branch_name')),
+                        ->label(__('user.table.branch_name'))
+                        ->toggleable(isToggledHiddenByDefault: true),
                     TextColumn::make('name')
                         ->label(__('user.table.name'))
                         ->searchable(),
@@ -39,12 +42,12 @@ class UsersTable
                     TextColumn::make('roles.name')
                         ->label(__('user.table.roles'))
                         ->badge()
-                        ->color(fn (string $state): string => match ($state) {
+                        ->color(fn(string $state): string => match ($state) {
                             'super_admin' => 'danger',
                             'admin' => 'primary',
                             default => 'success',
                         })
-                        ->formatStateUsing(fn (string $state): string => str($state)
+                        ->formatStateUsing(fn(string $state): string => str($state)
                             ->replace('_', ' ')
                             ->title()),
 

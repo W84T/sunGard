@@ -26,6 +26,8 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -51,7 +53,7 @@ class AdminPanelProvider extends PanelProvider
                     950 => '102, 30, 4',      // Almost brown
                 ],
                 // Pick your neutral. Stone = warmer, Zinc = cooler, Neutral = in-between
-                'gray' => Color::Neutral,
+                'gray' => Color::Zinc,
             ])
             ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()
@@ -92,11 +94,11 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->navigationItems([
-                NavigationItem::make('Add Coupon')
-                    ->icon('heroicon-o-plus-circle')
-                    ->activeIcon('heroicon-s-plus-circle')
-                    ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.records.create'))
-                    ->sort(1)
+                NavigationItem::make(fn () => __('coupon.create'))
+                    ->icon(Phosphor::PlusCircle)
+                    ->activeIcon(Phosphor::PlusCircle->getIconForWeight(PhosphorWeight::Duotone))
+                    ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.coupons.create'))
+                    ->sort(-3)
                     ->visible(fn () => auth()->check() && auth()->user()->roles->contains('slug', 'agent'))
                     ->url(fn () => CouponResource::getUrl('create')),
             ])

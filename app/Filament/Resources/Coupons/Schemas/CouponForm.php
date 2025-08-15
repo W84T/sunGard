@@ -5,7 +5,6 @@ namespace App\Filament\Resources\Coupons\Schemas;
 use App\Models\Branch;
 use App\Status;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -63,11 +62,15 @@ class CouponForm
                                     ->schema([
                                         TextInput::make('plate_characters')
                                             ->label(__('coupon.form.plate_characters'))
-                                            ->minLength(3)
-                                            ->maxLength(4)
                                             ->required()
                                             ->rule([
-                                                'regex:/^[A-Za-z]+$/',
+                                                'regex:/^[\p{Arabic}A-Za-z\s]+$/u', // allow Arabic, English, and spaces
+                                                function ($attribute, $value, $fail) {
+                                                    $count = mb_strlen(preg_replace('/\s+/u', '', $value)); // remove spaces before counting
+                                                    if ($count < 3 || $count > 4) {
+                                                        $fail(__('Plate characters must be between 3 and 4 letters (excluding spaces).'));
+                                                    }
+                                                }
                                             ]),
 
                                         TextInput::make('plate_number')
@@ -76,9 +79,20 @@ class CouponForm
                                             ->maxLength(4)
                                             ->required(),
 
-                                        TextInput::make('car_category')
-                                            ->label(__('coupon.form.car_category')),
-                                    ]),
+                                        Select::make('car_category')
+                                            ->label(__('coupon.form.car_category'))
+                                            ->options([
+                                                'private'    => __('car_categories.private'),
+                                                'commercial' => __('car_categories.commercial'),
+                                                'diplomatic' => __('car_categories.diplomatic'),
+                                                'public'     => __('car_categories.public'),
+                                                'temporary'  => __('car_categories.temporary'),
+                                                'custom'     => __('car_categories.custom'),
+                                            ])
+                                            ->searchable()
+                                            ->preload()
+                                            ->required(),
+        ]),
 
                             ]),
                         //
@@ -101,7 +115,7 @@ class CouponForm
                                     ->relationship(
                                         name: 'agent',
                                         titleAttribute: 'name',
-                                        modifyQueryUsing: fn (Builder $query) => $query->whereHas('roles', fn (Builder $query) => $query->where('name', 'agent'))
+                                        modifyQueryUsing: fn(Builder $query) => $query->whereHas('roles', fn(Builder $query) => $query->where('name', 'agent'))
                                     )
                                     ->visible($user->roles->contains('slug', 'admin') || $user->roles->contains('slug', 'employee'))
                                     ->searchable()
@@ -113,7 +127,7 @@ class CouponForm
                                     ->relationship(
                                         name: 'employee',
                                         titleAttribute: 'name',
-                                        modifyQueryUsing: fn (Builder $query) => $query->whereHas('roles', fn (Builder $query) => $query->where('slug', 'customer service'))
+                                        modifyQueryUsing: fn(Builder $query) => $query->whereHas('roles', fn(Builder $query) => $query->where('slug', 'customer service'))
                                     )
                                     ->searchable()
                                     ->preload()
@@ -125,19 +139,19 @@ class CouponForm
                                     ->label(__('coupon.form.exhibition'))
                                     ->searchable()
                                     ->preload()
-                                    ->default(fn () => $user->roles->contains('slug', 'agent') ? $user->exhibition_id : null)
-                                    ->disabled(fn () => $user->roles->contains('slug', 'agent'))
+                                    ->default(fn() => $user->roles->contains('slug', 'agent') ? $user->exhibition_id : null)
+                                    ->disabled(fn() => $user->roles->contains('slug', 'agent'))
                                     ->dehydrated()
                                     ->required(),
 
                                 Select::make('branch_id')
-                                    ->options(fn (Get $get): Collection => Branch::query()
+                                    ->options(fn(Get $get): Collection => Branch::query()
                                         ->where('exhibition_id', $get('exhibition_id'))
                                         ->pluck('name', 'id'))
                                     ->label(__('coupon.form.branch'))
                                     ->searchable()
-                                    ->default(fn () => $user->roles->contains('slug', 'agent') ? $user->branch_id : null)
-                                    ->disabled(fn () => $user->roles->contains('slug', 'agent'))
+                                    ->default(fn() => $user->roles->contains('slug', 'agent') ? $user->branch_id : null)
+                                    ->disabled(fn() => $user->roles->contains('slug', 'agent'))
                                     ->dehydrated()
                                     ->live()
                                     ->preload()

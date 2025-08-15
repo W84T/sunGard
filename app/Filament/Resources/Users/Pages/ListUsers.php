@@ -8,6 +8,7 @@ use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class ListUsers extends ListRecords
 {
@@ -32,36 +33,39 @@ class ListUsers extends ListRecords
             ->first()
             ->toArray();
 
-        return [
-            'admin' => Tab::make(__('user.tabs.admin'))
-                ->modifyQueryUsing(fn (Builder $query) => $query->whereHas('roles', fn ($q) => $q->where('slug', 'admin')))
-                ->badge($counts['admin']),
+        $user = Auth::user();
+        $tabs = [];
 
-            'branch manager' => Tab::make(__('user.tabs.branch_manager'))
-                ->modifyQueryUsing(fn (Builder $query) => $query->whereHas('roles', fn ($q) => $q->where('slug', 'branch manager')))
-                ->badge($counts['branch_manager']),
+        if ($user->hasRoleSlug('admin')) {
+            $tabs['admin'] = Tab::make(__('user.tabs.admin'))
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'admin')))
+                ->badge($counts['admin']);
 
-            'customer service manager' => Tab::make(__('user.tabs.customer_service'))
-                ->modifyQueryUsing(fn (Builder $query) => $query->whereHas('roles', fn ($q) => $q->where('slug', 'customer service manager')))
-                ->badge($counts['customer_service_manager']),
+            $tabs['branch manager'] = Tab::make(__('user.tabs.branch_manager'))
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'branch manager')))
+                ->badge($counts['branch_manager']);
 
-            'customer service' => Tab::make(__('user.tabs.employee'))
-                ->modifyQueryUsing(fn (Builder $query) => $query->whereHas('roles', fn ($q) => $q->where('slug', 'customer service')))
-                ->badge($counts['customer_service']),
+            $tabs['customer service manager'] = Tab::make(__('user.tabs.customer_service'))
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'customer service manager')))
+                ->badge($counts['customer_service_manager']);
 
-            'marketer' => Tab::make(__('user.tabs.marketer'))
-                ->modifyQueryUsing(fn (Builder $query) => $query->whereHas('roles', fn ($q) => $q->where('slug', 'marketer')))
-                ->badge($counts['marketer']),
+            $tabs['customer service'] = Tab::make(__('user.tabs.employee'))
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'customer service')))
+                ->badge($counts['customer_service']);
 
-            'agent' => Tab::make(__('user.tabs.agent'))
-                ->modifyQueryUsing(fn (Builder $query) => $query->whereHas('roles', fn ($q) => $q->where('slug', 'agent')))
-                ->badge($counts['agent']),
+            $tabs['marketer'] = Tab::make(__('user.tabs.marketer'))
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'marketer')))
+                ->badge($counts['marketer']);
 
-            'report manager' => Tab::make(__('user.tabs.reporter'))
-                ->modifyQueryUsing(fn (Builder $query) => $query->whereHas('roles', fn ($q) => $q->where('slug', 'report manager')))
-                ->badge($counts['report_manager']),
+            $tabs['agent'] = Tab::make(__('user.tabs.agent'))
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'agent')))
+                ->badge($counts['agent']);
 
-        ];
+            $tabs['report manager'] = Tab::make(__('user.tabs.reporter'))
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'report manager')))
+                ->badge($counts['report_manager']);
+        }
+        return $tabs;
     }
 
     public function getDefaultActiveTab(): string|int|null

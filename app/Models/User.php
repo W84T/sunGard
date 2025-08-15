@@ -90,8 +90,6 @@ class User extends Authenticatable
         return $this->hasRoleSlug('customer service');
     }
 
-    // App\Models\User.php
-
     public function hasRoleSlug(string $slug): bool
     {
         return $this->roles->contains('slug', $slug);

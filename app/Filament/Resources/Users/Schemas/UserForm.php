@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Users\Schemas;
 use App\Models\Branch;
 use App\Models\Exhibition;
 use App\Models\Role;
+use App\Models\User;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
@@ -24,7 +25,7 @@ class UserForm
         return $schema
             ->components([
                 Hidden::make('created_by')
-                    ->default(fn () => auth()->id()),
+                    ->default(fn() => auth()->id()),
 
                 Section::make(__('user.form.user_information'))
                     ->schema([
@@ -37,13 +38,14 @@ class UserForm
                                 TextInput::make('email')
                                     ->label(__('user.form.email'))
                                     ->email()
+                                    ->unique(User::class, 'email', ignoreRecord: true)
                                     ->required(),
 
                                 TextInput::make('password')
                                     ->label(__('user.form.password'))
                                     ->password()
-                                    ->dehydrated(fn ($state) => filled($state))
-                                    ->required(fn (Page $livewire): bool => $livewire instanceof CreateRecord)
+                                    ->dehydrated(fn($state) => filled($state))
+                                    ->required(fn(Page $livewire): bool => $livewire instanceof CreateRecord)
                                     ->unique(ignoreRecord: true),
 
                                 DateTimePicker::make('email_verified_at')
@@ -55,10 +57,41 @@ class UserForm
                 Section::make(__('user.form.roles_associations'))
                     ->schema([
                         Select::make('roles')
-                            ->label(__('user.form.roles'))
-                            ->relationship('roles', 'name')
-                            ->live()
                             ->multiple()
+                            ->label(__('user.form.roles'))
+                            ->relationship(
+                                name: 'roles',
+                                titleAttribute: 'name',
+                                modifyQueryUsing: function ($query) {
+                                    $user = auth()->user();
+                                    $slugs = $user->roles->pluck('slug')
+                                        ->toArray();
+
+                                    if (in_array('admin', $slugs)) {
+                                        return $query->whereIn('slug', [
+                                            'admin',
+                                            'customer service manager',
+                                            'branch manager',
+                                            'report manager',
+                                            'marketer',
+                                        ]);
+                                    }
+
+                                    if (in_array('customer service manager', $slugs)) {
+                                        return $query->whereIn('slug', [
+                                            'customer service',
+                                        ]);
+                                    }
+
+                                    if (in_array('marketer', $slugs)) {
+                                        return $query->where('slug', 'agent');
+                                    }
+
+                                    return $query->whereRaw('1 = 0');
+                                }
+                            )
+                            ->live()
+                            ->required()
                             ->preload()
                             ->searchable(),
 
@@ -83,7 +116,7 @@ class UserForm
 
                                 Select::make('branch_id')
                                     ->label(__('user.form.branch_name'))
-                                    ->options(fn (Get $get): Collection => Branch::query()
+                                    ->options(fn(Get $get): Collection => Branch::query()
                                         ->where('exhibition_id', $get('exhibition_id'))
                                         ->pluck('name', 'id'))
                                     ->searchable()

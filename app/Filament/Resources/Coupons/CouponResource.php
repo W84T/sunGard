@@ -13,6 +13,7 @@ use App\Filament\Resources\Coupons\Tables\CouponsTable;
 use App\Models\Coupon;
 use App\Models\User;
 use BackedEnum;
+use Filament\Navigation\NavigationItem;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -144,6 +145,21 @@ class CouponResource extends Resource
             'delete_any',
             'force_delete',
             'force_delete_any',
+        ];
+    }
+
+    public static function getNavigationItems(): array
+    {
+        return [
+            NavigationItem::make()
+                ->label(__('coupon.plural'))
+                ->icon(static::getNavigationIcon())
+                ->url(static::getUrl('index'))
+                ->isActiveWhen(fn() => request()->routeIs([
+                    'filament.admin.resources.coupons.index',
+                    'filament.admin.resources.coupons.update',
+                    'filament.admin.resources.coupons.view',
+                ])),
         ];
     }
 }

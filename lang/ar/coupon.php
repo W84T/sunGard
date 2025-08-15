@@ -3,7 +3,7 @@
 return [
     'singular' => 'كوبون',
     'plural' => 'كوبونات',
-
+    'create' => 'إنشاء كوبون جديد',
     'tabs' => [
         'all' => 'الكل',
         'not_scheduled' => 'غير مجدول',
@@ -86,6 +86,7 @@ return [
         'change_status' => 'تغيير الحالة',
         'reserve_date' => 'تغيير تاريخ الحجز',
         'submit' => 'إرسال',
+        'export' => 'تصدير'
     ],
 
     'status' => [

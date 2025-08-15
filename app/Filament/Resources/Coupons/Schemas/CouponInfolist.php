@@ -25,8 +25,8 @@ class CouponInfolist
                         ->badge()
                         ->size(TextSize::Large)
                         ->weight(FontWeight::Black)
-                        ->color(fn ($state) => $state ? 'success' : 'danger')
-                        ->formatStateUsing(fn ($state) => $state ? __('coupon.infolist.confirmed') : __('coupon.infolist.not_confirmed'))
+                        ->color(fn($state) => $state ? 'success' : 'danger')
+                        ->formatStateUsing(fn($state) => $state ? __('coupon.infolist.confirmed') : __('coupon.infolist.not_confirmed'))
                         ->grow(false),
 
                     TextEntry::make('status')
@@ -34,8 +34,8 @@ class CouponInfolist
                         ->badge()
                         ->size(TextSize::Large)
                         ->weight(FontWeight::Black)
-                        ->formatStateUsing(fn ($state) => ($state instanceof Status ? $state : Status::from($state))->label())
-                        ->color(fn ($state) => match (true) {
+                        ->formatStateUsing(fn($state) => ($state instanceof Status ? $state : Status::from($state))->label())
+                        ->color(fn($state) => match (true) {
                             ($state instanceof Status ? $state : Status::from($state))->isBooked() => 'success',
                             ($state instanceof Status ? $state : Status::from($state))->isScheduled() => 'warning',
                             ($state instanceof Status ? $state : Status::from($state))->isNotBooked() => 'danger',
@@ -79,7 +79,9 @@ class CouponInfolist
                                                     ->size(TextSize::Large),
                                                 TextEntry::make('car_category')
                                                     ->label(__('coupon.infolist.car_category'))
-                                                    ->size(TextSize::Large),
+                                                    ->size(TextSize::Large)
+                                                    ->formatStateUsing(fn(string $state) => __('car_categories.' .
+                                                        $state)),
                                                 TextEntry::make('car_plate')
                                                     ->label(__('coupon.infolist.car_plate'))
                                                     ->size(TextSize::Large),
@@ -125,7 +127,9 @@ class CouponInfolist
                         Section::make(__('coupon.infolist.employee'))
                             ->icon(Heroicon::Link)
                             ->collapsed(false)
+                            ->visible(fn($record) => filled($record->employee_id))
                             ->schema([
+
                                 TextEntry::make('employee.name')
                                     ->size(TextSize::Large)
                                     ->label(__('coupon.infolist.employee_name')),
@@ -133,22 +137,26 @@ class CouponInfolist
                                 TextEntry::make('reached_at')
                                     ->label(__('coupon.infolist.reached_at'))
                                     ->date()
-                                    ->visible(fn ($record) => filled($record->reached_at)),
+                                    ->visible(fn($record) => filled($record->reached_at)),
 
+                                // Separator appears only if all are filled
                                 TextEntry::make('separator')
                                     ->html()
                                     ->hiddenLabel()
-                                    ->state('<hr>'),
+                                    ->state('<hr>')
+                                    ->visible(fn($record) => filled($record->reached_at)
+                                        && filled($record->employee_id)
+                                        && filled($record->reserved_date)),
 
                                 TextEntry::make('reserved_date')
                                     ->label(__('coupon.infolist.reservation_date'))
                                     ->date()
-                                    ->visible(fn ($record) => filled($record->reserved_date)),
+                                    ->visible(fn($record) => filled($record->reserved_date)),
 
                                 TextEntry::make('sungard_branch_id.name')
                                     ->size(TextSize::Large)
-                                    ->visible(fn ($record) => filled($record->sungard_branch_id))
-                                    ->label(__('coupon.infolist.sungard_branch_name')),
+                                    ->label(__('coupon.infolist.sungard_branch_name'))
+                                    ->visible(fn($record) => filled($record->sungard_branch_id)),
 
                             ]),
                     ]),
