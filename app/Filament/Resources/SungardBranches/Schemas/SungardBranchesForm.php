@@ -2,11 +2,10 @@
 
 namespace App\Filament\Resources\SungardBranches\Schemas;
 
-
+use Awcodes\Palette\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
-use Awcodes\Palette\Forms\Components\ColorPicker;
 use Filament\Support\Colors\Color;
 
 class SungardBranchesForm
@@ -16,12 +15,12 @@ class SungardBranchesForm
         return $schema
             ->components([
                 Hidden::make('created_by')
-                    ->default(fn() => auth()->id()),
+                    ->default(fn () => auth()->id()),
                 TextInput::make('name')
                     ->label(__('sungard_branch.form.name'))
                     ->required(),
-//                ColorPicker::make('color')
-//
+                //                ColorPicker::make('color')
+                //
                 TextInput::make('address')
                     ->label(__('sungard_branch.form.address')),
 
@@ -56,18 +55,15 @@ class SungardBranchesForm
                         '#e23688' => Color::hex('#e23688'),
                         '#e2365f' => Color::hex('#e2365f'),
 
-
-
                     ])
                     ->storeAsKey()
                     ->shades([
-                        'badass' => 300
+                        'badass' => 300,
                     ])
                     ->labels([
-                        'bg-gradient-secondary' => 'Gradient Secondary'
+                        'bg-gradient-secondary' => 'Gradient Secondary',
                     ])
                     ->size('lg'),
-
 
             ]);
     }

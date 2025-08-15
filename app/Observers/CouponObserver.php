@@ -21,12 +21,12 @@ class CouponObserver
 
     private function sendStatusChangeNotification(Coupon $coupon): void
     {
-        if (!$coupon->isDirty('status') && !$coupon->isDirty('is_confirmed')) {
+        if (! $coupon->isDirty('status') && ! $coupon->isDirty('is_confirmed')) {
             return;
         }
 
         $agent = User::find($coupon->agent_id);
-        if (!$agent) {
+        if (! $agent) {
             return;
         }
 
@@ -40,7 +40,7 @@ class CouponObserver
         if ($originalStatus == Status::RESERVED && in_array($currentStatus, Status::getScheduledCases())) {
             $notification = Notification::make()
                 ->title('تم جدولة الكوبون')
-                ->body('تم جدولة الكوبون ' . $coupon->name)
+                ->body('تم جدولة الكوبون '.$coupon->name)
                 ->success()
                 ->actions([
                     Action::make('view')
@@ -53,10 +53,10 @@ class CouponObserver
         }
 
         // Scenario 2: Confirmed
-        if (!is_null($currentStatus) && $currentIsConfirmed === true) {
+        if (! is_null($currentStatus) && $currentIsConfirmed === true) {
             $notification = Notification::make()
                 ->title('تم تأكيد الكوبون')
-                ->body('تم تأكيد الكوبون ' . $coupon->name)
+                ->body('تم تأكيد الكوبون '.$coupon->name)
                 ->success()
                 ->actions([
                     Action::make('view')
@@ -72,7 +72,7 @@ class CouponObserver
         if ($currentStatus && in_array($currentStatus, Status::getNotBookedCases())) {
             $notification = Notification::make()
                 ->title('لم يتم حجز الكوبون')
-                ->body('لم يتم حجز الكوبون ' . $coupon->name)
+                ->body('لم يتم حجز الكوبون '.$coupon->name)
                 ->danger()
                 ->actions([
                     Action::make('view')
@@ -88,7 +88,7 @@ class CouponObserver
         if ($currentStatus === Status::CUSTOMER_SERVED) {
             $notification = Notification::make()
                 ->title('تم خدمة العميل')
-                ->body('تم خدمة العميل ' . $coupon->name)
+                ->body('تم خدمة العميل '.$coupon->name)
                 ->success()
                 ->actions([
                     Action::make('view')

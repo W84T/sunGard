@@ -3,14 +3,11 @@
 namespace App\Filament\Actions;
 
 use App\Models\Ticket;
-use App\Status;
 use Filament\Actions\Action;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class SubmitTicket
 {
@@ -21,13 +18,13 @@ class SubmitTicket
             ->icon('heroicon-m-chat-bubble-left-ellipsis')
             ->visible(function () {
                 $user = auth()->user();
+
                 return $user->hasAnyRoleSlug(['customer service', 'agent']);
             })
             ->schema([
                 RichEditor::make('description')
                     ->label(__('coupon.ticket.description'))
                     ->required(),
-
 
                 Select::make('priority')
                     ->label(__('coupon.ticket.priority'))

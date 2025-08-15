@@ -4,11 +4,10 @@ namespace App\Filament\Widgets;
 
 use App\Models\User;
 use Carbon\Carbon;
-use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Filament\Widgets\TableWidget;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
+use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
 
 class TopAgentWidget extends TableWidget
@@ -19,8 +18,15 @@ class TopAgentWidget extends TableWidget
 
     // Full width
     protected int|string|array $columnSpan = 4;
+
     protected ?string $maxHeight = '300px';
+
     protected static bool $isLazy = true;
+
+    public function getHeading(): ?string
+    {
+        return __('widget.top_agent.heading');
+    }
 
     public function table(Table $table): Table
     {
@@ -34,7 +40,7 @@ class TopAgentWidget extends TableWidget
             : now()->endOfYear();
 
         $exhibitionId = $this->filters['exhibition_id'] ?? '*';
-        $branchId     = $this->filters['branch_id'] ?? '*';
+        $branchId = $this->filters['branch_id'] ?? '*';
 
         return $table
             ->query(function () use ($start, $end, $exhibitionId, $branchId): Builder {
@@ -66,17 +72,17 @@ class TopAgentWidget extends TableWidget
             })
             ->columns([
                 TextColumn::make('name')
-                    ->label('Agent')
+                    ->label(__('widget.top_agent.agent'))
                     ->sortable()
                     ->searchable(),
 
                 TextColumn::make('coupons_created_count')
-                    ->label('Coupons')
+                    ->label(__('widget.top_agent.coupons'))
                     ->sortable()
                     ->badge(),
 
                 TextColumn::make('coupons_created_max_created_at')
-                    ->label('Last Coupon')
+                    ->label(__('widget.top_agent.last_coupon'))
                     ->dateTime('Y-m-d H:i')
                     ->since()
                     ->sortable(),

@@ -13,27 +13,27 @@ class ChangeStatusAction
 {
     public static function make(): Action
     {
-        return Action::make('change_status')
+        return Action::make(__('coupon.action.change_status'))
             ->icon('heroicon-o-pencil-square')
             ->visible(function ($record) {
                 $user = auth()->user();
 
-               $isVisibleToEmployee = $user->hasRoleSlug('customer service');
+                $isVisibleToEmployee = $user->hasRoleSlug('customer service');
                 $status = $record->status;
 
-                if (!$status) {
+                if (! $status) {
                     return false;
                 }
 
-                $isNotReserved = !$status->isReserved();
-                $isNotScheduled = !$status->isScheduled();
+                $isNotReserved = ! $status->isReserved();
+                $isNotScheduled = ! $status->isScheduled();
 
                 return $isVisibleToEmployee
                     && $isNotReserved
                     && $isNotScheduled
                     && $record->is_confirmed;
             })
-            ->schema(fn(Action $action): array => [
+            ->schema(fn (Action $action): array => [
                 Select::make('status')
                     ->label(__('coupon.status.new_status'))
                     ->options(Status::optionsExcept([Status::RESERVED]))
@@ -43,13 +43,13 @@ class ChangeStatusAction
 
                 DateTimePicker::make('reserved_date')
                     ->label(__('coupon.form.reserved_date'))
-                    ->visible(fn(Get $get) => $get('status') === Status::BOOKED)
-                    ->required(fn(Get $get) => $get('status') === Status::BOOKED),
+                    ->visible(fn (Get $get) => $get('status') === Status::BOOKED)
+                    ->required(fn (Get $get) => $get('status') === Status::BOOKED),
                 Select::make('sungard_branch_id')
                     ->label(__('coupon.form.sungard_branch_name'))
                     ->relationship('sungard', 'name')
-                    ->visible(fn(Get $get) => $get('status') === Status::BOOKED)
-                    ->required(fn(Get $get) => $get('status') === Status::BOOKED),
+                    ->visible(fn (Get $get) => $get('status') === Status::BOOKED)
+                    ->required(fn (Get $get) => $get('status') === Status::BOOKED),
             ])
             ->action(function (array $data, Model $record): void {
                 $record->update([

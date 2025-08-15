@@ -29,7 +29,7 @@ class User extends Authenticatable
         'email_verified_at',
         'branch_id',
         'exhibition_id',
-        'sungard_branch_id'
+        'sungard_branch_id',
     ];
 
     /**
@@ -97,7 +97,7 @@ class User extends Authenticatable
         return $this->roles->contains('slug', $slug);
     }
 
-public function createdUsers(): HasMany
+    public function createdUsers(): HasMany
     {
         return $this->hasMany(User::class, 'created_by');
     }

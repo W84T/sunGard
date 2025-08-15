@@ -15,7 +15,7 @@ class BranchForm
         return $schema
             ->components([
                 Hidden::make('created_by')
-                    ->default(fn() => auth()->id()),
+                    ->default(fn () => auth()->id()),
                 Select::make('exhibition_id')
                     ->label(__('branch.form.exhibition_name'))
                     ->relationship('exhibition', 'name')

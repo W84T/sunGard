@@ -15,7 +15,6 @@ use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\NavigationItem;
-use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -33,6 +32,7 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         $user = auth()->user();
+
         return $panel
             ->default()
             ->spa()
@@ -76,9 +76,9 @@ class AdminPanelProvider extends PanelProvider
 
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
-//                AccountWidget::class,
-//                FilamentInfoWidget::class,
-//                MyCalendarWidget::class,
+                //                AccountWidget::class,
+                //                FilamentInfoWidget::class,
+                //                MyCalendarWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -95,10 +95,10 @@ class AdminPanelProvider extends PanelProvider
                 NavigationItem::make('Add Coupon')
                     ->icon('heroicon-o-plus-circle')
                     ->activeIcon('heroicon-s-plus-circle')
-                    ->isActiveWhen(fn() => request()->routeIs('filament.admin.resources.records.create'))
+                    ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.records.create'))
                     ->sort(1)
-                    ->visible(fn() => auth()->check() && auth()->user()->roles->contains('slug', 'agent'))
-                    ->url(fn() => CouponResource::getUrl('create')),
+                    ->visible(fn () => auth()->check() && auth()->user()->roles->contains('slug', 'agent'))
+                    ->url(fn () => CouponResource::getUrl('create')),
             ])
             ->plugins([
                 FilamentShieldPlugin::make(),

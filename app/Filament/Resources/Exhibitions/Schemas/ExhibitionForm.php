@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Exhibitions\Schemas;
 
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -17,7 +16,7 @@ class ExhibitionForm
             ->components([
                 Section::make([
                     Hidden::make('created_by')
-                        ->default(fn() => auth()->id()),
+                        ->default(fn () => auth()->id()),
                     TextInput::make('name')
                         ->label(__('exhibition.form.name'))
                         ->required(),

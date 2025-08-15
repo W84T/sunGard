@@ -23,7 +23,7 @@ class CouponPolicy
      */
     public function view(User $user, Coupon $coupon)
     {
-        return ($user->can('view_coupons::coupon') && !$user->roles->contains('slug', 'employee')) || $coupon->employee_id === $user->id;
+        return ($user->can('view_coupons::coupon') && ! $user->roles->contains('slug', 'employee')) || $coupon->employee_id === $user->id;
     }
 
     /**
@@ -39,7 +39,7 @@ class CouponPolicy
      */
     public function update(User $user, Coupon $coupon): bool
     {
-        return ($user->can('update_coupons::coupon') && !$user->roles->contains('slug', 'employee')) || $coupon->employee_id === $user->id;
+        return ($user->can('update_coupons::coupon') && ! $user->roles->contains('slug', 'employee')) || $coupon->employee_id === $user->id;
     }
 
     /**

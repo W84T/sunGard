@@ -29,7 +29,7 @@ class TicketObserver
         }
 
         $coupon = Coupon::find($ticket->coupon_id);
-        if (!$coupon || empty($coupon->employee_id)) {
+        if (! $coupon || empty($coupon->employee_id)) {
             return;
         }
 
@@ -38,13 +38,13 @@ class TicketObserver
             $employee = User::find($coupon->employee_id);
             $manager = $employee?->creator;
 
-            if (!$manager) {
+            if (! $manager) {
                 return;
             }
 
             Notification::make()
                 ->title('استلمت تذكرة جديدة')
-                ->body('تم رفع تذكرة جديدة للكوبون' . $coupon->id)
+                ->body('تم رفع تذكرة جديدة للكوبون'.$coupon->id)
                 ->success()
                 ->actions([
                     Action::make('edit')
@@ -56,24 +56,21 @@ class TicketObserver
                 ])
                 ->sendToDatabase($manager);
 
-
             Log::info("Ticket #{$ticket->id} sent to customer service manager: {$manager->name}");
 
         }
 
-//        if ($ticket->submitted_to === 'admin') {
-//            $admin = User::whereHas('roles', fn($q) => $q->where('slug', 'admin'))
-//                ->first();
-//
-//            if (!$admin) {
-//                return;
-//            }
-//
-//            Log::info("Ticket #{$ticket->id} sent to admin: {$admin->name}");
-//            // Notification::send($admin, new TicketCreatedNotification($ticket));
-//        }
-
+        //        if ($ticket->submitted_to === 'admin') {
+        //            $admin = User::whereHas('roles', fn($q) => $q->where('slug', 'admin'))
+        //                ->first();
+        //
+        //            if (!$admin) {
+        //                return;
+        //            }
+        //
+        //            Log::info("Ticket #{$ticket->id} sent to admin: {$admin->name}");
+        //            // Notification::send($admin, new TicketCreatedNotification($ticket));
+        //        }
 
     }
-
 }

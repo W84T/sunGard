@@ -19,10 +19,10 @@ class ListCoupons extends ListRecords
     {
         $user = auth()->user();
 
-        $reserved   = (int) Status::RESERVED->value;
-        $scheduled  = implode(',', array_map('intval', Status::getScheduledCases()));
-        $notBooked  = implode(',', array_map('intval', Status::getNotBookedCases()));
-        $booked     = implode(',', array_map('intval', Status::getBookedCases()));
+        $reserved = (int) Status::RESERVED->value;
+        $scheduled = implode(',', array_map('intval', Status::getScheduledCases()));
+        $notBooked = implode(',', array_map('intval', Status::getNotBookedCases()));
+        $booked = implode(',', array_map('intval', Status::getBookedCases()));
 
         $counts = Coupon::query()
             ->selectRaw('COUNT(*) AS allCount')
@@ -32,7 +32,6 @@ class ListCoupons extends ListRecords
             ->selectRaw("COUNT(CASE WHEN status IN ($notBooked) THEN 1 END) AS notBooked")
             ->selectRaw("COUNT(CASE WHEN status IN ($booked) THEN 1 END) AS booked")
             ->first();
-
 
         $tabs = [];
 

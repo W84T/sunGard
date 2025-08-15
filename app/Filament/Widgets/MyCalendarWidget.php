@@ -2,7 +2,6 @@
 
 namespace App\Filament\Widgets;
 
-use Closure;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Guava\Calendar\Widgets\CalendarWidget;
 use Illuminate\Support\Carbon;
@@ -13,9 +12,13 @@ class MyCalendarWidget extends CalendarWidget
 {
     use InteractsWithPageFilters;
 
-    protected string|Closure|null|HtmlString $heading = 'Coupons Calendar';
-
     protected bool $eventClickEnabled = true;
+
+    public function getHeading(): string
+    {
+        return __('calendar_page.heading');
+    }
+
     protected ?string $defaultEventClickAction = 'view';
 
     public function getEvents(array $fetchInfo = []): Collection|array
@@ -66,10 +69,10 @@ class MyCalendarWidget extends CalendarWidget
                 ->backgroundColor($bg)
                 ->extendedProps([
                     'tooltip' => implode("\n", array_filter([
-                        "Customer: {$coupon->customer_name}",
-                        "Phone: {$coupon->customer_phone}",
-                        "Car: {$coupon->car_brand} {$coupon->car_model}",
-                        optional($coupon->sungard)->name ? "Branch: {$coupon->sungard->name}" : null,
+                        __('calendar_page.tooltip.customer', ['customer_name' => $coupon->customer_name]),
+                        __('calendar_page.tooltip.phone', ['customer_phone' => $coupon->customer_phone]),
+                        __('calendar_page.tooltip.car', ['car_brand' => $coupon->car_brand, 'car_model' => $coupon->car_model]),
+                        optional($coupon->sungard)->name ? __('calendar_page.tooltip.branch', ['branch_name' => $coupon->sungard->name]) : null,
                     ])),
                 ])
                 ->action('view');

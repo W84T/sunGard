@@ -26,7 +26,9 @@ use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 class CouponResource extends Resource
 {
     protected static ?string $model = Coupon::class;
+
     protected static ?int $navigationSort = 5;
+
     protected static string|BackedEnum|null $activeNavigationIcon = Heroicon::Ticket;
 
     public static function getNavigationIcon(): string|BackedEnum|Htmlable|null
@@ -86,7 +88,6 @@ class CouponResource extends Resource
         $user = auth()->user();
         $query = parent::getEloquentQuery();
 
-
         if ($user->roles->contains('slug', 'employee')) {
             return $query->where(function ($q) use ($user) {
                 $q->where('employee_id', $user->id)
@@ -145,6 +146,4 @@ class CouponResource extends Resource
             'force_delete_any',
         ];
     }
-
-
 }

@@ -6,7 +6,6 @@ use App\Filament\Resources\Exhibitions\Pages\CreateExhibition;
 use App\Filament\Resources\Exhibitions\Pages\EditExhibition;
 use App\Filament\Resources\Exhibitions\Pages\ListExhibitions;
 use App\Filament\Resources\Exhibitions\RelationManagers\BranchesRelationManager;
-use App\Filament\Resources\Exhibitions\RelationManagers\BranchRelationManager;
 use App\Filament\Resources\Exhibitions\Schemas\ExhibitionForm;
 use App\Filament\Resources\Exhibitions\Tables\ExhibitionsTable;
 use App\Models\Exhibition;
@@ -22,6 +21,7 @@ use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 class ExhibitionResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = Exhibition::class;
+
     protected static ?int $navigationSort = 2;
 
     public static function getNavigationIcon(): string|BackedEnum|Htmlable|null
@@ -57,7 +57,7 @@ class ExhibitionResource extends Resource implements HasShieldPermissions
     public static function getRelations(): array
     {
         return [
-            BranchesRelationManager::class
+            BranchesRelationManager::class,
         ];
     }
 

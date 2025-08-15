@@ -14,24 +14,34 @@ class BranchCoupons extends ChartWidget
     use InteractsWithPageFilters;
 
     protected ?string $heading = 'Branch Coupons';
+
     protected int|string|array $columnSpan = 2;
+
+    public function getHeading(): ?string
+    {
+        return __('widget.branch_coupons.heading');
+    }
+
     protected ?string $maxHeight = '300px';
 
     // How many bars before grouping into "Other"
     protected int $maxSlices = 10;
 
     // HSL palette settings — same “saturation / brightness vibe” always
-    protected int $hueSteps     = 24;
-    protected int $saturation   = 70;
-    protected int $lightness    = 50;
-    protected string $otherHex  = '#9ca3af';
+    protected int $hueSteps = 24;
+
+    protected int $saturation = 70;
+
+    protected int $lightness = 50;
+
+    protected string $otherHex = '#9ca3af';
 
     protected function getData(): array
     {
-        $start       = isset($this->filters['startDate']) ? Carbon::parse($this->filters['startDate'])->startOfDay() : now()->startOfYear();
-        $end         = isset($this->filters['endDate'])   ? Carbon::parse($this->filters['endDate'])->endOfDay()     : now()->endOfYear();
-        $branchId    = $this->filters['branch_id']     ?? '*';
-        $exhibitionId= $this->filters['exhibition_id'] ?? '*';
+        $start = isset($this->filters['startDate']) ? Carbon::parse($this->filters['startDate'])->startOfDay() : now()->startOfYear();
+        $end = isset($this->filters['endDate']) ? Carbon::parse($this->filters['endDate'])->endOfDay() : now()->endOfYear();
+        $branchId = $this->filters['branch_id'] ?? '*';
+        $exhibitionId = $this->filters['exhibition_id'] ?? '*';
 
         // If exhibition is specific, compute the allowed branch IDs.
         $allowedBranchIds = null;
@@ -43,13 +53,13 @@ class BranchCoupons extends ChartWidget
 
             // If the exhibition has NO branches -> return empty dataset.
             if (empty($allowedBranchIds)) {
-                return ['labels' => [], 'datasets' => [[ 'label' => 'Coupons per Branch', 'data' => [] ]]];
+                return ['labels' => [], 'datasets' => [['label' => __('widget.branch_coupons.coupons_per_branch'), 'data' => []]]];
             }
         }
 
         $rows = Coupon::query()
             // apply exhibition scope by branches list when exhibition is specific
-            ->when(is_array($allowedBranchIds), fn($q) => $q->whereIn('branch_id', $allowedBranchIds))
+            ->when(is_array($allowedBranchIds), fn ($q) => $q->whereIn('branch_id', $allowedBranchIds))
             // apply specific branch if chosen (and also ensure it belongs to the exhibition scope)
             ->when($branchId !== '*', function ($q) use ($branchId, $allowedBranchIds) {
                 if (is_array($allowedBranchIds) && ! in_array((int) $branchId, $allowedBranchIds, true)) {
@@ -67,7 +77,7 @@ class BranchCoupons extends ChartWidget
 
         // If nothing matched, return empty
         if ($rows->isEmpty()) {
-            return ['labels' => [], 'datasets' => [[ 'label' => 'Coupons per Branch', 'data' => [] ]]];
+            return ['labels' => [], 'datasets' => [['label' => __('widget.branch_coupons.coupons_per_branch'), 'data' => []]]];
         }
 
         // id => name
@@ -77,39 +87,40 @@ class BranchCoupons extends ChartWidget
             ->pluck('name', 'id');
 
         $labels = [];
-        $data   = [];
+        $data = [];
 
         foreach ($rows as $row) {
             $labels[] = $row->branch_id
                 ? ($namesById[$row->branch_id] ?? "Branch #{$row->branch_id}")
-                : 'Unassigned';
+                : __('widget.branch_coupons.unassigned');
             $data[] = (int) $row->total;
         }
 
         // (optional) tail collapse ...
         if (count($labels) > $this->maxSlices) {
             $topLabels = array_slice($labels, 0, $this->maxSlices - 1);
-            $topData   = array_slice($data,   0, $this->maxSlices - 1);
-            $otherSum  = array_sum(array_slice($data, $this->maxSlices - 1));
-            $labels = array_merge($topLabels, ['Other']);
-            $data   = array_merge($topData,   [$otherSum]);
+            $topData = array_slice($data, 0, $this->maxSlices - 1);
+            $otherSum = array_sum(array_slice($data, $this->maxSlices - 1));
+            $labels = array_merge($topLabels, [__('widget.branch_coupons.other')]);
+            $data = array_merge($topData, [$otherSum]);
         }
 
         // colors
         $bg = $border = [];
         foreach ($labels as $label) {
             $hex = ($label === 'Other') ? $this->otherHex : $this->colorForLabel($label);
-            $bg[] = $hex; $border[] = $hex;
+            $bg[] = $hex;
+            $border[] = $hex;
         }
 
         return [
             'labels' => $labels,
             'datasets' => [[
-                'label'           => 'Coupons per Branch',
-                'data'            => $data,
+                'label' => 'Coupons per Branch',
+                'data' => $data,
                 'backgroundColor' => $bg,
-                'borderColor'     => $border,
-                'borderWidth'     => 1,
+                'borderColor' => $border,
+                'borderWidth' => 1,
             ]],
         ];
     }
@@ -138,12 +149,12 @@ class BranchCoupons extends ChartWidget
         $m = $l - $c / 2;
 
         [$r1, $g1, $b1] = match (true) {
-            $h < 60  => [$c, $x, 0],
+            $h < 60 => [$c, $x, 0],
             $h < 120 => [$x, $c, 0],
             $h < 180 => [0, $c, $x],
             $h < 240 => [0, $x, $c],
             $h < 300 => [$x, 0, $c],
-            default  => [$c, 0, $x],
+            default => [$c, 0, $x],
         };
 
         $r = (int) round(($r1 + $m) * 255);

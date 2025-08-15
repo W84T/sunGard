@@ -23,5 +23,4 @@ class Ticket extends Model
     {
         return $this->belongsTo(Coupon::class, 'coupon_id');
     }
-
 }

@@ -3,15 +3,17 @@
 return [
     'singular' => 'Branch',
     'plural' => 'Branches',
+
     'form' => [
         'exhibition_name' => 'Exhibition Name',
-        'name' => 'Branch Name',
+        'name' => 'Name',
         'address' => 'Address',
     ],
+
     'table' => [
         'creator_name' => 'Creator Name',
         'exhibition_name' => 'Exhibition Name',
-        'name' => 'Branch Name',
+        'name' => 'Name',
         'address' => 'Address',
         'deleted_at' => 'Deleted At',
         'created_at' => 'Created At',

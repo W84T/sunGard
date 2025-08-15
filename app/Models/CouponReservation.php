@@ -9,11 +9,9 @@ class CouponReservation extends Model
 {
     use HasFactory;
 
-
     protected $guarded = [];
 
     protected $casts = [
         'reserved_at' => 'datetime',
     ];
-
 }

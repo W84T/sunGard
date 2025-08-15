@@ -4,23 +4,24 @@ namespace App;
 
 enum Status: int
 {
-    case RESERVED                         = 0;
-    case POSTPONED_BY_CUSTOMER            = 1;
-    case NO_REPLY_OR_WHATSAPP_SENT        = 2;
-    case DUPLICATE_POSTPONED              = 3;
-    case NOT_INTERESTED                   = 4;
-    case MULTIPLE_POSTPONES_OR_AVOID      = 5;
-    case BOOKED                           = 6;
-    case HEADING_TO_BRANCH                = 7;
-    case TRANSFERRED_OUTSIDE_COMPANY      = 8;
-    case PRICE_INQUIRY                    = 9;
-    case CUSTOMER_SERVED                  = 10;
+    case RESERVED = 0;
+    case POSTPONED_BY_CUSTOMER = 1;
+    case NO_REPLY_OR_WHATSAPP_SENT = 2;
+    case DUPLICATE_POSTPONED = 3;
+    case NOT_INTERESTED = 4;
+    case MULTIPLE_POSTPONES_OR_AVOID = 5;
+    case BOOKED = 6;
+    case HEADING_TO_BRANCH = 7;
+    case TRANSFERRED_OUTSIDE_COMPANY = 8;
+    case PRICE_INQUIRY = 9;
+    case CUSTOMER_SERVED = 10;
 
     public static function options(): array
     {
         // [int => "Label"]
         return array_reduce(self::cases(), function (array $carry, self $case) {
             $carry[$case->value] = $case->label();
+
             return $carry;
         }, []);
     }
@@ -28,17 +29,17 @@ enum Status: int
     public function label(): string
     {
         return match ($this) {
-            self::POSTPONED_BY_CUSTOMER       => __('status.postponed_by_customer'),
-            self::NO_REPLY_OR_WHATSAPP_SENT   => __('status.no_reply_or_whatsapp_sent'),
-            self::DUPLICATE_POSTPONED         => __('status.duplicate_postponed'),
-            self::NOT_INTERESTED              => __('status.not_interested'),
+            self::POSTPONED_BY_CUSTOMER => __('status.postponed_by_customer'),
+            self::NO_REPLY_OR_WHATSAPP_SENT => __('status.no_reply_or_whatsapp_sent'),
+            self::DUPLICATE_POSTPONED => __('status.duplicate_postponed'),
+            self::NOT_INTERESTED => __('status.not_interested'),
             self::MULTIPLE_POSTPONES_OR_AVOID => __('status.multiple_postpones_or_avoid'),
-            self::BOOKED                      => __('status.booked'),
-            self::HEADING_TO_BRANCH           => __('status.heading_to_branch'),
+            self::BOOKED => __('status.booked'),
+            self::HEADING_TO_BRANCH => __('status.heading_to_branch'),
             self::TRANSFERRED_OUTSIDE_COMPANY => __('status.transferred_outside_company'),
-            self::PRICE_INQUIRY               => __('status.price_inquiry'),
-            self::CUSTOMER_SERVED             => __('status.customer_served'),
-            self::RESERVED                    => __('status.reserved'),
+            self::PRICE_INQUIRY => __('status.price_inquiry'),
+            self::CUSTOMER_SERVED => __('status.customer_served'),
+            self::RESERVED => __('status.reserved'),
         };
     }
 
@@ -51,9 +52,10 @@ enum Status: int
         );
 
         return array_reduce(self::cases(), function (array $carry, self $case) use ($exceptValues) {
-            if (!in_array($case->value, $exceptValues, true)) {
+            if (! in_array($case->value, $exceptValues, true)) {
                 $carry[$case->value] = $case->label();
             }
+
             return $carry;
         }, []);
     }

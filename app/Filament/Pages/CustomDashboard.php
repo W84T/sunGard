@@ -25,7 +25,13 @@ class CustomDashboard extends Dashboard
     use HasFiltersForm;
 
     protected static ?int $navigationSort = -2;
-    protected static ?string $title = 'Dashboard';
+
+    public static function getNavigationLabel(): string
+    {
+        return __('dashboard.navigation_label');
+    }
+
+    protected static string $routePath = 'dashboard';
 
     public static function getNavigationIcon(): string|BackedEnum|null
     {
@@ -37,29 +43,27 @@ class CustomDashboard extends Dashboard
         return Phosphor::House->getIconForWeight(PhosphorWeight::Duotone);
     }
 
-
-
     public function filtersForm(Schema $schema): Schema
     {
         return $schema->components([
             Section::make()
                 ->schema([
                     DatePicker::make('startDate')
-                        ->label('Start date')
+                        ->label(__('dashboard.start_date'))
                         ->default(now()->startOfYear())
                         ->native(false)
                         ->live(),
 
                     DatePicker::make('endDate')
-                        ->label('End date')
+                        ->label(__('dashboard.end_date'))
                         ->default(now()->endOfYear())
                         ->native(false)
                         ->live(),
 
                     Select::make('exhibition_id')
-                        ->label('Exhibition')
-                        ->options(fn () => ['*' => 'All exhibitions'] + Exhibition::query()
-                                ->orderBy('name')->pluck('name', 'id')->all())
+                        ->label(__('dashboard.exhibition'))
+                        ->options(fn () => ['*' => __('dashboard.all_exhibitions')] + Exhibition::query()
+                            ->orderBy('name')->pluck('name', 'id')->all())
                         ->default('*')
                         ->searchable()
                         ->preload()
@@ -68,13 +72,13 @@ class CustomDashboard extends Dashboard
                         ->afterStateUpdated(fn (Set $set) => $set('branch_id', '*')),
 
                     Select::make('branch_id')
-                        ->label('Branch')
+                        ->label(__('dashboard.branch'))
                         ->options(function (Get $get) {
                             $exh = $get('exhibition_id') ?? '*';
 
                             if ($exh === '*' || $exh === null) {
-                                return ['*' => 'All branches'] + Branch::query()
-                                        ->orderBy('name')->pluck('name', 'id')->all();
+                                return ['*' => __('dashboard.all_branches')] + Branch::query()
+                                    ->orderBy('name')->pluck('name', 'id')->all();
                             }
 
                             $branches = Branch::query()
@@ -98,6 +102,7 @@ class CustomDashboard extends Dashboard
                 ->columnSpanFull(),
         ]);
     }
+
     public function getWidgets(): array
     {
         return [

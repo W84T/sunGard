@@ -2,7 +2,18 @@
 
 return [
     'singular' => 'مستخدم',
-    'plural' => 'المستخدمين',
+    'plural' => 'المستخدمون',
+
+    'tabs' => [
+        'admin' => 'المسؤول',
+        'branch_manager' => 'مدير الفرع',
+        'customer_service' => 'مدير خدمة العملاء',
+        'employee' => 'موظف خدمة العملاء',
+        'marketer' => 'مسوق',
+        'agent' => 'وكيل',
+        'reporter' => 'مدير التقارير',
+    ],
+
     'form' => [
         'user_information' => 'معلومات المستخدم',
         'name' => 'الاسم',
@@ -13,9 +24,13 @@ return [
         'roles' => 'الأدوار',
         'exhibition_name' => 'اسم المعرض',
         'branch_name' => 'اسم الفرع',
-        'sungard_branch' => 'فرع سنغارد',
+        'sungard_branch' => 'فرع سن جارد',
     ],
+
     'table' => [
+        'user' => 'المستخدم',
+        'branch' => 'الفرع',
+        'exhibition' => 'المعرض',
         'creator_name' => 'اسم المنشئ',
         'exhibition_name' => 'اسم المعرض',
         'branch_name' => 'اسم الفرع',
@@ -24,15 +39,6 @@ return [
         'roles' => 'الأدوار',
         'email_verified_at' => 'تاريخ التحقق من البريد الإلكتروني',
         'created_at' => 'تاريخ الإنشاء',
-        'updated_at' => 'تاريخ التحديث',
-    ],
-    'tabs' => [
-        'admin' => 'مسؤولين',
-        'agent' => 'موردين',
-        'marketer' => 'مسوقين',
-        'employee' => 'موظفو خدمة العملاء',
-        'reporter' => 'مسؤول التقارير',
-        'branch_manager' => 'مدراء افرع سنغارد',
-        'customer_service' => 'مسؤول خدمة العملاء',
+        'updated_at' => 'تاريخ التعديل',
     ],
 ];

@@ -17,8 +17,8 @@ class CouponSeeder extends Seeder
     public function run(): void
     {
         $faker = Faker::create();
-        $agents = User::whereHas('roles', fn($q) => $q->where('name', 'agent'))->get();
-        $employees = User::whereHas('roles', fn($q) => $q->where('name', 'customer service'))->get();
+        $agents = User::whereHas('roles', fn ($q) => $q->where('name', 'agent'))->get();
+        $employees = User::whereHas('roles', fn ($q) => $q->where('name', 'customer service'))->get();
         $branches = Branch::all();
         $exhibitions = Exhibition::all();
         $sungardBranches = \App\Models\SungardBranches::all();

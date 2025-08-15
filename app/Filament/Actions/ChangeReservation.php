@@ -17,9 +17,10 @@ class ChangeReservation
         return Action::make('reserve_date')
             ->icon('heroicon-s-calendar')
             ->visible(function ($record) {
-//                $user = auth()->user();
-//                $isVisible = $record->employee_id && $user?->roles->contains('slug', 'employee');
+                //                $user = auth()->user();
+                //                $isVisible = $record->employee_id && $user?->roles->contains('slug', 'employee');
                 $isVisible = $record->status === Status::BOOKED;
+
                 return $isVisible;
             })
             ->schema([
@@ -29,7 +30,7 @@ class ChangeReservation
                 Select::make('sungard_branch_id')
                     ->label(__('coupon.form.sungard_branch_name'))
                     ->relationship('sungard', 'name')
-                    ->required()
+                    ->required(),
 
             ])
             ->action(function (array $data, Model $record): void {

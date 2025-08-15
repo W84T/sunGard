@@ -3,18 +3,20 @@
 return [
     'singular' => 'Exhibition',
     'plural' => 'Exhibitions',
+
     'form' => [
-        'name' => 'Exhibition Name',
+        'name' => 'Name',
         'address' => 'Address',
-        'logo_address' => 'Logo',
+        'logo_address' => 'Logo Address',
     ],
+
     'table' => [
+        'logo_address' => 'Logo',
         'creator_name' => 'Creator Name',
-        'name' => 'Exhibition Name',
+        'name' => 'Name',
         'address' => 'Address',
         'deleted_at' => 'Deleted At',
         'created_at' => 'Created At',
         'updated_at' => 'Updated At',
-        'logo_address' => 'Logo',
     ],
 ];

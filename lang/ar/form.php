@@ -2,7 +2,7 @@
 
 return [
     'exhibition' => 'المعرض',
-    'resource' => 'المصدر',
-    'sector' => 'القطاع',
+    'resource' => 'المورد',
     'indicator_separator' => ': ',
+    'sector' => 'القطاع',
 ];

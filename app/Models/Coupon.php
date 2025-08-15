@@ -22,6 +22,7 @@ class Coupon extends Model
     use Versionable;
 
     protected $guarded = [];
+
     protected $versionable = [
         'agent_id',
         'branch_id',
@@ -37,8 +38,9 @@ class Coupon extends Model
         'plate_characters',
         'car_category',
         'is_confirmed',
-        'reserved_date'
+        'reserved_date',
     ];
+
     protected $versionStrategy = VersionStrategy::SNAPSHOT;
 
     protected $casts = [
@@ -47,31 +49,29 @@ class Coupon extends Model
         'reached_at' => 'datetime',
     ];
 
-
-//    protected static function booted(): void
-//    {
-//        static::updating(function ($coupon) {
-//            $originalStatus = $coupon->getOriginal('status');
-//            $newStatus = $coupon->status;
-//
-//            // Only act if status is actually changing
-//            if ($originalStatus !== $newStatus) {
-//                $user = Auth::user();
-//
-//                if ($user && $user->roles->contains('slug', 'employee')) {
-//                    $coupon->employee_id= $user->id;
-//                }
-//            }
-//        });
-//    }
+    //    protected static function booted(): void
+    //    {
+    //        static::updating(function ($coupon) {
+    //            $originalStatus = $coupon->getOriginal('status');
+    //            $newStatus = $coupon->status;
+    //
+    //            // Only act if status is actually changing
+    //            if ($originalStatus !== $newStatus) {
+    //                $user = Auth::user();
+    //
+    //                if ($user && $user->roles->contains('slug', 'employee')) {
+    //                    $coupon->employee_id= $user->id;
+    //                }
+    //            }
+    //        });
+    //    }
 
     protected static function booted()
     {
-//        static::created(function ($coupon) {
-//            $coupon->generateCouponImage();
-//        });
+        //        static::created(function ($coupon) {
+        //            $coupon->generateCouponImage();
+        //        });
     }
-
 
     public function generateCouponImage()
     {
@@ -81,7 +81,7 @@ class Coupon extends Model
         $arabicFont = public_path('fonts/NotoNaskhArabic-VariableFont_wght.ttf');
         $englishFont = public_path('fonts/Roboto-VariableFont_wdth,wght.ttf');
 
-        if (!file_exists($templatePath)) {
+        if (! file_exists($templatePath)) {
             return;
         }
 
@@ -91,16 +91,17 @@ class Coupon extends Model
             if (preg_match('/\p{Arabic}/u', $text)) {
                 return [
                     'text' => $ar->utf8Glyphs($text),
-                    'isArabic' => true
+                    'isArabic' => true,
                 ];
             }
+
             return [
                 'text' => $text,
-                'isArabic' => false
+                'isArabic' => false,
             ];
         };
 
-        $manager = new ImageManager(new Driver());
+        $manager = new ImageManager(new Driver);
         $img = $manager->read($templatePath);
 
         $fields = [
@@ -122,18 +123,17 @@ class Coupon extends Model
         }
 
         $outputDir = public_path('generated');
-        if (!file_exists($outputDir)) {
+        if (! file_exists($outputDir)) {
             mkdir($outputDir, 0755, true);
         }
 
-        $outputPath = $outputDir . "/coupon_{$this->id}.jpg";
+        $outputPath = $outputDir."/coupon_{$this->id}.jpg";
         $img->save($outputPath);
 
         $this->updateQuietly([
-            'coupon_link' => "generated/coupon_{$this->id}.jpg"
+            'coupon_link' => "generated/coupon_{$this->id}.jpg",
         ]);
     }
-
 
     public function branchRelation(): BelongsTo
     {
@@ -158,18 +158,16 @@ class Coupon extends Model
     // App\Models\Coupon
     public function sungard(): BelongsTo
     {
-        return $this->belongsTo(SungardBranches ::class, 'sungard_branch_id');
+        return $this->belongsTo(SungardBranches::class, 'sungard_branch_id');
     }
-
 
     public function getCarPlateAttribute()
     {
-        return strtoupper($this->plate_characters) . '-' . $this->plate_number;
+        return strtoupper($this->plate_characters).'-'.$this->plate_number;
     }
 
     public function tickets(): hasMany
     {
         return $this->hasMany(Ticket::class, 'coupon_id');
     }
-
 }

@@ -31,9 +31,9 @@ class AppServiceProvider extends ServiceProvider
                 ->locales(['ar', 'en']);
         });
 
-//        FilamentAsset::register([
-//            Js::make('photoswipe', Vite::asset('resources/js/app.js'))->module(),
-//            Css::make('photoswipe', Vite::asset('resources/css/app.css')),
-//        ]);
+        //        FilamentAsset::register([
+        //            Js::make('photoswipe', Vite::asset('resources/js/app.js'))->module(),
+        //            Css::make('photoswipe', Vite::asset('resources/css/app.css')),
+        //        ]);
     }
 }

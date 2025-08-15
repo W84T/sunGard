@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Users;
 
-use App\Filament\Resources\SungardBranches\RelationManagers\UsersRelationManager;
 use App\Filament\Resources\Users\Pages\CreateUser;
 use App\Filament\Resources\Users\Pages\EditUser;
 use App\Filament\Resources\Users\Pages\ListUsers;
@@ -14,7 +13,6 @@ use App\Filament\Resources\Users\Tables\UsersTable;
 use App\Models\User;
 use BackedEnum;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -24,6 +22,7 @@ use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
+
     protected static ?int $navigationSort = 6;
 
     public static function getNavigationIcon(): string|BackedEnum|null
@@ -35,7 +34,6 @@ class UserResource extends Resource
     {
         return Phosphor::Users->getIconForWeight(PhosphorWeight::Duotone);
     }
-
 
     public static function getEloquentQuery(): Builder
     {

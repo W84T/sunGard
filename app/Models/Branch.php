@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Overtrue\LaravelVersionable\Versionable;
 use Overtrue\LaravelVersionable\VersionStrategy;
@@ -34,7 +33,8 @@ class Branch extends Model
         return $this->belongsTo(Exhibition::class);
     }
 
-    public function coupon(): HasMany{
+    public function coupon(): HasMany
+    {
         return $this->hasMany(Coupon::class);
     }
 }

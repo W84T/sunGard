@@ -21,34 +21,36 @@ class ReserveCouponAction
             ->schema([])
             ->visible(function ($record) {
                 $user = auth()->user();
-                $isVisible = !$record->employee_id && $user?->roles->contains('slug', 'customer service');
+                $isVisible = ! $record->employee_id && $user?->roles->contains('slug', 'customer service');
 
                 return $isVisible;
             })
             ->action(function ($record) {
                 $user = Auth::user();
 
-                if (!$user) {
+                if (! $user) {
                     Notification::make()
                         ->title(__('coupon.notification.auth_error.title'))
                         ->body(__('coupon.notification.auth_error.body'))
                         ->danger()
                         ->send();
+
                     return;
                 }
 
-                if (!$record instanceof Coupon) {
+                if (! $record instanceof Coupon) {
                     Notification::make()
                         ->title(__('coupon.notification.invalid_coupon.title'))
                         ->body(__('coupon.notification.invalid_coupon.body'))
                         ->danger()
                         ->send();
+
                     return;
                 }
 
                 $max = Settings::get('max_active_coupons', 5);
 
-                $cooldownMinutes = (int)Settings::get('reservation_cooldown_minutes', 10);
+                $cooldownMinutes = (int) Settings::get('reservation_cooldown_minutes', 10);
 
                 $lastReservation = CouponReservation::where('employee_id', $user->id)
                     ->latest('reserved_at')
@@ -60,10 +62,10 @@ class ReserveCouponAction
                     ->where('status', Status::RESERVED)
                     ->count();
 
-//                if ($lastReservation && $lastReservation->reserved_at >= now()->subMinutes($cooldownMinutes))
-                if (!$coupon == 0) {
-//                    $nextAvailable = $lastReservation->reserved_at->addMinutes($cooldownMinutes);
-//                    $waitMinutes = ceil(now()->diffInRealMinutes($nextAvailable));
+                //                if ($lastReservation && $lastReservation->reserved_at >= now()->subMinutes($cooldownMinutes))
+                if (! $coupon == 0) {
+                    //                    $nextAvailable = $lastReservation->reserved_at->addMinutes($cooldownMinutes);
+                    //                    $waitMinutes = ceil(now()->diffInRealMinutes($nextAvailable));
 
                     Notification::make()
                         ->title(__('coupon.notification.cooldown_period.title'))
@@ -74,25 +76,24 @@ class ReserveCouponAction
                     return;
                 }
 
-
                 // Old logic: Check active (non-completed) coupons from Coupon table
                 // $activeCount = Coupon::where('employee_id', $user->id)
                 //     ->whereNotIn('status', ['completed', 'cancelled']) // or use your enum: Status::getBookedCases()
                 //     ->count();
 
                 // New logic: Count how many reservations this user made today
-//                $activeCount = CouponReservation::where('employee_id', $user->id)
-//                    ->whereDate('reserved_at', now()->toDateString())
-//                    ->count();
-//
-//                if ($activeCount >= $max) {
-//                    Notification::make()
-//                        ->title(__('coupon.notification.max_coupons_reached.title'))
-//                        ->body(__('coupon.notification.max_coupons_reached.body', ['max' => $max]))
-//                        ->warning()
-//                        ->send();
-//                    return;
-//                }
+                //                $activeCount = CouponReservation::where('employee_id', $user->id)
+                //                    ->whereDate('reserved_at', now()->toDateString())
+                //                    ->count();
+                //
+                //                if ($activeCount >= $max) {
+                //                    Notification::make()
+                //                        ->title(__('coupon.notification.max_coupons_reached.title'))
+                //                        ->body(__('coupon.notification.max_coupons_reached.body', ['max' => $max]))
+                //                        ->warning()
+                //                        ->send();
+                //                    return;
+                //                }
 
                 $record->update([
                     'employee_id' => $user->id,

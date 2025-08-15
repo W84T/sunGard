@@ -62,7 +62,7 @@ class ExhibitionsTable
                     ForceDeleteAction::make(),
                     RestoreAction::make(),
                     //                RevisionsAction::make(),
-                ])
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

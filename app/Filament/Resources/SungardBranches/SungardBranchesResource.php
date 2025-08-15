@@ -10,11 +10,9 @@ use App\Filament\Resources\SungardBranches\RelationManagers\UsersRelationManager
 use App\Filament\Resources\SungardBranches\Schemas\SungardBranchesForm;
 use App\Filament\Resources\SungardBranches\Tables\SungardBranchesTable;
 use App\Models\SungardBranches;
-use App\Models\User;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
@@ -23,12 +21,14 @@ use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 class SungardBranchesResource extends Resource
 {
     protected static ?string $model = SungardBranches::class;
+
     protected static ?int $navigationSort = 4;
 
     public static function getNavigationIcon(): string|BackedEnum|Htmlable|null
     {
         return Phosphor::CarSimple->getIconForWeight(PhosphorWeight::Regular);
     }
+
     public static function getActiveNavigationIcon(): string|BackedEnum|Htmlable|null
     {
         return Phosphor::CarSimple->getIconForWeight(PhosphorWeight::Duotone);

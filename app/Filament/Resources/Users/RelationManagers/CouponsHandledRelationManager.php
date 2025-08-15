@@ -30,5 +30,4 @@ class CouponsHandledRelationManager extends RelationManager
 
         return $ownerRecord->couponsHandled()->exists();
     }
-
 }

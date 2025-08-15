@@ -13,21 +13,17 @@ class GrowthWidget extends ChartWidget
     use InteractsWithPageFilters;
 
     protected ?string $heading = 'Coupons Growth';
+
     protected ?string $maxHeight = '300px';
+
     protected static bool $isLazy = true;
+
     protected int|string|array $columnSpan = 2;
 
     public function getHeading(): ?string
     {
-        [$start, $end] = $this->getRange();
-        $fmtStart = $start->isoFormat('MMM YYYY');
-        $fmtEnd   = $end->isoFormat('MMM YYYY');
-        $branch   = $this->filters['branch_id'] ?? '*';
-
-        $suffix = $branch !== '*' ? " • Branch #{$branch}" : '';
-        return "Coupons Growth ({$fmtStart} — {$fmtEnd}){$suffix}";
+        return __('widget.growth.heading');
     }
-
 
     protected function getData(): array
     {
@@ -37,9 +33,9 @@ class GrowthWidget extends ChartWidget
         // choose SQL snippet per driver
         $driver = DB::getDriverName();
         $ymExpr = match ($driver) {
-            'pgsql'  => "to_char(date_trunc('month', created_at), 'YYYY-MM')",
+            'pgsql' => "to_char(date_trunc('month', created_at), 'YYYY-MM')",
             'sqlite' => "strftime('%Y-%m', created_at)",
-            default  => "DATE_FORMAT(created_at, '%Y-%m')", // mysql/mariadb
+            default => "DATE_FORMAT(created_at, '%Y-%m')", // mysql/mariadb
         };
 
         $query = Coupon::query()
@@ -53,25 +49,25 @@ class GrowthWidget extends ChartWidget
 
         // Build continuous month axis from start..end
         $labels = [];
-        $data   = [];
+        $data = [];
 
         $cursor = $start->copy()->startOfMonth();
-        $last   = $end->copy()->startOfMonth();
+        $last = $end->copy()->startOfMonth();
 
         while ($cursor <= $last) {
             $ym = $cursor->format('Y-m');
             $labels[] = $cursor->shortMonthName;        // Jan, Feb, ...
-            $data[]   = (int) ($counts[$ym] ?? 0);
+            $data[] = (int) ($counts[$ym] ?? 0);
             $cursor->addMonth();
         }
 
         return [
             'datasets' => [
                 [
-                    'label'   => 'Coupons',
-                    'data'    => $data,
+                    'label' => __('widget.growth.coupons'),
+                    'data' => $data,
                     'tension' => 0.3,
-                    'fill'    => true,
+                    'fill' => true,
                 ],
             ],
             'labels' => $labels,
@@ -96,7 +92,7 @@ class GrowthWidget extends ChartWidget
 
         // normalize / guard
         $start = $start->startOfDay();
-        $end   = $end->endOfDay();
+        $end = $end->endOfDay();
 
         if ($end->lt($start)) {
             [$start, $end] = [$end->copy()->startOfDay(), $start->copy()->endOfDay()];

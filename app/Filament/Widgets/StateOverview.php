@@ -2,14 +2,14 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\User;
-use App\Models\Coupon;
 use App\Models\Branch;
+use App\Models\Coupon;
+use App\Models\User;
 use App\Status;
 use Carbon\Carbon;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
@@ -34,33 +34,33 @@ class StateOverview extends StatsOverviewWidget
 
         // Agents total
         $agentsTotal = User::query()
-            ->whereHas('roles', fn($q) => $q->where('slug', 'agent'))
-            ->when($branchId !== '*', fn($q) => $q->where('branch_id', $branchId))
-            ->when($branchId === '*' && $branchIds !== null, fn($q) => $q->whereIn('branch_id', $branchIds))
+            ->whereHas('roles', fn ($q) => $q->where('slug', 'agent'))
+            ->when($branchId !== '*', fn ($q) => $q->where('branch_id', $branchId))
+            ->when($branchId === '*' && $branchIds !== null, fn ($q) => $q->whereIn('branch_id', $branchIds))
             ->count();
 
         // Not booked total
         $notBookedTotal = Coupon::query()
             ->whereIn('status', Status::getNotBookedCases())
-            ->when($branchId !== '*', fn($q) => $q->where('branch_id', $branchId))
-            ->when($branchId === '*' && $branchIds !== null, fn($q) => $q->whereIn('branch_id', $branchIds))
+            ->when($branchId !== '*', fn ($q) => $q->where('branch_id', $branchId))
+            ->when($branchId === '*' && $branchIds !== null, fn ($q) => $q->whereIn('branch_id', $branchIds))
             ->whereBetween('created_at', [$start, $end])
             ->count();
 
         // Served total
         $servedTotal = Coupon::query()
             ->where('status', Status::CUSTOMER_SERVED->value)
-            ->when($branchId !== '*', fn($q) => $q->where('branch_id', $branchId))
-            ->when($branchId === '*' && $branchIds !== null, fn($q) => $q->whereIn('branch_id', $branchIds))
+            ->when($branchId !== '*', fn ($q) => $q->where('branch_id', $branchId))
+            ->when($branchId === '*' && $branchIds !== null, fn ($q) => $q->whereIn('branch_id', $branchIds))
             ->whereBetween('created_at', [$start, $end])
             ->count();
 
         // Series
         $agentsSeries = $this->monthlyCounts(
             User::query()
-                ->whereHas('roles', fn($q) => $q->where('slug', 'agent'))
-                ->when($branchId !== '*', fn($q) => $q->where('branch_id', $branchId))
-                ->when($branchId === '*' && $branchIds !== null, fn($q) => $q->whereIn('branch_id', $branchIds)),
+                ->whereHas('roles', fn ($q) => $q->where('slug', 'agent'))
+                ->when($branchId !== '*', fn ($q) => $q->where('branch_id', $branchId))
+                ->when($branchId === '*' && $branchIds !== null, fn ($q) => $q->whereIn('branch_id', $branchIds)),
             'created_at',
             $start,
             $end
@@ -69,8 +69,8 @@ class StateOverview extends StatsOverviewWidget
         $notBookedSeries = $this->monthlyCounts(
             Coupon::query()
                 ->whereIn('status', Status::getNotBookedCases())
-                ->when($branchId !== '*', fn($q) => $q->where('branch_id', $branchId))
-                ->when($branchId === '*' && $branchIds !== null, fn($q) => $q->whereIn('branch_id', $branchIds)),
+                ->when($branchId !== '*', fn ($q) => $q->where('branch_id', $branchId))
+                ->when($branchId === '*' && $branchIds !== null, fn ($q) => $q->whereIn('branch_id', $branchIds)),
             'created_at',
             $start,
             $end
@@ -79,28 +79,28 @@ class StateOverview extends StatsOverviewWidget
         $servedSeries = $this->monthlyCounts(
             Coupon::query()
                 ->where('status', Status::CUSTOMER_SERVED->value)
-                ->when($branchId !== '*', fn($q) => $q->where('branch_id', $branchId))
-                ->when($branchId === '*' && $branchIds !== null, fn($q) => $q->whereIn('branch_id', $branchIds)),
+                ->when($branchId !== '*', fn ($q) => $q->where('branch_id', $branchId))
+                ->when($branchId === '*' && $branchIds !== null, fn ($q) => $q->whereIn('branch_id', $branchIds)),
             'created_at',
             $start,
             $end
         );
 
         return [
-            Stat::make('Agents', number_format($agentsTotal))
-                ->description('Total agents')
+            Stat::make(__('widget.state_overview.agents.title'), number_format($agentsTotal))
+                ->description(__('widget.state_overview.agents.description'))
                 ->icon('heroicon-m-user-group')
                 ->color('info')
                 ->chart($agentsSeries),
 
-            Stat::make('Not Booked', number_format($notBookedTotal))
-                ->description('Total not booked')
+            Stat::make(__('widget.state_overview.not_booked.title'), number_format($notBookedTotal))
+                ->description(__('widget.state_overview.not_booked.description'))
                 ->icon('heroicon-m-x-circle')
                 ->color('danger')
                 ->chart($notBookedSeries),
 
-            Stat::make('Served', number_format($servedTotal))
-                ->description('Total served')
+            Stat::make(__('widget.state_overview.served.title'), number_format($servedTotal))
+                ->description(__('widget.state_overview.served.description'))
                 ->icon('heroicon-m-check-badge')
                 ->color('success')
                 ->chart($servedSeries),
@@ -111,9 +111,9 @@ class StateOverview extends StatsOverviewWidget
     {
         $driver = DB::getDriverName();
         $formatted = match ($driver) {
-            'pgsql'  => "to_char(date_trunc('month', {$dateColumn}), 'YYYY-MM')",
+            'pgsql' => "to_char(date_trunc('month', {$dateColumn}), 'YYYY-MM')",
             'sqlite' => "strftime('%Y-%m', {$dateColumn})",
-            default  => "DATE_FORMAT({$dateColumn}, '%Y-%m')",
+            default => "DATE_FORMAT({$dateColumn}, '%Y-%m')",
         };
 
         $rows = (clone $base)
@@ -128,7 +128,7 @@ class StateOverview extends StatsOverviewWidget
         $cursor = $start->copy()->startOfMonth();
         while ($cursor <= $end) {
             $ym = $cursor->format('Y-m');
-            $series[] = (int)($rows[$ym] ?? 0);
+            $series[] = (int) ($rows[$ym] ?? 0);
             $cursor->addMonth();
         }
 

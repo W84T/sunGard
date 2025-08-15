@@ -3,16 +3,18 @@
 return [
     'singular' => 'Sungard Branch',
     'plural' => 'Sungard Branches',
+
     'form' => [
-        'name' => 'Branch Name',
+        'name' => 'Name',
         'address' => 'Address',
         'color' => 'Color',
     ],
+
     'table' => [
-        'name' => 'Branch Name',
+        'color' => 'Color',
+        'name' => 'Name',
         'address' => 'Address',
         'created_at' => 'Created At',
         'updated_at' => 'Updated At',
-        'color' => 'Color',
     ],
 ];

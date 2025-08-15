@@ -18,7 +18,7 @@ class CreateRole extends CreateRecord
     {
         $this->permissions = collect($data)
             ->filter(function (mixed $permission, string $key): bool {
-                return !in_array($key, ['name', 'slug', 'guard_name', 'select_all', Utils::getTenantModelForeignKey()]);
+                return ! in_array($key, ['name', 'slug', 'guard_name', 'select_all', Utils::getTenantModelForeignKey()]);
             })
             ->values()
             ->flatten()

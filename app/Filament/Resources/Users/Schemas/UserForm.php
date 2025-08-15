@@ -24,7 +24,7 @@ class UserForm
         return $schema
             ->components([
                 Hidden::make('created_by')
-                    ->default(fn() => auth()->id()),
+                    ->default(fn () => auth()->id()),
 
                 Section::make(__('user.form.user_information'))
                     ->schema([
@@ -42,8 +42,8 @@ class UserForm
                                 TextInput::make('password')
                                     ->label(__('user.form.password'))
                                     ->password()
-                                    ->dehydrated(fn($state) => filled($state))
-                                    ->required(fn(Page $livewire): bool => $livewire instanceof CreateRecord)
+                                    ->dehydrated(fn ($state) => filled($state))
+                                    ->required(fn (Page $livewire): bool => $livewire instanceof CreateRecord)
                                     ->unique(ignoreRecord: true),
 
                                 DateTimePicker::make('email_verified_at')
@@ -77,12 +77,13 @@ class UserForm
                                         $roles = Role::whereIn('id', $get('roles'))
                                             ->pluck('slug')
                                             ->toArray();
+
                                         return in_array('agent', $roles);
                                     }),
 
                                 Select::make('branch_id')
                                     ->label(__('user.form.branch_name'))
-                                    ->options(fn(Get $get): Collection => Branch::query()
+                                    ->options(fn (Get $get): Collection => Branch::query()
                                         ->where('exhibition_id', $get('exhibition_id'))
                                         ->pluck('name', 'id'))
                                     ->searchable()
@@ -91,6 +92,7 @@ class UserForm
                                         $roles = Role::whereIn('id', $get('roles') ?? [])
                                             ->pluck('slug')
                                             ->toArray();
+
                                         return in_array('agent', $roles);
                                     })
                                     ->visible(function (Get $get) {
@@ -100,6 +102,7 @@ class UserForm
                                         $roles = Role::whereIn('id', $get('roles'))
                                             ->pluck('slug')
                                             ->toArray();
+
                                         return in_array('agent', $roles);
                                     }),
 
@@ -114,12 +117,14 @@ class UserForm
                                         $roles = Role::whereIn('id', $get('roles') ?? [])
                                             ->pluck('slug')
                                             ->toArray();
+
                                         return in_array('agent', $roles);
                                     })
                                     ->required(function (Get $get) {
                                         $roles = Role::whereIn('id', $get('roles') ?? [])
                                             ->pluck('slug')
                                             ->toArray();
+
                                         return in_array('branch-manager', $roles);
                                     })
                                     ->visible(function (Get $get) {
@@ -129,6 +134,7 @@ class UserForm
                                         $roles = Role::whereIn('id', $get('roles'))
                                             ->pluck('slug')
                                             ->toArray();
+
                                         return in_array('branch-manager', $roles);
                                     }),
                             ]),

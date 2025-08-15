@@ -18,7 +18,7 @@ class TicketSeeder extends Seeder
         $faker = Faker::create();
         $coupons = Coupon::all();
         $users = User::all();
-        $customerServiceManager = User::whereHas('roles', fn($q) => $q->where('name', 'customer service manager'))->first();
+        $customerServiceManager = User::whereHas('roles', fn ($q) => $q->where('name', 'customer service manager'))->first();
 
         for ($i = 0; $i < 20; $i++) {
             $status = $faker->randomElement(['open', 'closed']);

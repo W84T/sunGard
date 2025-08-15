@@ -17,10 +17,7 @@ class StatusObserve
     /**
      * Handle the Coupon "updated" event.
      */
-    public function updated(Coupon $coupon): void
-    {
-
-    }
+    public function updated(Coupon $coupon): void {}
 
     /**
      * Handle the Coupon "deleted" event.
