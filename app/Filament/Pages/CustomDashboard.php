@@ -3,7 +3,10 @@
 namespace App\Filament\Pages;
 
 
+use App\Filament\Widgets\GrowthWidget;
 use App\Filament\Widgets\MyCalendarWidget;
+use App\Filament\Widgets\StateOverview;
+use App\Filament\Widgets\TopAgentWidget;
 use BackedEnum;
 use Filament\Pages\Dashboard;
 use Filament\Pages\Dashboard\Concerns\HasFiltersForm;
@@ -30,8 +33,15 @@ class CustomDashboard extends Dashboard
     public function getWidgets(): array
     {
         return [
-//            MyCalendarWidget::class,
+            StateOverview::class,
+            GrowthWidget::class,
+            TopAgentWidget::class
         ];
+    }
+
+    public function getColumns(): int|array
+    {
+        return 4;
     }
 
 }
