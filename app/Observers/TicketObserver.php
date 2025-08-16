@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Enums\TicketPriority;
 use App\Filament\Resources\Coupons\CouponResource;
 use App\Models\Coupon;
 use App\Models\Ticket;
@@ -9,6 +10,8 @@ use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
 class TicketObserver
 {
@@ -23,54 +26,52 @@ class TicketObserver
 
     private function sendTicketNotification(Ticket $ticket): void
     {
-        // Early exit if no coupon
         if (empty($ticket->coupon_id)) {
             return;
         }
 
         $coupon = Coupon::find($ticket->coupon_id);
-        if (! $coupon || empty($coupon->employee_id)) {
+        if (!$coupon || empty($coupon->employee_id)) {
             return;
         }
 
-        // Figure out who to notify
+        // Map priorities to icons and colors
+        $priorityMap = [
+            TicketPriority::LOW->value => ['icon' => Phosphor::Info->getIconForWeight(PhosphorWeight::Duotone), 'color' => 'info'],
+            TicketPriority::MEDIUM->value => ['icon' => Phosphor::Warning->getIconForWeight(PhosphorWeight::Duotone), 'color' => 'warning'],
+            TicketPriority::HIGH->value => ['icon' => Phosphor::Radioactive->getIconForWeight(PhosphorWeight::Duotone), 'color' => 'danger'],
+        ];
+
+        $settings = $priorityMap[$ticket->priority->value] ?? $priorityMap[TicketPriority::LOW->value];
+
         if ($ticket->submitted_to === 'customer service manager') {
             $employee = User::find($coupon->employee_id);
             $manager = $employee?->creator;
 
-            if (! $manager) {
+            if (!$manager) {
                 return;
             }
 
             Notification::make()
-                ->title('استلمت تذكرة جديدة')
-                ->body('تم رفع تذكرة جديدة للكوبون'.$coupon->id)
-                ->success()
+                ->title($ticket->title)
+                ->body("تم رفع تذكرة جديدة للكوبون #{$coupon->id} (الأولوية: {$ticket->priority->getLabel()})")
+                ->icon($settings['icon'])
+                ->iconColor($settings['color'])
+                ->color($settings['color'])
                 ->actions([
                     Action::make('edit')
+                        ->label('عرض')
                         ->icon('heroicon-m-eye')
                         ->color('info')
                         ->url(CouponResource::getUrl('edit', ['record' => $coupon->id])),
-                    Action::make('markAsUnread')
-                        ->markAsUnread(),
+                    Action::make('markAsRead')
+                        ->label('وضع علامة كمقروء')
+                        ->markAsRead(),
                 ])
                 ->sendToDatabase($manager);
 
-            Log::info("Ticket #{$ticket->id} sent to customer service manager: {$manager->name}");
-
+            Log::info("Ticket #{$ticket->id} (priority {$ticket->priority->value}) sent to {$manager->name}");
         }
-
-        //        if ($ticket->submitted_to === 'admin') {
-        //            $admin = User::whereHas('roles', fn($q) => $q->where('slug', 'admin'))
-        //                ->first();
-        //
-        //            if (!$admin) {
-        //                return;
-        //            }
-        //
-        //            Log::info("Ticket #{$ticket->id} sent to admin: {$admin->name}");
-        //            // Notification::send($admin, new TicketCreatedNotification($ticket));
-        //        }
-
     }
+
 }

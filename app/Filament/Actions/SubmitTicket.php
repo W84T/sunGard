@@ -6,6 +6,8 @@ use App\Models\Ticket;
 use Filament\Actions\Action;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,7 +24,10 @@ class SubmitTicket
                 return $user->hasAnyRoleSlug(['customer service', 'agent']);
             })
             ->schema([
-                RichEditor::make('description')
+                TextInput::make('title')
+                    ->label(__('coupon.actions.title'))
+                    ->required(),
+                Textarea::make('description')
                     ->label(__('coupon.ticket.description'))
                     ->required(),
 
@@ -47,6 +52,7 @@ class SubmitTicket
                 Ticket::create([
                     'coupon_id' => $record->id,
                     'created_by' => Auth::id(),
+                    'title' => $data['title'],
                     'description' => $data['description'],
                     'priority' => $data['priority'],
                     'submitted_to' => $data['submitted_to'],

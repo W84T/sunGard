@@ -19,6 +19,7 @@ use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Group;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
@@ -33,25 +34,25 @@ class CouponsTable
         return $table
             ->columns(
                 collect([
-                    !$user->roles->contains('slug', 'employee') ? TextColumn::make('agent.name')
+                    !$user->hasRoleSlug('customer service') ? TextColumn::make('agent.name')
                         ->label(__('coupon.table.agent_id'))
                         ->numeric()
                         ->sortable()
                         ->toggleable(isToggledHiddenByDefault: true) : null,
 
-                    !$user->roles->contains('slug', 'employee') ? TextColumn::make('branchRelation.name')
+                    !$user->hasRoleSlug('customer service') ? TextColumn::make('branchRelation.name')
                         ->label(__('coupon.table.branch_id'))
                         ->numeric()
                         ->sortable()
                         ->toggleable() : null,
 
-                    !$user->roles->contains('slug', 'employee') ? TextColumn::make('exhibitionRelation.name')
+                    !$user->hasRoleSlug('customer service')? TextColumn::make('exhibitionRelation.name')
                         ->label(__('coupon.table.exhibition_id'))
                         ->numeric()
                         ->sortable()
                         ->toggleable() : null,
 
-                    !$user->roles->contains('slug', 'employee') ? TextColumn::make('employee_id')
+                    !$user->hasRoleSlug('customer service') ? TextColumn::make('employee_id')
                         ->label(__('coupon.table.employee_id'))
                         ->numeric()
                         ->toggleable(isToggledHiddenByDefault: true) : null,
@@ -61,12 +62,12 @@ class CouponsTable
                         ->searchable()
                         ->toggleable(),
 
-                    !$user->roles->contains('slug', 'employee') ? TextColumn::make('customer_email')
+                    !$user->hasRoleSlug('customer service')? TextColumn::make('customer_email')
                         ->label(__('coupon.table.customer_email'))
                         ->searchable()
                         ->toggleable() : null,
 
-                    !$user->roles->contains('slug', 'employee') ? TextColumn::make('customer_phone')
+                    !$user->hasRoleSlug('customer service')? TextColumn::make('customer_phone')
                         ->label(__('coupon.table.customer_phone'))
                         ->searchable()
                         ->toggleable(isToggledHiddenByDefault: true) : null,
@@ -86,14 +87,13 @@ class CouponsTable
                         ->searchable()
                         ->toggleable(isToggledHiddenByDefault: true),
 
-                        !$user->roles->contains('slug', 'employee') ? TextColumn::make('plate_number')
+                        !$user->hasRoleSlug('customer service') ? TextColumn::make('plate_number')
                         ->label(__('coupon.table.plate_number'))
                         ->searchable()
                         ->toggleable(isToggledHiddenByDefault: true) : null,
 
-                    $user->roles->contains('slug', 'admin') || $user->roles->contains('slug', 'employee') ? IconColumn::make('is_confirmed')
+                    $user->hasRoleSlug('admin') || $user->hasRoleSlug('customer service manager') ? ToggleColumn::make('is_confirmed')
                         ->label(__('coupon.table.is_confirmed'))
-                        ->boolean()
                         ->toggleable(isToggledHiddenByDefault: true) : null,
 
 //                    $user->roles->contains('slug', 'admin') || $user->roles->contains('slug', 'employee') ? SelectColumn::make('status')
@@ -102,31 +102,31 @@ class CouponsTable
 //                        ->toggleable(isToggledHiddenByDefault: false)
 //                        : null,
 
-                    !$user->roles->contains('slug', 'employee') ? TextColumn::make('reserved_date')
+                    !$user->hasRoleSlug('customer service') ? TextColumn::make('reserved_date')
                         ->label(__('coupon.table.reserved_date'))
                         ->dateTime()
                         ->sortable()
                         ->toggleable(isToggledHiddenByDefault: true) : null,
 
-                    !$user->roles->contains('slug', 'employee') ? TextColumn::make('reached_at')
+                    !$user->hasRoleSlug('customer service') ? TextColumn::make('reached_at')
                         ->label(__('coupon.table.reached_at'))
                         ->dateTime()
                         ->sortable()
                         ->toggleable(isToggledHiddenByDefault: true) : null,
 
-                    !$user->roles->contains('slug', 'employee') ? TextColumn::make('deleted_at')
+                    !$user->hasRoleSlug('customer service') ? TextColumn::make('deleted_at')
                         ->label(__('coupon.table.deleted_at'))
                         ->dateTime()
                         ->sortable()
                         ->toggleable(isToggledHiddenByDefault: true) : null,
 
-                    !$user->roles->contains('slug', 'employee') ? TextColumn::make('created_at')
+                    !$user->hasRoleSlug('customer service') ? TextColumn::make('created_at')
                         ->label(__('coupon.table.created_at'))
                         ->dateTime()
                         ->sortable()
                         ->toggleable(isToggledHiddenByDefault: true) : null,
 
-                    !$user->roles->contains('slug', 'employee') ? TextColumn::make('updated_at')
+                    !$user->hasRoleSlug('customer service') ? TextColumn::make('updated_at')
                         ->label(__('coupon.table.updated_at'))
                         ->dateTime()
                         ->sortable()
@@ -201,8 +201,7 @@ class CouponsTable
                     ->label(__('coupon.actions.reserve_coupon'))
                     ->color('success'),
                 ChangeStatusAction::make()
-                    ->label(__('coupon.actions.change_status'))
-                    ->color('info'),
+                    ->label(__('coupon.actions.change_status')),
                 ActionGroup::make([
                     ChangeReservation::make()
                         ->label(__('coupon.actions.reserve_date')),

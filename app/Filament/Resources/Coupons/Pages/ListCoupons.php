@@ -25,8 +25,8 @@ class ListCoupons extends ListRecords
         $scheduled = implode(',', array_map('intval', Status::getScheduledCases()));
         $notBooked = implode(',', array_map('intval', Status::getNotBookedCases()));
         $booked = implode(',', array_map('intval', Status::getBookedCases()));
-
-        $counts = Coupon::query()
+        $query = CouponResource::getEloquentQuery();
+        $counts = (clone $query)
             ->selectRaw('COUNT(*) AS allCount')
             ->selectRaw('COUNT(CASE WHEN status IS NULL THEN 1 END) AS notScheduled')
             ->selectRaw("COUNT(CASE WHEN status = $reserved THEN 1 END) AS reserved")
@@ -36,6 +36,10 @@ class ListCoupons extends ListRecords
             ->first();
 
         $tabs = [];
+
+        if ($user->hasRoleSlug('branch manager')) {
+            return [];
+        }
 
         // Only for non–customer service
         if (!$user->hasRoleSlug('customer service')) {

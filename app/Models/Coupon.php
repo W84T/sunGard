@@ -68,12 +68,12 @@ class Coupon extends Model
 
     protected static function booted()
     {
-        //        static::created(function ($coupon) {
-        //            $coupon->generateCouponImage();
-        //        });
+        static::created(function ($coupon) {
+            $coupon->generateCouponImage();
+        });
     }
 
-    public function generateCouponImage()
+    public function generateCouponImage(): void
     {
         require_once base_path('vendor/khaled.alshamaa/ar-php/src/Arabic.php');
 
@@ -81,7 +81,7 @@ class Coupon extends Model
         $arabicFont = public_path('fonts/NotoNaskhArabic-VariableFont_wght.ttf');
         $englishFont = public_path('fonts/Roboto-VariableFont_wdth,wght.ttf');
 
-        if (! file_exists($templatePath)) {
+        if (!file_exists($templatePath)) {
             return;
         }
 
@@ -123,11 +123,11 @@ class Coupon extends Model
         }
 
         $outputDir = public_path('generated');
-        if (! file_exists($outputDir)) {
+        if (!file_exists($outputDir)) {
             mkdir($outputDir, 0755, true);
         }
 
-        $outputPath = $outputDir."/coupon_{$this->id}.jpg";
+        $outputPath = $outputDir . "/coupon_{$this->id}.jpg";
         $img->save($outputPath);
 
         $this->updateQuietly([
@@ -163,7 +163,7 @@ class Coupon extends Model
 
     public function getCarPlateAttribute()
     {
-        return strtoupper($this->plate_characters).'-'.$this->plate_number;
+        return strtoupper($this->plate_characters) . '-' . $this->plate_number;
     }
 
     public function tickets(): hasMany

@@ -127,14 +127,28 @@ return [
     ],
 
     'ticket' => [
+        'singular' => 'Ticket',
+        'plural' => 'Tickets',
+        'create' => 'Create Ticket',
+        'title' => 'Title',
         'description' => 'Description',
+        'status' => 'Status',
         'priority' => 'Priority',
+        'submitted_to' => 'Submitted To',
+        'closed_at' => 'Closed At',
+        'created_at' => 'Created At',
+        'updated_at' => 'Updated At',
+        'closed_by' => 'Closed By',
+        'created_by' => 'Created By',
+        'status_options' => [
+            'open' => 'Open',
+            'closed' => 'Closed',
+        ],
         'priority_options' => [
             'low' => 'Low',
             'medium' => 'Medium',
             'high' => 'High',
         ],
-        'submitted_to' => 'Submitted To',
         'submitted_to_options' => [
             'admin' => 'Admin',
             'customer_service_manager' => 'Customer Service Manager',

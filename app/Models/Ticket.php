@@ -7,12 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Permission\Traits\HasRoles;
 
+use App\Enums\TicketPriority;
+
 class Ticket extends Model
 {
     use HasFactory;
     use HasRoles;
 
     protected $guarded = [];
+
+    protected $casts = [
+        'priority' => TicketPriority::class,
+    ];
 
     public function creator(): BelongsTo
     {

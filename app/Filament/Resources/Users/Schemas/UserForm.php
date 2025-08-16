@@ -168,7 +168,7 @@ class UserForm
                                             ->pluck('slug')
                                             ->toArray();
 
-                                        return in_array('branch-manager', $roles);
+                                        return in_array('branch manager', $roles);
                                     }),
                             ]),
                     ]),

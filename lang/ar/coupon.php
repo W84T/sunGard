@@ -127,14 +127,28 @@ return [
     ],
 
     'ticket' => [
+        'singular' => 'تذكرة',
+        'plural' => 'تذاكر',
+        'create' => 'إنشاء تذكرة',
+        'title' => 'العنوان',
         'description' => 'الوصف',
+        'status' => 'الحالة',
         'priority' => 'الأولوية',
+        'submitted_to' => 'مرسل إلى',
+        'closed_at' => 'تاريخ الإغلاق',
+        'created_at' => 'تاريخ الإنشاء',
+        'updated_at' => 'تاريخ التحديث',
+        'closed_by' => 'أغلق بواسطة',
+        'created_by' => 'أنشئ بواسطة',
+        'status_options' => [
+            'open' => 'مفتوحة',
+            'closed' => 'مغلقة',
+        ],
         'priority_options' => [
             'low' => 'منخفض',
             'medium' => 'متوسط',
             'high' => 'مرتفع',
         ],
-        'submitted_to' => 'مرسل إلى',
         'submitted_to_options' => [
             'admin' => 'المسؤول',
             'customer_service_manager' => 'مدير خدمة العملاء',

@@ -7,9 +7,11 @@ use App\Filament\Resources\Coupons\Pages\CreateCoupon;
 use App\Filament\Resources\Coupons\Pages\EditCoupon;
 use App\Filament\Resources\Coupons\Pages\ListCoupons;
 use App\Filament\Resources\Coupons\Pages\ViewCoupon;
+use App\Filament\Resources\Coupons\RelationManagers\TicketsRelationManager;
 use App\Filament\Resources\Coupons\Schemas\CouponForm;
 use App\Filament\Resources\Coupons\Schemas\CouponInfolist;
 use App\Filament\Resources\Coupons\Tables\CouponsTable;
+use App\Filament\Resources\Tickets\TicketResource;
 use App\Models\Coupon;
 use App\Models\User;
 use BackedEnum;
@@ -70,6 +72,7 @@ class CouponResource extends Resource
     public static function getRelations(): array
     {
         return [
+            TicketsRelationManager::class,
         ];
     }
 
@@ -89,7 +92,8 @@ class CouponResource extends Resource
         $user = auth()->user();
         $query = parent::getEloquentQuery();
 
-        if ($user->roles->contains('slug', 'employee')) {
+        // Customer service (regular) – already handled
+        if ($user->hasRoleSlug('customer service')) {
             return $query->where(function ($q) use ($user) {
                 $q->where('employee_id', $user->id)
                     ->orWhere(function ($sub) {
@@ -99,7 +103,8 @@ class CouponResource extends Resource
             });
         }
 
-        if ($user->roles->contains('slug', 'agent')) {
+        // Agents – already handled
+        if ($user->hasRoleSlug('agent')) {
             return $query->where(function ($q) use ($user) {
                 $q->where('agent_id', $user->id)
                     ->orWhere(function ($sub) {
@@ -109,26 +114,30 @@ class CouponResource extends Resource
             });
         }
 
-        if ($user->roles->contains('slug', 'marketer')) {
-            $agentIds = User::where('created_by', $user->id)
-                ->pluck('id');
+        // Marketers – only see coupons of their agents
+        if ($user->hasRoleSlug('marketer')) {
+            $agentIds = User::where('created_by', $user->id)->pluck('id');
 
-            return $query->where(function ($q) use ($agentIds) {
-                $q->whereIn('agent_id', $agentIds)
-                    ->orWhere(function ($sub) {
-                        $sub->whereNull('agent_id')
-                            ->whereNull('status');
-                    });
-            });
+            return $query->whereIn('agent_id', $agentIds);
         }
 
+        // Customer service manager – only see coupons of their customer service employees
+        if ($user->hasRoleSlug('customer service manager')) {
+            $employeeIds = User::where('created_by', $user->id)->pluck('id');
+
+            return $query->whereIn('employee_id', $employeeIds);
+        }
+
+        if ($user->hasRoleSlug('branch manager')) {
+            return $query->where('sungard_branch_id', $user->sungard_branch_id);
+        }
+
+        // Fallback – admins / others can see everything
         return $query->withoutGlobalScopes([
             SoftDeletingScope::class,
         ]);
-
-        //        return parent::getEloquentQuery()
-
     }
+
 
     public static function getPermissionPrefixes(): array
     {
@@ -157,7 +166,7 @@ class CouponResource extends Resource
                 ->url(static::getUrl('index'))
                 ->isActiveWhen(fn() => request()->routeIs([
                     'filament.admin.resources.coupons.index',
-                    'filament.admin.resources.coupons.update',
+                    'filament.admin.resources.coupons.edit',
                     'filament.admin.resources.coupons.view',
                 ])),
         ];

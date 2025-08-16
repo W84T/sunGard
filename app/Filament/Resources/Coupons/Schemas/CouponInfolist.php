@@ -153,7 +153,7 @@ class CouponInfolist
                                     ->date()
                                     ->visible(fn($record) => filled($record->reserved_date)),
 
-                                TextEntry::make('sungard_branch_id.name')
+                                TextEntry::make('sungard.name')
                                     ->size(TextSize::Large)
                                     ->label(__('coupon.infolist.sungard_branch_name'))
                                     ->visible(fn($record) => filled($record->sungard_branch_id)),
