@@ -2,7 +2,8 @@
 
 namespace App\Filament\Resources\SungardBranches\Schemas;
 
-use Awcodes\Palette\Forms\Components\ColorPicker;
+//use Awcodes\Palette\Forms\Components\ColorPicker;/
+use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
@@ -19,7 +20,6 @@ class SungardBranchesForm
                 TextInput::make('name')
                     ->label(__('sungard_branch.form.name'))
                     ->required(),
-                //                ColorPicker::make('color')
                 //
                 TextInput::make('address')
                     ->label(__('sungard_branch.form.address')),
@@ -27,43 +27,77 @@ class SungardBranchesForm
                 ColorPicker::make('color')
                     ->label(__('sungard_branch.form.color'))
                     ->required()
-                    ->unique()
-                    ->colors([
-                        '#e23636' => Color::hex('#e23636'),
-                        '#e25f36' => Color::hex('#e25f36'),
-                        '#e28836' => Color::hex('#e28836'),
-                        '#e2b236' => Color::hex('#e2b236'),
-                        '#e2db36' => Color::hex('#e2db36'),
-                        '#bfe236' => Color::hex('#bfe236'),
-                        '#96e236' => Color::hex('#96e236'),
-                        '#6de236' => Color::hex('#6de236'),
-                        '#43e236' => Color::hex('#43e236'),
-                        '#36e251' => Color::hex('#36e251'),
-                        '#36e27b' => Color::hex('#36e27b'),
-                        '#36e2a4' => Color::hex('#36e2a4'),
-                        '#36e2cd' => Color::hex('#36e2cd'),
-                        '#36cde2' => Color::hex('#36cde2'),
-                        '#36a4e2' => Color::hex('#36a4e2'),
-                        '#367be2' => Color::hex('#367be2'),
-                        '#3651e2' => Color::hex('#3651e2'),
-                        '#4336e2' => Color::hex('#4336e2'),
-                        '#6d36e2' => Color::hex('#6d36e2'),
-                        '#9636e2' => Color::hex('#9636e2'),
-                        '#bf36e2' => Color::hex('#bf36e2'),
-                        '#e236db' => Color::hex('#e236db'),
-                        '#e236b2' => Color::hex('#e236b2'),
-                        '#e23688' => Color::hex('#e23688'),
-                        '#e2365f' => Color::hex('#e2365f'),
+                    ->unique(),
 
-                    ])
-                    ->storeAsKey()
-                    ->shades([
-                        'badass' => 300,
-                    ])
-                    ->labels([
-                        'bg-gradient-secondary' => 'Gradient Secondary',
-                    ])
-                    ->size('lg'),
+//                ColorPicker::make('color')
+//                    ->label(__('sungard_branch.form.color'))
+//                    ->required()
+//                    ->unique()
+//                    ->colors([
+//                        '#e6194b' => Color::hex('#e6194b'), // red
+//                        '#3cb44b' => Color::hex('#3cb44b'), // green
+//                        '#ffe119' => Color::hex('#ffe119'), // yellow
+//                        '#4363d8' => Color::hex('#4363d8'), // blue
+//                        '#f58231' => Color::hex('#f58231'), // orange
+//                        '#911eb4' => Color::hex('#911eb4'), // purple
+//                        '#46f0f0' => Color::hex('#46f0f0'), // cyan
+//                        '#f032e6' => Color::hex('#f032e6'), // magenta
+//                        '#bcf60c' => Color::hex('#bcf60c'), // lime
+//                        '#fabebe' => Color::hex('#fabebe'), // light pink
+//
+//                        '#008080' => Color::hex('#008080'), // teal
+//                        '#e6beff' => Color::hex('#e6beff'), // lavender
+//                        '#9a6324' => Color::hex('#9a6324'), // brown
+//                        '#fffac8' => Color::hex('#fffac8'), // beige
+//                        '#800000' => Color::hex('#800000'), // maroon
+//                        '#aaffc3' => Color::hex('#aaffc3'), // mint
+//                        '#808000' => Color::hex('#808000'), // olive
+//                        '#ffd8b1' => Color::hex('#ffd8b1'), // apricot
+//                        '#000075' => Color::hex('#000075'), // navy
+//                        '#808080' => Color::hex('#808080'), // gray
+//
+//                        '#ffe4e1' => Color::hex('#ffe4e1'), // misty rose
+//                        '#7fffd4' => Color::hex('#7fffd4'), // aquamarine
+//                        '#deb887' => Color::hex('#deb887'), // burlywood
+//                        '#20b2aa' => Color::hex('#20b2aa'), // light sea green
+//                        '#ff6347' => Color::hex('#ff6347'), // tomato
+//                        '#6a5acd' => Color::hex('#6a5acd'), // slate blue
+//                        '#daa520' => Color::hex('#daa520'), // goldenrod
+//                        '#ff69b4' => Color::hex('#ff69b4'), // hot pink
+//                        '#cd5c5c' => Color::hex('#cd5c5c'), // indian red
+//                        '#00ced1' => Color::hex('#00ced1'), // dark turquoise
+//
+//                        '#ffd700' => Color::hex('#ffd700'), // gold
+//                        '#adff2f' => Color::hex('#adff2f'), // green yellow
+//                        '#1e90ff' => Color::hex('#1e90ff'), // dodger blue
+//                        '#ba55d3' => Color::hex('#ba55d3'), // orchid
+//                        '#ff4500' => Color::hex('#ff4500'), // orange red
+//                        '#6495ed' => Color::hex('#6495ed'), // cornflower blue
+//                        '#ffdab9' => Color::hex('#ffdab9'), // peach puff
+//                        '#dc143c' => Color::hex('#dc143c'), // crimson
+//                        '#7fff00' => Color::hex('#7fff00'), // chartreuse
+//                        '#40e0d0' => Color::hex('#40e0d0'), // turquoise
+//
+//                        '#f0e68c' => Color::hex('#f0e68c'), // khaki
+//                        '#ff1493' => Color::hex('#ff1493'), // deep pink
+//                        '#00fa9a' => Color::hex('#00fa9a'), // spring green
+//                        '#b22222' => Color::hex('#b22222'), // firebrick
+//                        '#9932cc' => Color::hex('#9932cc'), // dark orchid
+//                        '#ff8c00' => Color::hex('#ff8c00'), // dark orange
+//                        '#4682b4' => Color::hex('#4682b4'), // steel blue
+//                        '#9acd32' => Color::hex('#9acd32'), // yellow green
+//                        '#ffb6c1' => Color::hex('#ffb6c1'), // light pink
+//                        '#2e8b57' => Color::hex('#2e8b57'), // sea green
+//                    ])
+//
+//                    ->storeAsKey()
+//                    ->shades([
+//                        'badass' => 300,
+//                    ])
+//                    ->labels([
+//                        'bg-gradient-secondary' => 'Gradient Secondary',
+//                    ])
+//                    ->size('lg'),
 
             ]);
     }
