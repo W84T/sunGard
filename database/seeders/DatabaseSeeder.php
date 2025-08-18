@@ -14,12 +14,12 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ShieldSeeder::class,
             InitialUserSeeder::class,
-            SungardBranchesSeeder::class,
-            ExhibitionSeeder::class,
-            BranchSeeder::class,
-            UserSeeder::class,
-            CouponSeeder::class,
-            TicketSeeder::class,
+//            SungardBranchesSeeder::class,
+//            ExhibitionSeeder::class,
+//            BranchSeeder::class,
+//            UserSeeder::class,
+//            CouponSeeder::class,
+//            TicketSeeder::class,
         ]);
     }
 }
