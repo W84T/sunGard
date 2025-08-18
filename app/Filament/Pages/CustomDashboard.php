@@ -9,6 +9,7 @@ use App\Filament\Widgets\TopAgentWidget;
 use App\Models\Branch;
 use App\Models\Exhibition;
 use BackedEnum;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Pages\Dashboard;
@@ -23,7 +24,7 @@ use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 class CustomDashboard extends Dashboard
 {
     use HasFiltersForm;
-
+    use HasPageShield;
     protected static ?int $navigationSort = -2;
 
     public static function getNavigationLabel(): string

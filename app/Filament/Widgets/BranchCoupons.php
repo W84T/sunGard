@@ -4,6 +4,7 @@ namespace App\Filament\Widgets;
 
 use App\Models\Branch;
 use App\Models\Coupon;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 class BranchCoupons extends ChartWidget
 {
     use InteractsWithPageFilters;
+    use HasWidgetShield;
 
     protected ?string $heading = 'Branch Coupons';
 

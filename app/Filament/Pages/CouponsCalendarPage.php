@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Filament\Widgets\MyCalendarWidget;
 use BackedEnum;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\ToggleButtons;
@@ -19,7 +20,7 @@ use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 class CouponsCalendarPage extends Dashboard
 {
     use HasFiltersForm;
-
+    use HasPageShield;
     protected static ?int $navigationSort = -1;
     // 👇 This gives it its own route
 

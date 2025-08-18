@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Guava\Calendar\Widgets\CalendarWidget;
 use Illuminate\Support\Carbon;
@@ -11,7 +12,7 @@ use Illuminate\Support\HtmlString;
 class MyCalendarWidget extends CalendarWidget
 {
     use InteractsWithPageFilters;
-
+    use HasWidgetShield;
     protected bool $eventClickEnabled = true;
 
     public function getHeading(): string

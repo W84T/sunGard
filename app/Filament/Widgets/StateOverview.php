@@ -6,6 +6,7 @@ use App\Models\Branch;
 use App\Models\Coupon;
 use App\Models\User;
 use App\Status;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Carbon\Carbon;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\StatsOverviewWidget;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\DB;
 class StateOverview extends StatsOverviewWidget
 {
     use InteractsWithPageFilters;
-
+    use HasWidgetShield;
     protected function getStats(): array
     {
         [$start, $end] = $this->getRange();

@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Models\User;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Carbon\Carbon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 class TopAgentWidget extends TableWidget
 {
     use InteractsWithPageFilters;
+    use HasWidgetShield;
 
     protected static ?string $heading = 'Top Agents by Coupons Created';
 
