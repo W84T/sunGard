@@ -38,6 +38,7 @@ class CouponsCalendarPage extends Dashboard
     {
         return __('calendar_page.title');
     }
+    protected static string $routePath = 'calender';
 
     public static function getActiveNavigationIcon(): string|BackedEnum|null
     {

@@ -4,7 +4,10 @@ namespace App\Filament\Widgets;
 
 use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
-use Guava\Calendar\Widgets\CalendarWidget;
+use Guava\Calendar\Filament\CalendarWidget;
+use Guava\Calendar\ValueObjects\FetchInfo;
+use Guava\Calendar\ValueObjects\CalendarEvent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
@@ -13,6 +16,7 @@ class MyCalendarWidget extends CalendarWidget
 {
     use InteractsWithPageFilters;
     use HasWidgetShield;
+
     protected bool $eventClickEnabled = true;
 
     public function getHeading(): string
@@ -22,15 +26,17 @@ class MyCalendarWidget extends CalendarWidget
 
     protected ?string $defaultEventClickAction = 'view';
 
-    public function getEvents(array $fetchInfo = []): Collection|array
+    public function getEvents(FetchInfo $info): Collection|Builder|array
     {
         $user = auth()->user();
-        $start = $this->filters['startDate'] ?? now()->startOfMonth();
-        $end = $this->filters['endDate'] ?? now()->endOfMonth();
+
+        // Prefer FetchInfo dates, fallback to your page filters if set
+        $start = $this->filters['startDate'] ?? $info->start;
+        $end   = $this->filters['endDate']   ?? $info->end;
         $branch = $this->filters['branch_id'] ?? $user->sungard_branch_id;
 
         $start = Carbon::parse($start)->startOfDay();
-        $end = Carbon::parse($end)->endOfDay();
+        $end   = Carbon::parse($end)->endOfDay();
 
         $query = \App\Models\Coupon::query()
             ->select([
@@ -48,13 +54,10 @@ class MyCalendarWidget extends CalendarWidget
             ->whereBetween('reserved_date', [$start, $end]);
 
         if ($user->hasRoleSlug('agent')) {
-            // Only own coupons
             $query->where('agent_id', $user->id);
         } elseif ($user->hasRoleSlug('branch manager')) {
-            // Force branch
             $query->where('sungard_branch_id', $user->sungard_branch_id);
         } elseif ($branch && $branch !== '*') {
-            // Manual filter
             $query->where('sungard_branch_id', $branch);
         }
 
@@ -63,7 +66,7 @@ class MyCalendarWidget extends CalendarWidget
         return $coupons->map(function ($coupon) {
             $bg = $coupon->sungard?->color ?: '#9CA3AF';
 
-            return \Guava\Calendar\ValueObjects\CalendarEvent::make($coupon)
+            return CalendarEvent::make($coupon)
                 ->title($coupon->customer_name)
                 ->start($coupon->reserved_date)
                 ->end($coupon->reserved_date)

@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Exhibition;
+use App\Models\Ticket;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ExhibitionPolicy
+class TicketPolicy
 {
     use HandlesAuthorization;
 
@@ -15,15 +15,15 @@ class ExhibitionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_exhibitions::exhibition');
+        return $user->can('view_any_tickets::ticket');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Exhibition $exhibition): bool
+    public function view(User $user, Ticket $ticket): bool
     {
-        return $user->can('view_exhibitions::exhibition');
+        return $user->can('view_tickets::ticket');
     }
 
     /**
@@ -31,23 +31,23 @@ class ExhibitionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_exhibitions::exhibition');
+        return $user->can('create_tickets::ticket');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Exhibition $exhibition): bool
+    public function update(User $user, Ticket $ticket): bool
     {
-        return $user->can('update_exhibitions::exhibition');
+        return $user->can('update_tickets::ticket');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Exhibition $exhibition): bool
+    public function delete(User $user, Ticket $ticket): bool
     {
-        return $user->can('delete_exhibitions::exhibition');
+        return $user->can('delete_tickets::ticket');
     }
 
     /**
@@ -55,15 +55,15 @@ class ExhibitionPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_exhibitions::exhibition');
+        return $user->can('delete_any_tickets::ticket');
     }
 
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, Exhibition $exhibition): bool
+    public function forceDelete(User $user, Ticket $ticket): bool
     {
-        return $user->can('force_delete_exhibitions::exhibition');
+        return $user->can('force_delete_tickets::ticket');
     }
 
     /**
@@ -71,15 +71,15 @@ class ExhibitionPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_exhibitions::exhibition');
+        return $user->can('force_delete_any_tickets::ticket');
     }
 
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, Exhibition $exhibition): bool
+    public function restore(User $user, Ticket $ticket): bool
     {
-        return $user->can('restore_exhibitions::exhibition');
+        return $user->can('restore_tickets::ticket');
     }
 
     /**
@@ -87,13 +87,13 @@ class ExhibitionPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_exhibitions::exhibition');
+        return $user->can('restore_any_tickets::ticket');
     }
 
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, Exhibition $exhibition): bool
+    public function replicate(User $user, Ticket $ticket): bool
     {
         return $user->can('{{ Replicate }}');
     }

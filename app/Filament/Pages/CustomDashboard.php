@@ -24,7 +24,6 @@ use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 class CustomDashboard extends Dashboard
 {
     use HasFiltersForm;
-    use HasPageShield;
     protected static ?int $navigationSort = -2;
 
     public static function getNavigationLabel(): string

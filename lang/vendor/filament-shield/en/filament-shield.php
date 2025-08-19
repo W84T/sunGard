@@ -89,5 +89,9 @@ return [
         'reorder' => 'Reorder',
         'restore_any' => 'Restore Any',
         'replicate' => 'Replicate',
+        'submit_ticket' => 'Report a Problem / Support Ticket',
+        'change_status' => 'Change Coupon Status',
+        'reserve_coupon' => 'Reserve Coupon (For Customer Service Only)'
+
     ],
 ];

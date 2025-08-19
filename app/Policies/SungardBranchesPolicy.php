@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\SungardBranches;
 use App\Models\User;
+use App\Models\SungardBranches;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class SungardBranchesPolicy
@@ -95,7 +95,7 @@ class SungardBranchesPolicy
      */
     public function replicate(User $user, SungardBranches $sungardBranches): bool
     {
-        return $user->can('replicate_sungard::branches::sungard::branches');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
@@ -103,6 +103,6 @@ class SungardBranchesPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_sungard::branches::sungard::branches');
+        return $user->can('{{ Reorder }}');
     }
 }

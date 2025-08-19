@@ -1,5 +1,9 @@
 <?php
 
+use App\Filament\Pages\CouponsCalendarPage;
+use App\Filament\Pages\CustomDashboard;
+use App\Filament\Resources\Users\UserResource;
+
 return [
     'shield_resource' => [
         'should_register_navigation' => true,
@@ -40,8 +44,6 @@ return [
             'update',
             'restore',
             'restore_any',
-            'replicate',
-            'reorder',
             'delete',
             'delete_any',
             'force_delete',
@@ -70,13 +72,18 @@ return [
 
         'pages' => [
             'Dashboard',
+//            'CouponsCalendarPage',
+            'CustomDashboard'
+
         ],
 
         'widgets' => [
             'AccountWidget', 'FilamentInfoWidget',
         ],
 
-        'resources' => [],
+        'resources' => [
+            UserResource::class,
+        ],
     ],
 
     'discovery' => [

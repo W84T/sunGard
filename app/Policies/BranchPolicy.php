@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\Branch;
 use App\Models\User;
+use App\Models\Branch;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class BranchPolicy
@@ -63,7 +63,7 @@ class BranchPolicy
      */
     public function forceDelete(User $user, Branch $branch): bool
     {
-        return $user->can('{{ ForceDelete }}');
+        return $user->can('force_delete_branches::branch');
     }
 
     /**
@@ -71,7 +71,7 @@ class BranchPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('{{ ForceDeleteAny }}');
+        return $user->can('force_delete_any_branches::branch');
     }
 
     /**
@@ -79,7 +79,7 @@ class BranchPolicy
      */
     public function restore(User $user, Branch $branch): bool
     {
-        return $user->can('{{ Restore }}');
+        return $user->can('restore_branches::branch');
     }
 
     /**
@@ -87,7 +87,7 @@ class BranchPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('{{ RestoreAny }}');
+        return $user->can('restore_any_branches::branch');
     }
 
     /**

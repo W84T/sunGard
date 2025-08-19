@@ -19,12 +19,7 @@ class ReserveCouponAction
             ->icon('heroicon-o-bookmark')
             ->requiresConfirmation()
             ->schema([])
-            ->visible(function ($record) {
-                $user = auth()->user();
-                $isVisible = ! $record->employee_id && $user?->roles->contains('slug', 'customer service');
-
-                return $isVisible;
-            })
+            ->visible(fn ($record) => auth()->user()->can('reserve', $record))
             ->action(function ($record) {
                 $user = Auth::user();
 

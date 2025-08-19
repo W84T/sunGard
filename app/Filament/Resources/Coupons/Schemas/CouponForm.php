@@ -14,6 +14,7 @@ use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 
 class CouponForm
 {
@@ -35,10 +36,16 @@ class CouponForm
                                     ->label(__('coupon.form.customer_name'))
                                     ->required(),
 
-                                TextInput::make('customer_phone')
+                                PhoneInput::make('customer_phone')
                                     ->label(__('coupon.form.customer_phone'))
-                                    ->tel()
+                                    ->defaultCountry('SA')
+                                    ->onlyCountries(['SA'])
                                     ->required(),
+
+//                                TextInput::make('customer_phone')
+//                                    ->label(__('coupon.form.customer_phone'))
+//                                    ->tel()
+//                                    ->required(),
 
                                 TextInput::make('customer_email')
                                     ->label(__('coupon.form.customer_email'))
@@ -170,6 +177,9 @@ class CouponForm
                                     ->default(1)
                                     ->label(__('coupon.form.status')),
 
+                                Select::make('sungard_branch_id')
+                                    ->relationship('sungard', 'name')
+                                    ->label(__('coupon.form.sungard_branch_name')),
                                 DateTimePicker::make('reserved_date')
                                     ->label(__('coupon.form.reserved_date')),
 

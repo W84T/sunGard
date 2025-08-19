@@ -55,6 +55,7 @@ class AdminPanelProvider extends PanelProvider
                 // Pick your neutral. Stone = warmer, Zinc = cooler, Neutral = in-between
                 'gray' => Color::Zinc,
             ])
+            ->homeUrl('/dashboard')
             ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()
             ->brandName('Sun Gard')
@@ -73,7 +74,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
                 CustomDashboard::class,
-                CouponsCalendarPage::class,
+//                CouponsCalendarPage::class,
             ])
 
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
@@ -99,7 +100,7 @@ class AdminPanelProvider extends PanelProvider
                     ->activeIcon(Phosphor::PlusCircle->getIconForWeight(PhosphorWeight::Duotone))
                     ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.coupons.create'))
                     ->sort(-3)
-                    ->visible(fn () => auth()->check() && auth()->user()->roles->contains('slug', 'agent'))
+                    ->visible(fn () => auth()->check() && auth()->user()->can('create_coupons::coupon'))
                     ->url(fn () => CouponResource::getUrl('create')),
             ])
             ->plugins([
@@ -110,4 +111,6 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->viteTheme('resources/css/filament/admin/theme.css');
     }
+
+
 }

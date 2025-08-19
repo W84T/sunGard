@@ -127,8 +127,8 @@ return [
     ],
 
     'ticket' => [
-        'singular' => 'تذكرة',
-        'plural' => 'تذاكر',
+        'singular' => 'تذكرة الدعم',
+        'plural' => 'تذاكر الدعم',
         'create' => 'إنشاء تذكرة',
         'title' => 'العنوان',
         'description' => 'الوصف',

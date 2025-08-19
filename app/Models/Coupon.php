@@ -71,6 +71,22 @@ class Coupon extends Model
         static::created(function ($coupon) {
             $coupon->generateCouponImage();
         });
+
+        static::updating(function ($coupon) {
+            $originalStatus = $coupon->getOriginal('status');
+            $newStatus = $coupon->status instanceof Status
+                ? $coupon->status
+                : Status::tryFrom((int)$coupon->status);
+
+            $originalStatusEnum = $originalStatus instanceof Status
+                ? $originalStatus
+                : Status::tryFrom((int)$originalStatus);
+
+            // If old status was RESERVED and new status is different
+            if ($originalStatusEnum?->isReserved() && $newStatus?->value !== $originalStatusEnum?->value) {
+                $coupon->reached_at = now();
+            }
+        });
     }
 
     public function generateCouponImage(): void

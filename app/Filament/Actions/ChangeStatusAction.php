@@ -8,47 +8,18 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Utilities\Get;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class ChangeStatusAction
 {
     public static function make(): Action
     {
+        $user = Auth::user();
         return Action::make(__('coupon.action.change_status'))
             ->icon('heroicon-o-pencil-square')
-            ->visible(function ($record) {
-                $user = auth()->user();
-
-                if (!$user->hasRoleSlug('customer service')) {
-                    return false;
-                }
-
-                $status = $record->status;
-                if ($status === null) {
-                    return false;
-                }
-                // Normalize status into enum
-                $status = $record->status instanceof Status
-                    ? $status
-                    : Status::tryFrom((int)$record->status);
-
-                // 1. No status → no action
-                if (!$status) {
-                    return false;
-                }
-
-                // 2. Reserved → always allow
-                if ($status->isReserved()) {
-                    return true;
-                }
-
-                // 3. Scheduled → only allow if confirmed
-                if ($status->isScheduled()) {
-                    return (bool)$record->is_confirmed;
-                }
-
-                // 4. Everything else (Booked, NotBooked, etc.) → allow
-                return true;
-            })
+            ->visible(fn($record) => auth()
+                ->user()
+                ->can('changeStatus', $record))
             ->schema(fn(Action $action): array => [
                 Select::make('status')
                     ->label(__('coupon.status.new_status'))

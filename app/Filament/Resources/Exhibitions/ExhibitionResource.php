@@ -18,7 +18,7 @@ use Illuminate\Contracts\Support\Htmlable;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
-class ExhibitionResource extends Resource implements HasShieldPermissions
+class ExhibitionResource extends Resource
 {
     protected static ?string $model = Exhibition::class;
 
@@ -70,15 +70,5 @@ class ExhibitionResource extends Resource implements HasShieldPermissions
         ];
     }
 
-    public static function getPermissionPrefixes(): array
-    {
-        return [
-            'view',
-            'view_any',
-            'create',
-            'update',
-            'delete',
-            'delete_any',
-        ];
-    }
+
 }

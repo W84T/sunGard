@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use BezhanSalleh\FilamentShield\Support\Utils;
 use Illuminate\Database\Seeder;
+use BezhanSalleh\FilamentShield\Support\Utils;
 use Spatie\Permission\PermissionRegistrar;
 
 class ShieldSeeder extends Seeder
@@ -18,119 +18,100 @@ class ShieldSeeder extends Seeder
     "slug": "admin",
     "guard_name": "web",
     "permissions": [
-      "view_any_role",
-      "create_role",
-      "view_role",
-      "update_role",
-      "delete_role",
-      "delete_any_role",
       "view_branches::branch",
       "view_any_branches::branch",
       "create_branches::branch",
       "update_branches::branch",
+      "restore_branches::branch",
+      "restore_any_branches::branch",
       "delete_branches::branch",
       "delete_any_branches::branch",
+      "force_delete_branches::branch",
+      "force_delete_any_branches::branch",
       "view_coupons::coupon",
       "view_any_coupons::coupon",
       "create_coupons::coupon",
       "update_coupons::coupon",
       "restore_coupons::coupon",
       "restore_any_coupons::coupon",
-      "replicate_coupons::coupon",
-      "reorder_coupons::coupon",
       "delete_coupons::coupon",
       "delete_any_coupons::coupon",
       "force_delete_coupons::coupon",
       "force_delete_any_coupons::coupon",
+      "submit_ticket_coupons::coupon",
+      "change_status_coupons::coupon",
+      "reserve_coupon_coupons::coupon",
       "view_exhibitions::exhibition",
       "view_any_exhibitions::exhibition",
       "create_exhibitions::exhibition",
       "update_exhibitions::exhibition",
+      "restore_exhibitions::exhibition",
+      "restore_any_exhibitions::exhibition",
       "delete_exhibitions::exhibition",
       "delete_any_exhibitions::exhibition",
-      "view_users::user",
-      "view_any_users::user",
-      "create_users::user",
-      "update_users::user",
-      "restore_users::user",
-      "restore_any_users::user",
-      "replicate_users::user",
-      "reorder_users::user",
-      "delete_users::user",
-      "delete_any_users::user",
-      "force_delete_users::user",
-      "force_delete_any_users::user",
-      "widget_MyCalendarWidget",
+      "force_delete_exhibitions::exhibition",
+      "force_delete_any_exhibitions::exhibition",
+      "view_role",
+      "view_any_role",
+      "create_role",
+      "update_role",
+      "delete_role",
+      "delete_any_role",
       "view_sungard::branches::sungard::branches",
       "view_any_sungard::branches::sungard::branches",
       "create_sungard::branches::sungard::branches",
       "update_sungard::branches::sungard::branches",
       "restore_sungard::branches::sungard::branches",
       "restore_any_sungard::branches::sungard::branches",
-      "replicate_sungard::branches::sungard::branches",
-      "reorder_sungard::branches::sungard::branches",
       "delete_sungard::branches::sungard::branches",
       "delete_any_sungard::branches::sungard::branches",
       "force_delete_sungard::branches::sungard::branches",
-      "force_delete_any_sungard::branches::sungard::branches"
-    ]
-  },
-  {
-    "name": "marketer",
-    "guard_name": "web",
-    "slug": "marketer",
-    "permissions": [
-      "view_branches::branch",
-      "view_any_branches::branch",
-      "create_branches::branch",
-      "update_branches::branch",
-      "delete_branches::branch",
-      "delete_any_branches::branch",
-      "view_coupons::coupon",
-      "view_any_coupons::coupon",
-      "view_exhibitions::exhibition",
-      "view_any_exhibitions::exhibition",
-      "create_exhibitions::exhibition",
-      "update_exhibitions::exhibition",
-      "delete_exhibitions::exhibition",
-      "delete_any_exhibitions::exhibition",
+      "force_delete_any_sungard::branches::sungard::branches",
+      "view_tickets::ticket",
+      "view_any_tickets::ticket",
+      "create_tickets::ticket",
+      "update_tickets::ticket",
+      "restore_tickets::ticket",
+      "restore_any_tickets::ticket",
+      "delete_tickets::ticket",
+      "delete_any_tickets::ticket",
+      "force_delete_tickets::ticket",
+      "force_delete_any_tickets::ticket",
       "view_users::user",
       "view_any_users::user",
       "create_users::user",
       "update_users::user",
       "restore_users::user",
       "restore_any_users::user",
-      "replicate_users::user",
-      "reorder_users::user",
       "delete_users::user",
       "delete_any_users::user",
       "force_delete_users::user",
-      "force_delete_any_users::user"
+      "force_delete_any_users::user",
+      "page_CouponsCalendarPage",
+      "widget_BranchCoupons",
+      "widget_GrowthWidget",
+      "widget_MyCalendarWidget",
+      "widget_StateOverview",
+      "widget_TopAgentWidget"
     ]
+  },
+  {
+    "name": "marketer",
+    "slug": "marketer",
+    "guard_name": "web",
+    "permissions": []
   },
   {
     "name": "agent",
-    "guard_name": "web",
     "slug": "agent",
-    "permissions": [
-      "view_coupons::coupon",
-      "view_any_coupons::coupon",
-      "create_coupons::coupon",
-      "delete_coupons::coupon"
-    ]
+    "guard_name": "web",
+    "permissions": []
   },
   {
     "name": "customer service",
-    "guard_name": "web",
     "slug": "customer service",
-    "permissions": [
-      "view_coupons::coupon",
-      "view_any_coupons::coupon",
-      "update_coupons::coupon",
-      "restore_coupons::coupon",
-      "restore_any_coupons::coupon",
-      "delete_coupons::coupon"
-    ]
+    "guard_name": "web",
+    "permissions": []
   },
   {
     "name": "report manager",
@@ -140,43 +121,18 @@ class ShieldSeeder extends Seeder
   },
   {
     "name": "branch manager",
-    "guard_name": "web",
     "slug": "branch manager",
+    "guard_name": "web",
     "permissions": []
   },
   {
     "name": "customer service manager",
-    "guard_name": "web",
     "slug": "customer service manager",
-    "permissions": [
-      "view_coupons::coupon",
-      "view_any_coupons::coupon",
-      "create_coupons::coupon",
-      "update_coupons::coupon",
-      "restore_coupons::coupon",
-      "restore_any_coupons::coupon",
-      "replicate_coupons::coupon",
-      "reorder_coupons::coupon",
-      "delete_coupons::coupon",
-      "delete_any_coupons::coupon",
-      "force_delete_coupons::coupon",
-      "force_delete_any_coupons::coupon",
-      "view_users::user",
-      "view_any_users::user",
-      "create_users::user",
-      "update_users::user",
-      "restore_users::user",
-      "restore_any_users::user",
-      "replicate_users::user",
-      "reorder_users::user",
-      "delete_users::user",
-      "delete_any_users::user",
-      "force_delete_users::user",
-      "force_delete_any_users::user"
-    ]
+    "guard_name": "web",
+    "permissions": []
   }
 ]';
-        $directPermissions = '{"55":{"name":"view_any_permission","guard_name":"web"},"56":{"name":"view_permission","guard_name":"web"},"57":{"name":"create_permission","guard_name":"web"},"58":{"name":"update_permission","guard_name":"web"},"59":{"name":"delete_permission","guard_name":"web"},"60":{"name":"delete_any_permission","guard_name":"web"},"61":{"name":"view_any_shield::seeder","guard_name":"web"},"62":{"name":"view_shield::seeder","guard_name":"web"},"63":{"name":"create_shield::seeder","guard_name":"web"},"64":{"name":"update_shield::seeder","guard_name":"web"},"65":{"name":"delete_shield::seeder","guard_name":"web"},"66":{"name":"delete_any_shield::seeder","guard_name":"web"},"67":{"name":"view_any_shield::generate","guard_name":"web"},"68":{"name":"view_shield::generate","guard_name":"web"},"69":{"name":"create_shield::generate","guard_name":"web"},"70":{"name":"update_shield::generate","guard_name":"web"},"71":{"name":"delete_shield::generate","guard_name":"web"},"72":{"name":"delete_any_shield::generate","guard_name":"web"},"73":{"name":"view_any_shield::scan","guard_name":"web"},"74":{"name":"view_shield::scan","guard_name":"web"},"75":{"name":"create_shield::scan","guard_name":"web"},"76":{"name":"update_shield::scan","guard_name":"web"},"77":{"name":"delete_shield::scan","guard_name":"web"},"78":{"name":"delete_any_shield::scan","guard_name":"web"}}';
+        $directPermissions = '[]';
 
         static::makeRolesWithPermissions($rolesWithPermissions);
         static::makeDirectPermissions($directPermissions);

@@ -136,7 +136,7 @@ class CouponInfolist
 
                                 TextEntry::make('reached_at')
                                     ->label(__('coupon.infolist.reached_at'))
-                                    ->date()
+                                    ->dateTime('d/m/Y H:i')
                                     ->visible(fn($record) => filled($record->reached_at)),
 
                                 // Separator appears only if all are filled
@@ -150,7 +150,7 @@ class CouponInfolist
 
                                 TextEntry::make('reserved_date')
                                     ->label(__('coupon.infolist.reservation_date'))
-                                    ->date()
+                                    ->dateTime('d/m/Y H:i')
                                     ->visible(fn($record) => filled($record->reserved_date)),
 
                                 TextEntry::make('sungard.name')

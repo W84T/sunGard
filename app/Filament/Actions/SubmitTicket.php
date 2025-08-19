@@ -18,11 +18,9 @@ class SubmitTicket
         return Action::make('submit_ticket')
             ->label(__('coupon.actions.submit'))
             ->icon('heroicon-m-chat-bubble-left-ellipsis')
-            ->visible(function () {
-                $user = auth()->user();
-
-                return $user->hasAnyRoleSlug(['customer service', 'agent']);
-            })
+            ->visible(fn($record) => auth()
+                ->user()
+                ->can('submitTicket', $record))
             ->schema([
                 TextInput::make('title')
                     ->label(__('coupon.actions.title'))

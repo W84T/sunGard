@@ -15,6 +15,7 @@ use App\Filament\Resources\Tickets\TicketResource;
 use App\Models\Coupon;
 use App\Models\User;
 use BackedEnum;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Navigation\NavigationItem;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -26,7 +27,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
-class CouponResource extends Resource
+class CouponResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = Coupon::class;
 
@@ -144,16 +145,22 @@ class CouponResource extends Resource
         return [
             'view',
             'view_any',
+
             'create',
             'update',
+
             'restore',
             'restore_any',
-            'replicate',
-            'reorder',
+
             'delete',
             'delete_any',
+
             'force_delete',
             'force_delete_any',
+
+            'submit_ticket',
+            'change_status',
+            'reserve_coupon'
         ];
     }
 
@@ -171,4 +178,5 @@ class CouponResource extends Resource
                 ])),
         ];
     }
+
 }

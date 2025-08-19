@@ -86,5 +86,8 @@ return [
         'restore' => 'استرجاع',
         'restore_any' => 'استرجاع الكل',
         'replicate' => 'استنساخ',
+        'submit_ticket' => 'إبلاغ عن مشكلة / تذكرة دعم',
+        'change_status' => 'تغير حالة الكوبون',
+        'reserve_coupon' => 'حجز كوبون (خاص ل خدمة العملاء)'
     ],
 ];
