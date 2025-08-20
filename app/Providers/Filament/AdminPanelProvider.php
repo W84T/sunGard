@@ -39,7 +39,6 @@ class AdminPanelProvider extends PanelProvider
 
         return $panel
             ->default()
-            ->spa()
             ->colors([
                 'primary' => [
                     50 => '255, 241, 233',    // Very light peach
