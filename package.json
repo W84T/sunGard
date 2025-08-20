@@ -17,6 +17,7 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
+        "@alpinejs/focus": "^3.14.9",
         "photoswipe": "^5.4.4"
     }
 }

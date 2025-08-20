@@ -12,9 +12,9 @@
 @import '../../../../vendor/guava/calendar/resources/css/theme.css';
 @source '../../../../vendor/awcodes/palette/resources/**/*.blade.php';
 
-
+/*side bar*/
 .fi-sidebar-item .fi-sidebar-item-btn {
-    @apply  px-4;
+    @apply px-4;
 }
 
 .fi-sidebar-item.fi-active .fi-sidebar-item-btn {
@@ -23,11 +23,11 @@
 
 .fi-sidebar-item.fi-active .fi-sidebar-item-label,
 .fi-sidebar-item.fi-active .fi-sidebar-item-icon {
-    @apply text-primary-600 dark:text-white;
+    @apply text-primary-700 dark:text-white;
 }
 
 .fi-sidebar-item.fi-active .fi-sidebar-item-badge-ctn .fi-badge {
-    @apply  text-primary-900 dark:bg-gray-900/75 dark:text-white;
+    @apply text-primary-900 dark:bg-gray-900/75 dark:text-white;
 }
 
 .fi-sidebar-item.fi-active .fi-sidebar-item-grouped-border .fi-sidebar-item-grouped-border-part-not-last,
@@ -40,33 +40,7 @@
     @apply rounded-3xl;
 }
 
-.fi-topbar-item .fi-topbar-item-btn {
-    @apply rounded-full px-4;
-}
-
-.fi-topbar-item.fi-active .fi-topbar-item-btn {
-    @apply bg-primary-400 dark:bg-primary-600 shadow-sm;
-}
-
-.fi-topbar-item.fi-active .fi-topbar-item-label,
-.fi-topbar-item.fi-active .fi-topbar-item-icon {
-    @apply text-gray-900/75 dark:text-white;
-}
-
-.fi-topbar-item.fi-active .fi-topbar-item-badge-ctn .fi-badge {
-    @apply bg-white text-gray-900 dark:bg-gray-900/75 dark:text-white;
-}
-
-.fi-topbar-item.fi-active .fi-topbar-group-toggle-icon {
-    @apply text-gray-900/75 dark:text-white;
-}
-
-/* TODO: Implement this */
-.fi-topbar-group-dropdown-trigger-btn {
-    @apply rounded-3xl;
-}
-
-
+/*modal*/
 .fi-modal-window {
     @apply rounded-3xl;
 }
@@ -76,9 +50,10 @@
 }
 
 .fi-modal-slide-over .fi-modal-window {
-    @apply mt-2 mr-3 h-[calc(100vh-2rem)];
+    @apply mt-2 me-4 h-[calc(100vh-2rem)];
 }
 
+/*panel*/
 .fi-simple-main {
     @apply rounded-3xl;
 }
@@ -86,9 +61,3 @@
 .fi-page-header-main-ctn .fi-header .fi-header-heading {
     @apply relative inline-block after:content-[''] after:absolute after:-z-10 after:-left-1 after:-right-1 after:bottom-1 after:rounded-full after:bg-primary-400/75 dark:after:bg-primary-600/75 after:h-1.5;
 }
-
-
-.fi-global-search-results-ctn {
-    @apply rounded-l-3xl;
-}
-

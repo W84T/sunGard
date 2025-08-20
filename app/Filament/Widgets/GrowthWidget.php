@@ -19,8 +19,13 @@ class GrowthWidget extends ChartWidget
 
     protected static bool $isLazy = true;
 
-    protected int|string|array $columnSpan = 2;
+//    protected int|string|array $columnSpan = 2;
 
+
+    protected int | string | array $columnSpan = [
+        'sm' => 4,
+        'md' => 2,
+    ];
     public function getHeading(): ?string
     {
         return __('widget.growth.heading');

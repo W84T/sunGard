@@ -19,7 +19,12 @@ class TopAgentWidget extends TableWidget
     protected static ?string $heading = 'Top Agents by Coupons Created';
 
     // Full width
-    protected int|string|array $columnSpan = 4;
+//    protected int|string|array $columnSpan = 4;
+
+    protected int | string | array $columnSpan = [
+        'sm' => 4,
+        'md' => 4,
+    ];
 
     protected ?string $maxHeight = '300px';
 

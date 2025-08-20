@@ -18,6 +18,7 @@ use Filament\Navigation\NavigationItem;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -25,6 +26,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
@@ -94,15 +96,27 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->navigationItems([
-                NavigationItem::make(fn () => __('coupon.create'))
-                    ->icon(Phosphor::PlusCircle)
-                    ->activeIcon(Phosphor::PlusCircle->getIconForWeight(PhosphorWeight::Duotone))
-                    ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.coupons.create'))
-                    ->sort(-3)
-                    ->visible(fn () => auth()->check() && auth()->user()->can('create_coupons::coupon'))
-                    ->url(fn () => CouponResource::getUrl('create')),
-            ])
+            ->renderHook(
+                PanelsRenderHook::GLOBAL_SEARCH_AFTER, // or USER_MENU_BEFORE
+                function (): string {
+                    if (! auth()->user()?->can('create_coupons::coupon')) {
+                        return '';
+                    }
+
+                    return Blade::render(<<<'BLADE'
+                    <x-filament::button
+                        tag="a"
+                        size="md"
+                        color="primary"
+                        href="{{ \App\Filament\Resources\Coupons\CouponResource::getUrl('create') }}"
+                    >
+                        {{-- swap icon to your phosphor alias if desired --}}
+                        <x-filament::icon icon="heroicon-m-plus-circle" class="me-1" />
+                        {{ __('coupon.create') }}
+                    </x-filament::button>
+                BLADE);
+                },
+            )
             ->plugins([
                 FilamentShieldPlugin::make(),
             ])

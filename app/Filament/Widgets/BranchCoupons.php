@@ -17,8 +17,13 @@ class BranchCoupons extends ChartWidget
 
     protected ?string $heading = 'Branch Coupons';
 
-    protected int|string|array $columnSpan = 2;
+//    protected int|string|array $columnSpan = 2;
 
+
+    protected int | string | array $columnSpan = [
+        'sm' => 4,
+        'md' => 2,
+    ];
     public function getHeading(): ?string
     {
         return __('widget.branch_coupons.heading');

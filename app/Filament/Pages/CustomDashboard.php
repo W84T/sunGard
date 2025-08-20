@@ -45,6 +45,14 @@ class CustomDashboard extends Dashboard
 
     public function filtersForm(Schema $schema): Schema
     {
+        $schema = $this->makeSchema()
+            ->columns([
+                'md' => 1,
+            ])
+            ->extraAttributes(['wire:partial' => 'table-filters-form'])
+            ->live()
+            ->statePath('filters');
+
         return $schema->components([
             Section::make()
                 ->schema([
@@ -98,7 +106,7 @@ class CustomDashboard extends Dashboard
                         ->live(),
 
                 ])
-                ->columns(4)
+                ->columns(2)
                 ->columnSpanFull(),
         ]);
     }

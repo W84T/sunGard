@@ -18,6 +18,11 @@ class StateOverview extends StatsOverviewWidget
 {
     use InteractsWithPageFilters;
     use HasWidgetShield;
+
+    protected int | string | array $columnSpan = [
+        'sm' => 4,
+        'md' => 4,
+    ];
     protected function getStats(): array
     {
         [$start, $end] = $this->getRange();
