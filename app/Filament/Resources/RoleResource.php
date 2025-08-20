@@ -6,6 +6,7 @@ use App\Filament\Resources\RoleResource\Pages\CreateRole;
 use App\Filament\Resources\RoleResource\Pages\EditRole;
 use App\Filament\Resources\RoleResource\Pages\ListRoles;
 use App\Filament\Resources\RoleResource\Pages\ViewRole;
+use BackedEnum;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use BezhanSalleh\FilamentShield\Traits\HasShieldFormComponents;
@@ -26,12 +27,25 @@ use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
 class RoleResource extends Resource implements HasShieldPermissions
 {
     use HasShieldFormComponents;
 
     protected static ?string $recordTitleAttribute = 'name';
+
+
+    public static function getNavigationIcon(): string|BackedEnum|null
+    {
+        return Phosphor::Shield->getIconForWeight(PhosphorWeight::Regular);
+    }
+
+    public static function getActiveNavigationIcon(): string|BackedEnum|null
+    {
+        return Phosphor::Shield->getIconForWeight(PhosphorWeight::Duotone);
+    }
 
     public static function getPermissionPrefixes(): array
     {
@@ -192,21 +206,16 @@ class RoleResource extends Resource implements HasShieldPermissions
         return Utils::isResourceNavigationRegistered();
     }
 
-    public static function getNavigationGroup(): ?string
-    {
-        return Utils::isResourceNavigationGroupEnabled()
-            ? __('filament-shield::filament-shield.nav.group')
-            : '';
-    }
+//    public static function getNavigationGroup(): ?string
+//    {
+//        return Utils::isResourceNavigationGroupEnabled()
+//            ? __('filament-shield::filament-shield.nav.group')
+//            : '';
+//    }
 
     public static function getNavigationLabel(): string
     {
         return __('filament-shield::filament-shield.nav.role.label');
-    }
-
-    public static function getNavigationIcon(): string
-    {
-        return __('filament-shield::filament-shield.nav.role.icon');
     }
 
     public static function getNavigationSort(): ?int

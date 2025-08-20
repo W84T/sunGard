@@ -6,7 +6,7 @@ use App\Models\Coupon;
 use App\Models\Ticket;
 use App\Observers\CouponObserver;
 use App\Observers\TicketObserver;
-use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
+use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
