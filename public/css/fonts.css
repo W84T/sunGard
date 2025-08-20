@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&display=swap');
 
 @theme {
@@ -8,6 +7,5 @@
 
 /* Custom fonts for Arabic and English */
 html[lang="ar"] {
-    /*font-family: "Noto Sans Arabic", sans-serif;*/
     font-family: "Alexandria", sans-serif;
 }
