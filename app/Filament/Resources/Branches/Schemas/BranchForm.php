@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Branches\Schemas;
 
 use App\Filament\Resources\Exhibitions\Schemas\ExhibitionForm;
+use App\Models\Exhibition;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -22,11 +23,9 @@ class BranchForm
                     ->label(__('branch.form.exhibition_name'))
                     ->relationship('exhibition', 'name')
                     ->required()
-                    ->createOptionForm(fn() => ExhibitionForm::configure(
-                        new Schema()
-                    )
-                        ->getComponents()
-                    ),
+                    ->searchable()
+                    ->preload()
+                    ->createOptionForm(fn() => ExhibitionForm::configure(new Schema())->getComponents()),
 
                 TextInput::make('name')
                     ->label(__('branch.form.name'))

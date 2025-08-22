@@ -157,6 +157,7 @@ class CouponForm
                                         ->pluck('name', 'id'))
                                     ->label(__('coupon.form.branch'))
                                     ->searchable()
+                                    ->preload()
                                     ->default(fn() => $user->roles->contains('slug', 'agent') ? $user->branch_id : null)
                                     ->disabled(fn() => $user->roles->contains('slug', 'agent'))
                                     ->dehydrated()
@@ -174,11 +175,14 @@ class CouponForm
                                 Select::make('status')
                                     ->options(Status::options())
                                     ->searchable()
+                                    ->preload()
                                     ->default(1)
                                     ->label(__('coupon.form.status')),
 
                                 Select::make('sungard_branch_id')
                                     ->relationship('sungard', 'name')
+                                    ->preload()
+                                    ->searchable()
                                     ->label(__('coupon.form.sungard_branch_name')),
                                 DateTimePicker::make('reserved_date')
                                     ->label(__('coupon.form.reserved_date')),
