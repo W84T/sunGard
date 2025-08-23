@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Status;
 use ArPHP\I18N\Arabic;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,7 +16,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class Coupon extends Model
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
     use HasRoles;
     use Versionable;
 
