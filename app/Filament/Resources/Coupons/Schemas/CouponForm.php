@@ -190,7 +190,7 @@ class CouponForm
                                 DateTimePicker::make('reached_at')
                                     ->label(__('coupon.form.reached_at')),
                             ])
-                            ->visible($user->roles->contains('slug', 'admin') || $user->roles->contains('slug', 'employee')),
+                            ->visible($user->roles->contains('slug', 'admin') || $user->roles->contains('slug', 'customer service manager')),
 
                     ]),
             ]);

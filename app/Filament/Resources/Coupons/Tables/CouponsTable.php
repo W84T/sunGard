@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Coupons\Tables;
 
 use App\Filament\Actions\ChangeReservation;
 use App\Filament\Actions\ChangeStatusAction;
+use App\Filament\Actions\CustomerServedAction;
 use App\Filament\Actions\ReserveCouponAction;
 use App\Filament\Actions\SubmitTicket;
 use App\Models\Branch;
@@ -197,6 +198,7 @@ class CouponsTable
             ], layout: FiltersLayout::Dropdown)
             ->recordActions([
                 SubmitTicket::make(),
+                CustomerServedAction::make(),
                 ReserveCouponAction::make()
                     ->label(__('coupon.actions.reserve_coupon'))
                     ->color('success'),

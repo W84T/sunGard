@@ -86,7 +86,9 @@ return [
         'change_status' => 'تغيير الحالة',
         'reserve_date' => 'تغيير تاريخ الحجز',
         'submit' => 'إرسال',
-        'export' => 'تصدير'
+        'export' => 'تصدير',
+        'customer_served' => 'تم خدمة العميل',
+        'customer_served_confirm_heading' => 'تأكيد تعيين الحالة إلى "تم خدمة العميل"؟',
     ],
 
     'status' => [
@@ -123,6 +125,9 @@ return [
         'new_reservation' => [
             'title' => 'حجز جديد',
             'body' => 'لديك حجز جديد من قبل :employee_name',
+        ],
+        'customer_served_set' => [
+            'title' => 'تم تعيين الحالة إلى "تم خدمة العميل"',
         ],
     ],
 

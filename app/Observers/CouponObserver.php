@@ -11,9 +11,6 @@ use Filament\Notifications\Notification;
 
 class CouponObserver
 {
-    /**
-     * Handle the Coupon "updated" event.
-     */
     public function updated(Coupon $coupon): void
     {
         $this->sendStatusChangeNotification($coupon);
@@ -21,7 +18,11 @@ class CouponObserver
 
     private function sendStatusChangeNotification(Coupon $coupon): void
     {
-        if (! $coupon->isDirty('status') && ! $coupon->isDirty('is_confirmed')) {
+        // In "updated", use wasChanged() (not isDirty()).
+        $statusChanged    = $coupon->wasChanged('status');
+        $confirmedChanged = $coupon->wasChanged('is_confirmed');
+
+        if (! $statusChanged && ! $confirmedChanged) {
             return;
         }
 
@@ -30,78 +31,105 @@ class CouponObserver
             return;
         }
 
-        $originalStatus = $coupon->getOriginal('status');
-        $currentStatus = $coupon->status;
-        $originalIsConfirmed = $coupon->getOriginal('is_confirmed');
-        $currentIsConfirmed = $coupon->is_confirmed;
+        // Normalize types to Enum (handles null/int/Enum transparently)
+        $originalStatus = self::toEnum($coupon->getOriginal('status'));
+        $currentStatus  = self::toEnum($coupon->status);
+
+        $currentIsConfirmed = (bool) $coupon->is_confirmed;
+
         $notification = null;
 
-        // Scenario 1: Scheduled
-        if ($originalStatus == Status::RESERVED && in_array($currentStatus, Status::getScheduledCases())) {
-            $notification = Notification::make()
-                ->title('تم جدولة الكوبون')
-                ->body('تم جدولة الكوبون '.$coupon->name)
-                ->success()
-                ->actions([
-                    Action::make('view')
-                        ->icon('heroicon-m-eye')
-                        ->color('info')
-                        ->url(CouponResource::getUrl('edit', ['record' => $coupon->id])),
-                    Action::make('markAsUnread')
-                        ->markAsUnread(),
-                ]);
+        // Priority of notifications:
+        // 1) Customer served (final state)
+        if ($statusChanged && $currentStatus === Status::CUSTOMER_SERVED) {
+            $notification = $this->makeNotification(
+                'تم خدمة العميل',
+                'تم خدمة العميل ' . $coupon->name,
+                'success',
+                $coupon
+            );
         }
-
-        // Scenario 2: Confirmed
-        if (! is_null($currentStatus) && $currentIsConfirmed === true) {
-            $notification = Notification::make()
-                ->title('تم تأكيد الكوبون')
-                ->body('تم تأكيد الكوبون '.$coupon->name)
-                ->success()
-                ->actions([
-                    Action::make('view')
-                        ->icon('heroicon-m-eye')
-                        ->color('info')
-                        ->url(CouponResource::getUrl('edit', ['record' => $coupon->id])),
-                    Action::make('markAsUnread')
-                        ->markAsUnread(),
-                ]);
+        // 2) Confirmed (manager action)
+        elseif ($confirmedChanged && $currentIsConfirmed === true) {
+            $notification = $this->makeNotification(
+                'تم تأكيد الكوبون',
+                'تم تأكيد الكوبون ' . $coupon->name,
+                'success',
+                $coupon
+            );
         }
-
-        // Scenario 3: Not Booked
-        if ($currentStatus && in_array($currentStatus, Status::getNotBookedCases())) {
-            $notification = Notification::make()
-                ->title('لم يتم حجز الكوبون')
-                ->body('لم يتم حجز الكوبون '.$coupon->name)
-                ->danger()
-                ->actions([
-                    Action::make('view')
-                        ->icon('heroicon-m-eye')
-                        ->color('info')
-                        ->url(CouponResource::getUrl('edit', ['record' => $coupon->id])),
-                    Action::make('markAsUnread')
-                        ->markAsUnread(),
-                ]);
+        // 3) Scheduled (from RESERVED -> any scheduled status)
+        elseif ($statusChanged
+            && $originalStatus === Status::RESERVED
+            && $currentStatus?->isScheduled()
+        ) {
+            $notification = $this->makeNotification(
+                'تم جدولة الكوبون',
+                'تم جدولة الكوبون ' . $coupon->name,
+                'success',
+                $coupon
+            );
         }
-
-        // Scenario 4: Customer Served
-        if ($currentStatus === Status::CUSTOMER_SERVED) {
-            $notification = Notification::make()
-                ->title('تم خدمة العميل')
-                ->body('تم خدمة العميل '.$coupon->name)
-                ->success()
-                ->actions([
-                    Action::make('view')
-                        ->icon('heroicon-m-eye')
-                        ->color('info')
-                        ->url(CouponResource::getUrl('edit', ['record' => $coupon->id])),
-                    Action::make('markAsUnread')
-                        ->markAsUnread(),
-                ]);
+        // 4) Booked (but not CUSTOMER_SERVED which is handled above)
+        elseif ($statusChanged && $currentStatus?->isBooked()) {
+            $notification = $this->makeNotification(
+                'تم حجز الكوبون',
+                'تم حجز الكوبون ' . $coupon->name,
+                'success',
+                $coupon
+            );
+        }
+        // 5) Not booked
+        elseif ($statusChanged && $currentStatus?->isNotBooked()) {
+            $notification = $this->makeNotification(
+                'لم يتم حجز الكوبون',
+                'لم يتم حجز الكوبون ' . $coupon->name,
+                'danger',
+                $coupon
+            );
         }
 
         if ($notification) {
             $notification->sendToDatabase($agent);
         }
+    }
+
+    /**
+     * Coerce mixed value to Status enum (or null).
+     *
+     * @param  Status|int|string|null  $value
+     */
+    private static function toEnum($value): ?Status
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        return $value instanceof Status ? $value : Status::from((int) $value);
+    }
+
+    /**
+     * Small helper to keep notification creation DRY.
+     */
+    private function makeNotification(string $title, string $body, string $tone, Coupon $coupon): Notification
+    {
+        $n = Notification::make()
+            ->title($title)
+            ->body($body)
+            ->actions([
+                Action::make('view')
+                    ->icon('heroicon-m-eye')
+                    ->color('info')
+                    ->url(CouponResource::getUrl('view', ['record' => $coupon->id])),
+                Action::make('markAsUnread')->markAsUnread(),
+            ]);
+
+        // Apply tone
+        return match ($tone) {
+            'success' => $n->success(),
+            'danger'  => $n->danger(),
+            'warning' => $n->warning(),
+            default   => $n->info(),
+        };
     }
 }

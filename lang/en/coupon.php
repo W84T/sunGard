@@ -87,6 +87,8 @@ return [
         'reserve_date' => 'Change Reservation Date',
         'submit' => 'Submit',
         'export' => 'Export',
+        'customer_served' => 'Customer Served',
+        'customer_served_confirm_heading' => 'Confirm setting status to "Customer Served"?',
     ],
 
     'status' => [
@@ -123,6 +125,9 @@ return [
         'new_reservation' => [
             'title' => 'New Reservation',
             'body' => 'You have a new reservation from :employee_name',
+        ],
+        'customer_served_set' => [
+            'title' => 'Status set to "Customer Served"',
         ],
     ],
 

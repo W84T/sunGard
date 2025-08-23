@@ -46,6 +46,7 @@ class Coupon extends Model
         'status' => Status::class,
         'reserved_date' => 'datetime',
         'reached_at' => 'datetime',
+        'is_confirmed' => 'bool',
     ];
 
     //    protected static function booted(): void
