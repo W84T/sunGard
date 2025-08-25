@@ -40,6 +40,7 @@ class CouponForm
                                     ->label(__('coupon.form.customer_phone'))
                                     ->defaultCountry('SA')
                                     ->onlyCountries(['SA'])
+                                    ->unique(ignoreRecord: true)
                                     ->required(),
 
 //                                TextInput::make('customer_phone')
@@ -50,6 +51,7 @@ class CouponForm
                                 TextInput::make('customer_email')
                                     ->label(__('coupon.form.customer_email'))
                                     ->email()
+                                    ->unique(ignoreRecord: true)
                                     ->columnSpan(2),
                             ]),
 

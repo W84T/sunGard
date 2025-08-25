@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Overtrue\LaravelVersionable\Versionable;
@@ -91,17 +92,15 @@ class Coupon extends Model
 
     public function generateCouponImage(): void
     {
-        require_once base_path('vendor/khaled.alshamaa/ar-php/src/Arabic.php');
-
-        $templatePath = public_path('templates/coupon_template.jpg');
-        $arabicFont = public_path('fonts/NotoNaskhArabic-VariableFont_wght.ttf');
-        $englishFont = public_path('fonts/Roboto-VariableFont_wdth,wght.ttf');
+        $templatePath = public_path('templates/master_coupon_galal.png');
+        $arabicFont = storage_path('fonts/NotoSansArabic_Condensed-Medium.ttf');
+        $englishFont = storage_path('fonts/CascadiaCode-Regular.ttf');
 
         if (!file_exists($templatePath)) {
             return;
         }
 
-        $ar = new Arabic('Glyphs');
+        $ar = new \ArPHP\I18N\Arabic('Glyphs');
 
         $prepareText = function ($text) use ($ar) {
             if (preg_match('/\p{Arabic}/u', $text)) {
@@ -110,31 +109,61 @@ class Coupon extends Model
                     'isArabic' => true,
                 ];
             }
-
             return [
                 'text' => $text,
                 'isArabic' => false,
             ];
         };
 
-        $manager = new ImageManager(new Driver);
+        $manager = new \Intervention\Image\ImageManager(new \Intervention\Image\Drivers\Gd\Driver());
         $img = $manager->read($templatePath);
 
+        // Insert exhibition logo if available
+        $logoPath = $this->branchRelation?->exhibition?->logo_address;
+
+        if ($logoPath) {
+            // If the DB already stores absolute path:
+            $absoluteLogoPath = $logoPath;
+
+            // Or if it’s stored relative (like "exhibition_logos/xxx.png"), use:
+             $absoluteLogoPath = storage_path('app/private/' . $logoPath);
+
+            if (file_exists($absoluteLogoPath)) {
+                $logo = $manager->read($absoluteLogoPath)
+                    ->resize(180, 180, function ($constraint) {
+                        $constraint->aspectRatio();   // keep proportions
+                        $constraint->upsize();        // prevent enlarging if smaller
+                    });
+
+                $img->place($logo, 'top-left', 1000, 70);
+            } else {
+                \Log::warning("Coupon {$this->id} → Logo missing: $absoluteLogoPath");
+            }
+        }
+
+        // Text fields
         $fields = [
-            [$this->customer_name, 200, 150, 32],
-            [$this->customer_phone, 200, 200, 28],
-            [$this->car_model, 200, 250, 28],
-            [$this->plate_number, 200, 300, 28],
+            [$this->customer_name ?? '', 2085, 382, 36, true],
+            [$this->customer_phone ?? '', 2085, 480, 36, true],
+            [$this->car_model ?? '', 2085, 570, 36, true],
+            [$this->car_brand ?? '', 2085, 666, 36, true],
+            [$this->plate_number . ' - ' . $this->plate_characters ?? '', 2085, 763, 36, true],
+            [__('car_categories.' . $this->car_category) ?? '', 2085, 854, 36, true],
+            [$this->agent->name ?? '', 2085, 947, 36, true],
+            [$this->created_at?->format('d/m/Y - h:m') ?? now()->toDateString(), 2085, 1044, 36, true],
+
+            // Serial on the left
+            [str_pad($this->id, 7, '0', STR_PAD_LEFT) ?? '000123', 300, 350, 36, false],
         ];
 
-        foreach ($fields as [$text, $x, $y, $size]) {
+        foreach ($fields as [$text, $x, $y, $size, $isRightAligned]) {
             $data = $prepareText($text);
 
-            $img->text($data['text'], $x, $y, function ($font) use ($data, $arabicFont, $englishFont, $size) {
+            $img->text($data['text'], $x, $y, function ($font) use ($data, $arabicFont, $englishFont, $size, $isRightAligned) {
                 $font->filename($data['isArabic'] ? $arabicFont : $englishFont);
                 $font->size($size);
                 $font->color('#000000');
-                $font->align($data['isArabic'] ? 'right' : 'left');
+                $font->align($isRightAligned ? 'right' : 'center');
             });
         }
 
@@ -143,13 +172,15 @@ class Coupon extends Model
             mkdir($outputDir, 0755, true);
         }
 
-        $outputPath = $outputDir . "/coupon_{$this->id}.jpg";
+        $outputPath = $outputDir . "/coupon_{$this->id}.png";
         $img->save($outputPath);
 
         $this->updateQuietly([
-            'coupon_link' => "generated/coupon_{$this->id}.jpg",
+            'coupon_link' => "generated/coupon_{$this->id}.png",
         ]);
     }
+
+
 
     public function branchRelation(): BelongsTo
     {

@@ -13,7 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class Branch extends Model
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
     use HasRoles;
     use Versionable;
 

@@ -7,6 +7,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ar-php/ar-php": "^1.0",
         "awcodes/palette": "^2.0",
         "bezhansalleh/filament-language-switch": "^4.0@beta",
         "bezhansalleh/filament-shield": "^4.0@beta",
