@@ -7,7 +7,6 @@ use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
-use Filament\Support\Colors\Color;
 
 class SungardBranchesForm
 {
@@ -16,11 +15,16 @@ class SungardBranchesForm
         return $schema
             ->components([
                 Hidden::make('created_by')
-                    ->default(fn () => auth()->id()),
+                    ->default(fn() => auth()->id()),
                 TextInput::make('name')
                     ->label(__('sungard_branch.form.name'))
                     ->required(),
                 //
+                TextInput::make('max_capacity')
+                    ->label(__('sungard_branch.form.max_capacity'))
+                    ->numeric()
+                    ->required(),
+
                 TextInput::make('address')
                     ->label(__('sungard_branch.form.address')),
 

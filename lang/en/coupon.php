@@ -129,6 +129,7 @@ return [
         'customer_served_set' => [
             'title' => 'Status set to "Customer Served"',
         ],
+        'capacity_reached' => 'Sorry, :branch is fully booked on :date. Maximum capacity is :capacity reservations.',
     ],
 
     'ticket' => [
@@ -184,6 +185,7 @@ return [
         'notification' => [
             'success_body' => 'Your coupon export has completed and :successful_rows :row_plural exported.',
             'failed_body' => ':failed_rows :row_plural failed to export.',
+            'capacity_reached' => 'Sorry, :branch is fully booked on :date. Maximum capacity is :capacity reservations.',
         ],
     ],
 

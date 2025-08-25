@@ -129,6 +129,7 @@ return [
         'customer_served_set' => [
             'title' => 'تم تعيين الحالة إلى "تم خدمة العميل"',
         ],
+        'capacity_reached' => 'عذراً، فرع :branch محجوز بالكامل في تاريخ :date. الحد الأقصى للحجوزات هو :capacity.',
     ],
 
     'ticket' => [
@@ -184,6 +185,7 @@ return [
         'notification' => [
             'success_body' => 'اكتمل تصدير الكوبونات وتم تصدير :successful_rows :row_plural.',
             'failed_body' => ':failed_rows :row_plural فشلت في التصدير.',
+            'capacity_reached' => 'عذراً، فرع :branch محجوز بالكامل في تاريخ :date. الحد الأقصى للحجوزات هو :capacity.',
         ],
     ],
 

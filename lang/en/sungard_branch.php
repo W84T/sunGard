@@ -7,6 +7,7 @@ return [
     'form' => [
         'name' => 'Name',
         'address' => 'Address',
+        'max_capacity' => 'Max Capacity',
         'color' => 'Color',
     ],
 
@@ -14,6 +15,7 @@ return [
         'color' => 'Color',
         'name' => 'Name',
         'address' => 'Address',
+        'max_capacity' => 'Max Capacity',
         'created_at' => 'Created At',
         'updated_at' => 'Updated At',
     ],
