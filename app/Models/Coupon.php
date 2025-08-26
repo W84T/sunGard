@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Log;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Overtrue\LaravelVersionable\Versionable;
@@ -17,9 +16,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class Coupon extends Model
 {
-    use SoftDeletes;
-    use HasRoles;
-    use Versionable;
+    use SoftDeletes, HasRoles, Versionable;
 
     protected $guarded = [];
 
@@ -48,30 +45,17 @@ class Coupon extends Model
         'reserved_date' => 'datetime',
         'reached_at' => 'datetime',
         'is_confirmed' => 'bool',
+        'plans' => 'array', // ✅ cast JSON automatically
     ];
 
-    //    protected static function booted(): void
-    //    {
-    //        static::updating(function ($coupon) {
-    //            $originalStatus = $coupon->getOriginal('status');
-    //            $newStatus = $coupon->status;
-    //
-    //            // Only act if status is actually changing
-    //            if ($originalStatus !== $newStatus) {
-    //                $user = Auth::user();
-    //
-    //                if ($user && $user->roles->contains('slug', 'employee')) {
-    //                    $coupon->employee_id= $user->id;
-    //                }
-    //            }
-    //        });
-    //    }
-
+    /*
+    |--------------------------------------------------------------------------
+    | Booted Events
+    |--------------------------------------------------------------------------
+    */
     protected static function booted()
     {
-        static::created(function ($coupon) {
-            $coupon->generateCouponImage();
-        });
+        static::created(fn($coupon) => $coupon->generateCouponImage());
 
         static::updating(function ($coupon) {
             $originalStatus = $coupon->getOriginal('status');
@@ -83,104 +67,169 @@ class Coupon extends Model
                 ? $originalStatus
                 : Status::tryFrom((int)$originalStatus);
 
-            // If old status was RESERVED and new status is different
             if ($originalStatusEnum?->isReserved() && $newStatus?->value !== $originalStatusEnum?->value) {
                 $coupon->reached_at = now();
             }
         });
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Coupon Image Generation
+    |--------------------------------------------------------------------------
+    */
     public function generateCouponImage(): void
     {
         $templatePath = public_path('templates/master_coupon_galal.png');
         $arabicFont = storage_path('fonts/NotoSansArabic_Condensed-Medium.ttf');
-        $englishFont = storage_path('fonts/CascadiaCode-Regular.ttf');
+        $arabicBoldFont = storage_path('fonts/NotoSansArabic_Condensed-Bold.ttf');
 
         if (!file_exists($templatePath)) {
             return;
         }
 
-        $ar = new \ArPHP\I18N\Arabic('Glyphs');
-
+        // Arabic glyph shaping
+        $ar = new Arabic('Glyphs');
         $prepareText = function ($text) use ($ar) {
-            if (preg_match('/\p{Arabic}/u', $text)) {
-                return [
-                    'text' => $ar->utf8Glyphs($text),
-                    'isArabic' => true,
-                ];
-            }
-            return [
-                'text' => $text,
-                'isArabic' => false,
-            ];
+            return $ar->utf8Glyphs($text ?? '');
         };
 
-        $manager = new \Intervention\Image\ImageManager(new \Intervention\Image\Drivers\Gd\Driver());
+        // ✅ GD driver
+        $manager = new ImageManager(new Driver());
         $img = $manager->read($templatePath);
 
-        // Insert exhibition logo if available
-        $logoPath = $this->branchRelation?->exhibition?->logo_address;
-
-        if ($logoPath) {
-            // If the DB already stores absolute path:
-            $absoluteLogoPath = $logoPath;
-
-            // Or if it’s stored relative (like "exhibition_logos/xxx.png"), use:
-             $absoluteLogoPath = storage_path('app/private/' . $logoPath);
-
+        // --- Exhibition Logo
+        if ($this->exhibitionRelation?->logo_address) {
+            $absoluteLogoPath = storage_path('app/private/' . $this->exhibitionRelation->logo_address);
             if (file_exists($absoluteLogoPath)) {
                 $logo = $manager->read($absoluteLogoPath)
-                    ->resize(180, 180, function ($constraint) {
-                        $constraint->aspectRatio();   // keep proportions
-                        $constraint->upsize();        // prevent enlarging if smaller
+                    ->resize(180, 180, function ($c) {
+                        $c->aspectRatio();
+                        $c->upsize();
                     });
-
                 $img->place($logo, 'top-left', 1000, 70);
-            } else {
-                \Log::warning("Coupon {$this->id} → Logo missing: $absoluteLogoPath");
             }
         }
 
-        // Text fields
+        // --- Base fields
         $fields = [
-            [$this->customer_name ?? '', 2085, 382, 36, true],
-            [$this->customer_phone ?? '', 2085, 480, 36, true],
-            [$this->car_model ?? '', 2085, 570, 36, true],
-            [$this->car_brand ?? '', 2085, 666, 36, true],
-            [$this->plate_number . ' - ' . $this->plate_characters ?? '', 2085, 763, 36, true],
-            [__('car_categories.' . $this->car_category) ?? '', 2085, 854, 36, true],
-            [$this->agent->name ?? '', 2085, 947, 36, true],
-            [$this->created_at?->format('d/m/Y - h:m') ?? now()->toDateString(), 2085, 1044, 36, true],
-
-            // Serial on the left
-            [str_pad($this->id, 7, '0', STR_PAD_LEFT) ?? '000123', 300, 350, 36, false],
+            ['text' => $prepareText($this->customer_name),  'x' => 2085, 'y' => 382,  'size' => 36, 'align' => 'right', 'color' => '#000000', 'weight' => 'normal'],
+            ['text' => $prepareText($this->customer_phone), 'x' => 2085, 'y' => 480,  'size' => 36, 'align' => 'right', 'color' => '#333333', 'weight' => 'bold'],
+            ['text' => $prepareText($this->car_model),      'x' => 2085, 'y' => 570,  'size' => 32, 'align' => 'right', 'color' => '#000000', 'weight' => 'normal'],
+            ['text' => $prepareText($this->car_brand),      'x' => 2085, 'y' => 666,  'size' => 32, 'align' => 'right', 'color' => '#000000', 'weight' => 'normal'],
+            ['text' => $prepareText(($this->plate_number ?? '') . ' - ' . ($this->plate_characters ?? '')),
+                'x' => 2085, 'y' => 763,  'size' => 34, 'align' => 'right', 'color' => '#000000', 'weight' => 'normal'],
+            ['text' => $prepareText(__('car_categories.' . $this->car_category)),
+                'x' => 2085, 'y' => 854,  'size' => 36, 'align' => 'right', 'color' => '#000000', 'weight' => 'normal'],
+            ['text' => $prepareText($this->agent->name ?? ''),
+                'x' => 2085, 'y' => 947,  'size' => 36, 'align' => 'right', 'color' => '#000000', 'weight' => 'normal'],
+            ['text' => $prepareText($this->created_at?->format('d/m/Y - h:i') ?? now()->toDateString()),
+                'x' => 2085, 'y' => 1044, 'size' => 36, 'align' => 'right', 'color' => '#000000', 'weight' => 'normal'],
+            ['text' => $prepareText($this->exhibitionRelation?->discount),
+                'x' => 530,  'y' => 1160, 'size' => 86, 'align' => 'right', 'color' => '#FFF',     'weight' => 'bold'],
+            ['text' => $prepareText(str_pad($this->id, 7, '0', STR_PAD_LEFT)),
+                'x' => 300,  'y' => 350,  'size' => 42, 'align' => 'center','color' => '#000000', 'weight' => 'bold'],
         ];
 
-        foreach ($fields as [$text, $x, $y, $size, $isRightAligned]) {
-            $data = $prepareText($text);
+        // --- Plans (with wrapping)
+        if (!empty($this->exhibitionRelation?->plans)) {
+            $textX = 1210;   // right-aligned text
+            $numX  = 1245;   // number column
+            $cursorY = 460;  // start Y position
+            $lineHeight = 55;
+            $fontSize = 36;
+            $maxWidth = 650; // max width for text lines
 
-            $img->text($data['text'], $x, $y, function ($font) use ($data, $arabicFont, $englishFont, $size, $isRightAligned) {
-                $font->filename($data['isArabic'] ? $arabicFont : $englishFont);
-                $font->size($size);
-                $font->color('#000000');
-                $font->align($isRightAligned ? 'right' : 'center');
+            foreach ($this->exhibitionRelation->plans as $i => $plan) {
+                $number = '.' . $prepareText(($i + 1));
+                $text   = $prepareText($plan['value'] ?? '');
+
+                // Break plan text into wrapped lines
+                $lines = $this->wrapArabicText($text, $arabicFont, $fontSize, $maxWidth);
+
+                foreach ($lines as $j => $line) {
+                    // number only on first line
+                    if ($j === 0) {
+                        $fields[] = [
+                            'text'  => $number,
+                            'x'     => $numX,
+                            'y'     => $cursorY,
+                            'size'  => $fontSize,
+                            'align' => 'right',
+                            'color' => '#000000',
+                            'weight'=> 'bold',
+                        ];
+                    }
+
+                    $fields[] = [
+                        'text'  => $line,
+                        'x'     => $textX,
+                        'y'     => $cursorY,
+                        'size'  => $fontSize,
+                        'align' => 'right',
+                        'color' => '#000000',
+                        'weight'=> 'normal',
+                    ];
+
+                    $cursorY += $lineHeight;
+                }
+            }
+        }
+
+        // --- Draw all fields (always Arabic fonts)
+        foreach ($fields as $field) {
+            $img->text($field['text'], $field['x'], $field['y'], function ($font) use ($field, $arabicFont, $arabicBoldFont) {
+                $font->filename($field['weight'] === 'bold' ? $arabicBoldFont : $arabicFont);
+                $font->size($field['size']);
+                $font->color($field['color']);
+                $font->align($field['align']);
             });
         }
 
+        // --- Save
         $outputDir = public_path('generated');
-        if (!file_exists($outputDir)) {
-            mkdir($outputDir, 0755, true);
-        }
+        if (!file_exists($outputDir)) mkdir($outputDir, 0755, true);
 
         $outputPath = $outputDir . "/coupon_{$this->id}.png";
         $img->save($outputPath);
 
-        $this->updateQuietly([
-            'coupon_link' => "generated/coupon_{$this->id}.png",
-        ]);
+        $this->updateQuietly(['coupon_link' => "generated/coupon_{$this->id}.png"]);
     }
 
+    /**
+     * Wrap Arabic text to fit max width
+     */
+    protected function wrapArabicText(string $text, string $fontFile, int $fontSize, int $maxWidth): array
+    {
+        $words = explode(' ', $text);
+        $lines = [];
+        $currentLine = '';
 
+        foreach ($words as $word) {
+            $testLine = trim($currentLine . ' ' . $word);
+            $box = imagettfbbox($fontSize, 0, $fontFile, $testLine);
+            $lineWidth = abs($box[2] - $box[0]);
+
+            if ($lineWidth > $maxWidth && $currentLine !== '') {
+                $lines[] = $currentLine;
+                $currentLine = $word;
+            } else {
+                $currentLine = $testLine;
+            }
+        }
+
+        if ($currentLine !== '') {
+            $lines[] = $currentLine;
+        }
+
+        return $lines;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relations
+    |--------------------------------------------------------------------------
+    */
 
     public function branchRelation(): BelongsTo
     {
@@ -202,19 +251,23 @@ class Coupon extends Model
         return $this->belongsTo(User::class, 'employee_id');
     }
 
-    // App\Models\Coupon
     public function sungard(): BelongsTo
     {
         return $this->belongsTo(SungardBranches::class, 'sungard_branch_id');
     }
 
-    public function getCarPlateAttribute()
-    {
-        return strtoupper($this->plate_characters) . '-' . $this->plate_number;
-    }
-
-    public function tickets(): hasMany
+    public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class, 'coupon_id');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Accessors
+    |--------------------------------------------------------------------------
+    */
+    public function getCarPlateAttribute(): string
+    {
+        return strtoupper($this->plate_characters) . '-' . $this->plate_number;
     }
 }

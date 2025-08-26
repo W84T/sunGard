@@ -10,13 +10,16 @@ use Spatie\Permission\Traits\HasRoles;
 
 class Exhibition extends Model
 {
-    use HasFactory, SoftDeletes;
+    use  SoftDeletes;
 
     //    use Versionable;
     use HasRoles;
 
     protected $guarded = [];
 
+    protected $casts = [
+        'plans' => 'array',
+    ];
     public function creator(): belongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
