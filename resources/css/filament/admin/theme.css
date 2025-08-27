@@ -1,6 +1,5 @@
 @import '../../../../vendor/filament/filament/resources/css/theme.css';
 @import '../../../../vendor/mansoor/filament-versionable/resources/css/plugin.css';
-@import 'photoswipe/style.css';
 
 /* If you're on Tailwind v4, keep your @source lines for class scanning */
 @source "../../../../vendor/bezhansalleh/filament-language-switch/resources/views/**/*.blade.php";

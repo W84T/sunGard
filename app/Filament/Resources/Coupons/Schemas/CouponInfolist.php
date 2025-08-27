@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Coupons\Schemas;
 
 use App\Filament\Infolists\Components\FilePreview;
 use App\Status;
-use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Flex;
 use Filament\Schemas\Components\Group;
@@ -94,18 +93,8 @@ class CouponInfolist
 
                         Section::make()
                             ->schema([
-                                ImageEntry::make('coupon_link')
-                                    ->label(__('coupon.infolist.coupon_image'))
-                                    ->disk('public'),
-                                //                                ImageEntry::make('coupon_link'),
                                 FilePreview::make('coupon_link')
                                     ->label(__('coupon.infolist.coupon_image')),
-
-                                //                                ViewEntry::make('coupon_link')
-                                //                                    ->label('Coupon Image')
-                                //                                    ->view('infolists.components.image-with-preview')
-                                //                                    ->state(fn ($record) => $record->coupon_link) // important to resolve it
-                                //                                    ->columnSpan(2)
                             ]),
                     ]),
 
@@ -166,39 +155,4 @@ class CouponInfolist
             ]);
     }
 
-    //
-    // return $schema->columns(2)->components([
-    //
-    // Section::make('General Information')
-    // ->schema([
-
-    //
-    // ImageEntry::make('coupon_link')->label('Coupon Image'),
-    //
-    // TextEntry::make('is_confirmed')
-    //    ->label('Is Confirmed')
-    //    ->formatStateUsing(fn(bool $state) => $state ? 'Yes' : 'No'),
-    //
-    //                    TextEntry::make('reserved_date')->label('Reserved Date')->dateTime(),
-    //                    TextEntry::make('reached_at')->label('Reached At')->dateTime(),
-    //                ]),
-    //
-    //
-    //
-    //            Section::make('Staff & Branch Info')
-    //                ->schema([
-    //                    TextEntry::make('agent.name')->label('Agent Name'),
-    //                    TextEntry::make('branchRelation.name')->label('Branch Name'),
-    //                    TextEntry::make('exhibitionRelation.name')->label('Exhibition Name'),
-    //                    TextEntry::make('employee.name')->label('Employee Name'),
-    //                ])
-    //                ->columns(2),
-    //
-    //            Section::make('Timestamps')
-    //                ->schema([
-    //                    TextEntry::make('created_at')->label('Created At')->dateTime(),
-    //                    TextEntry::make('updated_at')->label('Updated At')->dateTime(),
-    //                ])
-    //                ->columns(2),
-    //        ]);
 }
