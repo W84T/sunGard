@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Coupons\Schemas;
 
 use App\Filament\Infolists\Components\FilePreview;
 use App\Status;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Flex;
 use Filament\Schemas\Components\Group;
@@ -93,7 +94,9 @@ class CouponInfolist
 
                         Section::make()
                             ->schema([
-
+                                ImageEntry::make('coupon_link')
+                                    ->label(__('coupon.infolist.coupon_image'))
+                                    ->disk('public'),
                                 //                                ImageEntry::make('coupon_link'),
                                 FilePreview::make('coupon_link')
                                     ->label(__('coupon.infolist.coupon_image')),

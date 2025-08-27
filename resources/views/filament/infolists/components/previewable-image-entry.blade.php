@@ -1,7 +1,11 @@
 @php
+    use Illuminate\Support\Facades\Storage;
     $images = \Illuminate\Support\Arr::wrap($getState());
-    $imageUrl = fn($path) => $path ? asset($path) : $getDefaultImageUrl();
+    $imageUrl = fn($path) => $path
+        ? Storage::disk('public')->url($path) . '?v=' . (optional($entry->getRecord()->updated_at)->timestamp ?? time())
+        : $getDefaultImageUrl();
 @endphp
+
 
 <x-dynamic-component :component="$getEntryWrapperView()" :entry="$entry">
     <div class="pswp-gallery" id="my-gallery">
