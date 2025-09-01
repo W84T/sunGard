@@ -6,6 +6,7 @@ return [
     'no_reply_or_whatsapp_sent' => 'No Reply or WhatsApp Sent',
     'duplicate_postponed' => 'Duplicate Postponed',
     'not_interested' => 'Not Interested',
+    'ticket' => 'Support ticket has been sent', //automated -
     'multiple_postpones_or_avoid' => 'Multiple Postpones or Avoid',
     'booked' => 'Booked',
     'heading_to_branch' => 'Heading to Branch',

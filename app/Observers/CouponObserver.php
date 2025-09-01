@@ -43,21 +43,21 @@ class CouponObserver
         // 1) Customer served (final state)
         if ($statusChanged && $currentStatus === Status::CUSTOMER_SERVED) {
             $notification = $this->makeNotification(
-                'تم خدمة العميل',
+                'تم خدمة العميل ',
                 'تم خدمة العميل ' . $coupon->name,
                 'success',
                 $coupon
             );
         }
         // 2) Confirmed (manager action)
-        elseif ($confirmedChanged && $currentIsConfirmed === true) {
-            $notification = $this->makeNotification(
-                'تم تأكيد الكوبون',
-                'تم تأكيد الكوبون ' . $coupon->name,
-                'success',
-                $coupon
-            );
-        }
+//        elseif ($confirmedChanged && $currentIsConfirmed === true) {
+//            $notification = $this->makeNotification(
+//                'تم تأكيد الكوبون',
+//                'تم تأكيد الكوبون ' . $coupon->name,
+//                'success',
+//                $coupon
+//            );
+//        }
         // 3) Scheduled (from RESERVED -> any scheduled status)
         elseif ($statusChanged
             && $originalStatus === Status::RESERVED
@@ -79,6 +79,7 @@ class CouponObserver
                 $coupon
             );
         }
+
         // 5) Not booked
         elseif ($statusChanged && $currentStatus?->isNotBooked()) {
             $notification = $this->makeNotification(

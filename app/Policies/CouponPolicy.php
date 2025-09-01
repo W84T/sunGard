@@ -24,6 +24,9 @@ class CouponPolicy
      */
     public function view(User $user, Coupon $coupon): bool
     {
+        if($user->isCustomerService() && !$coupon->status ){
+            return false;
+        }
         return $user->can('view_coupons::coupon');
     }
 
@@ -155,6 +158,9 @@ class CouponPolicy
         return true;
     }
 
-
+    public function revision(User $user, Coupon $coupon): bool
+    {
+        return $user->can('revision_coupons::coupon');
+    }
 
 }

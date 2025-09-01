@@ -24,6 +24,7 @@ class ExhibitionForm
                     TextInput::make('discount')
                         ->label(__('exhibition.form.discount'))
                         ->required()
+                        ->visible(fn ($record) => auth()->user()->can('addPlansAndDiscounts', $record))
                         ->required(),
                     TextInput::make('address')
                         ->label(__('exhibition.form.address')),
@@ -36,6 +37,7 @@ class ExhibitionForm
 
                     Repeater::make('plans')
                         ->label(__('exhibition.form.plans'))
+                        ->visible(fn ($record) => auth()->user()->can('addPlansAndDiscounts', $record))
                         ->schema([
                             TextInput::make('value')
                                 ->label(__('exhibition.form.plan_value'))

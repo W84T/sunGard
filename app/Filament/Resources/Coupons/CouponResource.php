@@ -160,7 +160,8 @@ class CouponResource extends Resource implements HasShieldPermissions
 
             'submit_ticket',
             'change_status',
-            'reserve_coupon'
+            'reserve_coupon',
+            'revision'
         ];
     }
 

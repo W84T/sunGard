@@ -12,6 +12,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\TextSize;
 use Filament\Support\Icons\Heroicon;
+use Ysfkaya\FilamentPhoneInput\Infolists\PhoneEntry;
 
 class CouponInfolist
 {
@@ -60,7 +61,7 @@ class CouponInfolist
                                         TextEntry::make('customer_email')
                                             ->label(__('coupon.infolist.email'))
                                             ->size(TextSize::Large),
-                                        TextEntry::make('customer_phone')
+                                        PhoneEntry::make('customer_phone')
                                             ->label(__('coupon.infolist.phone'))
                                             ->size(TextSize::Large),
                                     ])

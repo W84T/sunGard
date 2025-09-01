@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Filament\Widgets\BranchCoupons;
+use App\Filament\Widgets\CustomerServiceStatsOverview;
 use App\Filament\Widgets\GrowthWidget;
 use App\Filament\Widgets\StateOverview;
 use App\Filament\Widgets\TopAgentWidget;
@@ -114,6 +115,7 @@ class CustomDashboard extends Dashboard
     public function getWidgets(): array
     {
         return [
+//            CustomerServiceStatsOverview::class,
             StateOverview::class,
             GrowthWidget::class,
             BranchCoupons::class,

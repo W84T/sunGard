@@ -105,4 +105,10 @@ class ExhibitionPolicy
     {
         return $user->can('{{ Reorder }}');
     }
+
+    public function addPlansAndDiscounts(User $user, Exhibition $exhibition): bool
+    {
+        return $user->can('add_plans_and_discounts_exhibitions::exhibition');
+    }
+
 }

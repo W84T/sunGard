@@ -19,7 +19,8 @@ class ViewCoupon extends ViewRecord
                 ->color('info'),
             EditAction::make()
                 ->color('primary'),
-            RevisionsAction::make(),
+            RevisionsAction::make()
+                ->visible(fn ($record) => auth()->user()->can('revision', $record)),
         ];
     }
 }
