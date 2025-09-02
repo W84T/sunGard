@@ -70,10 +70,13 @@ class CouponInfolist
                                 Group::make()
                                     ->schema([
                                         Group::make()
-                                            ->columnSpan(2)
+                                            ->columnSpanFull()
                                             ->schema([
                                                 TextEntry::make('car_brand')
                                                     ->label(__('coupon.infolist.car_brand'))
+                                                    ->size(TextSize::Large),
+                                                TextEntry::make('car_type')
+                                                    ->label(__('coupon.infolist.car_type'))
                                                     ->size(TextSize::Large),
                                                 TextEntry::make('car_model')
                                                     ->label(__('coupon.infolist.car_model'))
@@ -87,7 +90,7 @@ class CouponInfolist
                                                     ->label(__('coupon.infolist.car_plate'))
                                                     ->size(TextSize::Large),
                                             ])
-                                            ->columns(2),
+                                            ->columns(5),
                                     ])
                                     ->columns(3),
                             ]),

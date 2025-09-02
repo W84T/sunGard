@@ -43,8 +43,9 @@ class CouponExporter extends Exporter
             ExportColumn::make('customer_phone')->label(__('coupon.export.customer_phone')),
 
             ExportColumn::make('coupon_link')->label(__('coupon.export.coupon_link')),
-            ExportColumn::make('car_model')->label(__('coupon.export.car_model')),
             ExportColumn::make('car_brand')->label(__('coupon.export.car_brand')),
+            ExportColumn::make('car_type')->label(__('coupon.export.car_type')),
+            ExportColumn::make('car_model')->label(__('coupon.export.car_model')),
             ExportColumn::make('car_category')->label(__('coupon.export.car_category')),
             ExportColumn::make('plate_number')->label(__('coupon.export.plate_number')),
 

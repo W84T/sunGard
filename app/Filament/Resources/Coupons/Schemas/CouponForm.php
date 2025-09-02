@@ -56,14 +56,19 @@ class CouponForm
                             ]),
 
                         Section::make(__('coupon.form.vehicle_information'))
-                            ->columns(2)
+                            ->columns(3)
                             ->schema([
+                                TextInput::make('car_brand')
+                                    ->label(__('coupon.form.car_brand'))
+                                    ->required(),
+
+                                TextInput::make('car_type')
+                                    ->label(__('coupon.form.car_type'))
+                                    ->required(),
+
                                 TextInput::make('car_model')
                                     ->label(__('coupon.form.car_model'))
                                     ->required(),
-
-                                TextInput::make('car_brand')
-                                    ->label(__('coupon.form.car_brand')),
 
                                 Group::make()
                                     ->columnSpan('full')
@@ -91,17 +96,17 @@ class CouponForm
                                         Select::make('car_category')
                                             ->label(__('coupon.form.car_category'))
                                             ->options([
-                                                'private'    => __('car_categories.private'),
+                                                'private' => __('car_categories.private'),
                                                 'commercial' => __('car_categories.commercial'),
                                                 'diplomatic' => __('car_categories.diplomatic'),
-                                                'public'     => __('car_categories.public'),
-                                                'temporary'  => __('car_categories.temporary'),
-                                                'custom'     => __('car_categories.custom'),
+                                                'public' => __('car_categories.public'),
+                                                'temporary' => __('car_categories.temporary'),
+                                                'custom' => __('car_categories.custom'),
                                             ])
                                             ->searchable()
                                             ->preload()
                                             ->required(),
-        ]),
+                                    ]),
 
                             ]),
                         //

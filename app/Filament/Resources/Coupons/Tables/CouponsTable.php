@@ -18,13 +18,11 @@ use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Group;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
-use Mansoor\FilamentVersionable\Table\RevisionsAction;
 
 class CouponsTable
 {
@@ -47,7 +45,7 @@ class CouponsTable
                         ->sortable()
                         ->toggleable() : null,
 
-                    !$user->hasRoleSlug('customer service')? TextColumn::make('exhibitionRelation.name')
+                    !$user->hasRoleSlug('customer service') ? TextColumn::make('exhibitionRelation.name')
                         ->label(__('coupon.table.exhibition_id'))
                         ->numeric()
                         ->sortable()
@@ -63,32 +61,37 @@ class CouponsTable
                         ->searchable()
                         ->toggleable(),
 
-                    !$user->hasRoleSlug('customer service')? TextColumn::make('customer_email')
+                    !$user->hasRoleSlug('customer service') ? TextColumn::make('customer_email')
                         ->label(__('coupon.table.customer_email'))
                         ->searchable()
                         ->toggleable() : null,
 
-                    !$user->hasRoleSlug('customer service')? TextColumn::make('customer_phone')
+                    !$user->hasRoleSlug('customer service') ? TextColumn::make('customer_phone')
                         ->label(__('coupon.table.customer_phone'))
                         ->searchable()
                         ->toggleable(isToggledHiddenByDefault: true) : null,
 
-                    TextColumn::make('car_model')
+                    !$user->hasRoleSlug('customer service') ? TextColumn::make('car_model')
                         ->label(__('coupon.table.car_model'))
                         ->searchable()
-                        ->toggleable(isToggledHiddenByDefault: true),
+                        ->toggleable(isToggledHiddenByDefault: true) :null,
 
-                    TextColumn::make('car_brand')
+                    !$user->hasRoleSlug('customer service') ? TextColumn::make('car_brand')
                         ->label(__('coupon.table.car_brand'))
                         ->searchable()
-                        ->toggleable(isToggledHiddenByDefault: true),
+                        ->toggleable(isToggledHiddenByDefault: true) : null,
 
-                    TextColumn::make('car_category')
+                    !$user->hasRoleSlug('customer service') ? TextColumn::make('car_type')
+                        ->label(__('coupon.table.car_type'))
+                        ->searchable()
+                        ->toggleable(isToggledHiddenByDefault: true) : null,
+
+                    !$user->hasRoleSlug('customer service') ?  TextColumn::make('car_category')
                         ->label(__('coupon.table.car_category'))
                         ->searchable()
-                        ->toggleable(isToggledHiddenByDefault: true),
+                        ->toggleable(isToggledHiddenByDefault: true) : null,
 
-                        !$user->hasRoleSlug('customer service') ? TextColumn::make('plate_number')
+                    !$user->hasRoleSlug('customer service') ? TextColumn::make('plate_number')
                         ->label(__('coupon.table.plate_number'))
                         ->searchable()
                         ->toggleable(isToggledHiddenByDefault: true) : null,
