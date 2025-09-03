@@ -1,62 +1,129 @@
-@import '../../../../vendor/filament/filament/resources/css/theme.css';
-@import '../../../../vendor/mansoor/filament-versionable/resources/css/plugin.css';
+    @import '../../../../vendor/filament/filament/resources/css/theme.css';
+    @import '../../../../vendor/mansoor/filament-versionable/resources/css/plugin.css';
 
-/* If you're on Tailwind v4, keep your @source lines for class scanning */
-@source "../../../../vendor/bezhansalleh/filament-language-switch/resources/views/**/*.blade.php";
-@source "../../../../vendor/guava/filament-modal-relation-managers/resources/**/*.blade.php";
-@source "../../../../vendor/mansoor/filament-versionable/resources/**/*.blade.php";
-@source "../../../../app/Filament/**/*";
-@source "../../../../resources/views/filament/**/*";
-/*@source"../../../../vendor/guava/calendar/resources!**!*.blade.php";*/
-@import '../../../../vendor/guava/calendar/resources/css/theme.css';
-@source '../../../../vendor/awcodes/palette/resources/**/*.blade.php';
+    /* If you're on Tailwind v4, keep your @source lines for class scanning */
+    @source "../../../../vendor/bezhansalleh/filament-language-switch/resources/views/**/*.blade.php";
+    @source "../../../../vendor/guava/filament-modal-relation-managers/resources/**/*.blade.php";
+    @source "../../../../vendor/mansoor/filament-versionable/resources/**/*.blade.php";
+    @source "../../../../app/Filament/**/*";
+    @source "../../../../resources/views/filament/**/*";
+    /*@source"../../../../vendor/guava/calendar/resources!**!*.blade.php";*/
+    @import '../../../../vendor/guava/calendar/resources/css/theme.css';
+    @source '../../../../vendor/awcodes/palette/resources/**/*.blade.php';
 
-/*side bar*/
-.fi-sidebar-item .fi-sidebar-item-btn {
-    @apply px-4;
-}
+    /*side bar*/
+    .fi-sidebar-item .fi-sidebar-item-btn {
+        @apply px-4;
+    }
 
-.fi-sidebar-item.fi-active .fi-sidebar-item-btn {
-    @apply bg-primary-50 dark:bg-primary-600;
-}
+    .fi-sidebar-item.fi-active .fi-sidebar-item-btn {
+        @apply bg-primary-50 dark:bg-primary-600;
+    }
 
-.fi-sidebar-item.fi-active .fi-sidebar-item-label,
-.fi-sidebar-item.fi-active .fi-sidebar-item-icon {
-    @apply text-primary-700 dark:text-white;
-}
+    .fi-sidebar-item.fi-active .fi-sidebar-item-label,
+    .fi-sidebar-item.fi-active .fi-sidebar-item-icon {
+        @apply text-primary-700 dark:text-white;
+    }
 
-.fi-sidebar-item.fi-active .fi-sidebar-item-badge-ctn .fi-badge {
-    @apply text-primary-900 dark:bg-gray-900/75 dark:text-white;
-}
+    .fi-sidebar-item.fi-active .fi-sidebar-item-badge-ctn .fi-badge {
+        @apply text-primary-900 dark:bg-gray-900/75 dark:text-white;
+    }
 
-.fi-sidebar-item.fi-active .fi-sidebar-item-grouped-border .fi-sidebar-item-grouped-border-part-not-last,
-.fi-sidebar-item.fi-active .fi-sidebar-item-grouped-border .fi-sidebar-item-grouped-border-part-not-first {
-    @apply bg-gray-900/25 dark:bg-white/25;
-}
+    .fi-sidebar-item.fi-active .fi-sidebar-item-grouped-border .fi-sidebar-item-grouped-border-part-not-last,
+    .fi-sidebar-item.fi-active .fi-sidebar-item-grouped-border .fi-sidebar-item-grouped-border-part-not-first {
+        @apply bg-gray-900/25 dark:bg-white/25;
+    }
 
-/* TODO: Implement this */
-.fi-sidebar-group-dropdown-trigger-btn {
-    @apply rounded-3xl;
-}
+    /* TODO: Implement this */
+    .fi-sidebar-group-dropdown-trigger-btn {
+        @apply rounded-3xl;
+    }
 
-/*modal*/
-.fi-modal-window {
-    @apply rounded-3xl;
-}
+    /*modal*/
+    .fi-modal-window {
+        @apply rounded-3xl;
+    }
 
-.fi-modal-close-overlay {
-    @apply backdrop-blur-xs;
-}
+    .fi-modal-close-overlay {
+        @apply backdrop-blur-xs;
+    }
 
-.fi-modal-slide-over .fi-modal-window {
-    @apply mt-2 me-4 h-[calc(100vh-2rem)];
-}
+    .fi-modal-slide-over .fi-modal-window {
+        @apply mt-2 me-4 h-[calc(100vh-2rem)];
+    }
 
-/*panel*/
-.fi-simple-main {
-    @apply rounded-3xl;
-}
+    /*panel*/
+    .fi-simple-main {
+        @apply rounded-3xl;
+    }
 
-.fi-page-header-main-ctn .fi-header .fi-header-heading {
-    @apply relative inline-block after:content-[''] after:absolute after:-z-10 after:-left-1 after:-right-1 after:bottom-1 after:rounded-full after:bg-primary-400/75 dark:after:bg-primary-600/75 after:h-1.5;
-}
+    .fi-page-header-main-ctn .fi-header .fi-header-heading {
+        @apply relative inline-block after:content-[''] after:absolute after:-z-10 after:-left-1 after:-right-1 after:bottom-1 after:rounded-full after:bg-primary-400/75 dark:after:bg-primary-600/75 after:h-1.5;
+    }
+
+
+    /* Print styles – cross-browser (Chrome + Firefox) */
+    @media print {
+        /* Hide chrome around the content */
+        .fi-sidebar,
+        .fi-topbar,
+        .fi-header,
+        .fi-breadcrumbs,
+        .fi-footer {
+            display: none !important;
+        }
+
+        /* Kill any modals / backdrops / overlays from Filament & HeadlessUI */
+        [role="dialog"],
+        [aria-modal="true"],
+        .fi-modal,
+        .fi-modal-window,
+        .fi-modal-close-overlay,
+        .fi-modal-backdrop,
+        .fi-overlays,
+        .overlay,
+        .backdrop,
+        [class*="overlay"],
+        [class*="backdrop"],
+        .fixed.inset-0,
+        .inset-0.fixed {
+            display: none !important;
+        }
+        /* Just in case something survives: make it transparent */
+        [class*="overlay"],
+        [class*="backdrop"] {
+            background: transparent !important;
+            backdrop-filter: none !important;
+        }
+
+        /* Ensure sections can actually break pages in Firefox */
+        .fi-sc-section,
+        .fi-section {
+            display: block !important;          /* break-* only works on block elements here */
+            break-inside: avoid !important;     /* modern */
+            page-break-inside: avoid !important;/* legacy */
+        }
+
+        /* Tailwind utilities + legacy fallback for page breaks */
+        .print\:break-after-page {
+            break-after: page !important;
+            page-break-after: always !important;
+        }
+        .print\:break-before-page {
+            break-before: page !important;
+            page-break-before: always !important;
+        }
+
+        /* Layout cleanup */
+        .fi-main {
+            margin: 4px !important;
+            padding: 10px !important;
+            width: 100% !important;
+            background: #fff !important;
+        }
+        .fi-simple-main,
+        .fi-infolist {
+            background: #fff !important;
+            box-shadow: none !important;
+        }
+    }

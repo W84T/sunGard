@@ -60,8 +60,8 @@ class AdminPanelProvider extends PanelProvider
             ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()
             ->brandName('Sun Gard')
-            ->brandLogo(asset('storage/logo.png'))
-            ->favicon(asset('storage/favicon.png'))
+            ->brandLogo(asset('storage/logo1.png'))
+            ->favicon(asset('storage/favicon1.png'))
             ->brandLogoHeight('50px')
             ->id('admin')
             ->font(

@@ -51,7 +51,7 @@ class CouponsTable
                         ->sortable()
                         ->toggleable() : null,
 
-                    !$user->hasRoleSlug('customer service') ? TextColumn::make('employee_id')
+                    !$user->hasRoleSlug('customer service') ? TextColumn::make('employee.name')
                         ->label(__('coupon.table.employee_id'))
                         ->numeric()
                         ->toggleable(isToggledHiddenByDefault: true) : null,

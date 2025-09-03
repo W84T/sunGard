@@ -52,6 +52,7 @@ class CouponInfolist
                         Section::make(__('coupon.infolist.customer_information'))
                             ->icon(Heroicon::User)
                             ->collapsed(false)
+                            ->extraAttributes(['class' => 'print:break-after-page'])
                             ->schema([
                                 Group::make()
                                     ->schema([
@@ -60,7 +61,8 @@ class CouponInfolist
                                             ->size(TextSize::Large),
                                         TextEntry::make('customer_email')
                                             ->label(__('coupon.infolist.email'))
-                                            ->size(TextSize::Large),
+                                            ->size(TextSize::Large)
+                                            ->visible(fn($record) => filled($record->customer_email)),
                                         PhoneEntry::make('customer_phone')
                                             ->label(__('coupon.infolist.phone'))
                                             ->size(TextSize::Large),
@@ -96,6 +98,7 @@ class CouponInfolist
                             ]),
 
                         Section::make()
+                            ->extraAttributes(['class' => 'print:break-after-page'])
                             ->schema([
                                 FilePreview::make('coupon_link')
                                     ->label(__('coupon.infolist.coupon_image')),
