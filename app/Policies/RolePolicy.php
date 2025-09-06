@@ -47,8 +47,13 @@ class RolePolicy
      */
     public function delete(User $user, Role $role): bool
     {
+        if ($user->hasRole($role->name)) {
+            return false;
+        }
+
         return $user->can('delete_role');
     }
+
 
     /**
      * Determine whether the user can bulk delete.
