@@ -5,7 +5,7 @@ return [
     'plural' => 'Exhibitions',
 
     'form' => [
-        'name' => 'Name',
+    1    'name' => 'Name',
         'address' => 'Address',
         'logo_address' => 'Logo Address',
     ],
@@ -19,4 +19,7 @@ return [
         'created_at' => 'Created At',
         'updated_at' => 'Updated At',
     ],
+    'after_label' => [
+        'logo' => 'logo size must be less than 2MB',
+    ]
 ];

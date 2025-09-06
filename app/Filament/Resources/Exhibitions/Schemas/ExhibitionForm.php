@@ -2,12 +2,16 @@
 
 namespace App\Filament\Resources\Exhibitions\Schemas;
 
+use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Icon;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
 
 class ExhibitionForm
 {
@@ -30,6 +34,10 @@ class ExhibitionForm
                         ->label(__('exhibition.form.address')),
                     FileUpload::make('logo_address')
                         ->label(__('exhibition.form.logo_address'))
+                        ->afterLabel([
+                            Icon::make(Phosphor::Info),
+                            __('exhibition.after_label.logo'),
+                        ])
                         ->required()
                         ->directory('exhibition_logos')
                         ->columnSpan('full')
