@@ -41,13 +41,10 @@ class UserResource extends Resource
 
         $query = parent::getEloquentQuery();
 
-        if ($user->hasRoleSlug('marketer')) {
-            return $query->where('created_by', $user->id);
+        if ($user->hasAnyRoleSlug(['marketer', 'customer service manager', 'manager of customer service manager'])) {
+            $query->where('created_by', $user->id);
         }
 
-        if ($user->hasRoleSlug('customer service manager')) {
-            return $query->where('created_by', $user->id);
-        }
         return $query;
     }
 

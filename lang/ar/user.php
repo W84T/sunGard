@@ -5,13 +5,25 @@ return [
     'plural' => 'المستخدمون',
 
     'tabs' => [
-        'admin' => 'المسؤول',
-        'branch_manager' => 'مدير الفرع',
-        'customer_service' => 'مدير خدمة العملاء',
-        'employee' => 'موظف خدمة العملاء',
-        'marketer' => 'مسوق',
+        'admin' => 'مدير النظام',
+        'branch_manager' => 'مدير فرع سنغارد',
+        'customer_service_manager' => 'مدير خدمة العملاء',
+        'customer_service' => 'خدمة العملاء',
+        'marketer' => 'مسوّق',
         'agent' => 'وكيل',
-        'reporter' => 'مدير التقارير',
+        'report_manager' => 'مدير التقارير',
+        'manager_of_customer_service_manager' => 'مدير لمدير خدمة العملاء',
+    ],
+
+    'slug' => [
+        'admin' => 'مدير النظام',
+        'branch_manager' => 'مدير فرع سنغارد',
+        'customer_service_manager' => 'مدير خدمة العملاء',
+        'customer_service' => 'خدمة العملاء',
+        'marketer' => 'مسوّق',
+        'agent' => 'وكيل',
+        'report_manager' => 'مدير التقارير',
+        'manager_of_customer_service_manager' => 'مدير لمدير خدمة العملاء',
     ],
 
     'form' => [

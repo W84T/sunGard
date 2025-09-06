@@ -9,7 +9,6 @@ use Spatie\Permission\Traits\HasRoles;
 
 class SungardBranches extends Model
 {
-    use HasFactory;
     use HasRoles;
 
     protected $guarded = [];

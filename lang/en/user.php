@@ -5,13 +5,25 @@ return [
     'plural' => 'Users',
 
     'tabs' => [
-        'admin' => 'Admin',
+        'admin' => 'Administrator',
         'branch_manager' => 'Branch Manager',
-        'customer_service' => 'Customer Service Manager',
-        'employee' => 'Customer Service Employee',
+        'customer_service_manager' => 'Customer Service Manager',
+        'customer_service' => 'Customer Service',
         'marketer' => 'Marketer',
         'agent' => 'Agent',
-        'reporter' => 'Report Manager',
+        'report_manager' => 'Report Manager',
+        'manager_of_customer_service_manager' => 'Manager of Customer Service Manager',
+    ],
+
+    'slug' => [
+        'admin' => 'Administrator',
+        'branch_manager' => 'Branch Manager',
+        'customer_service_manager' => 'Customer Service Manager',
+        'customer_service' => 'Customer Service',
+        'marketer' => 'Marketer',
+        'agent' => 'Agent',
+        'report_manager' => 'Report Manager',
+        'manager_of_customer_service_manager' => 'Manager of Customer Service Manager',
     ],
 
     'form' => [

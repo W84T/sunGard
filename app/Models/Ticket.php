@@ -11,7 +11,6 @@ use App\Enums\TicketPriority;
 
 class Ticket extends Model
 {
-    use HasFactory;
     use HasRoles;
 
     protected $guarded = [];

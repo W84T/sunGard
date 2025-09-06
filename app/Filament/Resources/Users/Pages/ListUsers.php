@@ -25,6 +25,7 @@ class ListUsers extends ListRecords
         SUM(roles.slug = 'admin') AS admin,
         SUM(roles.slug = 'branch manager') AS branch_manager,
         SUM(roles.slug = 'customer service manager') AS customer_service_manager,
+        SUM(roles.slug = 'manager of customer service manager') AS manager_of_customer_service_manager,
         SUM(roles.slug = 'customer service') AS customer_service,
         SUM(roles.slug = 'marketer') AS marketer,
         SUM(roles.slug = 'agent') AS agent,
@@ -45,11 +46,15 @@ class ListUsers extends ListRecords
                 ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'branch manager')))
                 ->badge($counts['branch_manager']);
 
-            $tabs['customer service manager'] = Tab::make(__('user.tabs.customer_service'))
+            $tabs['manager of customer service manager'] = Tab::make(__('user.tabs.manager_of_customer_service_manager'))
+                ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'manager of customer service manager')))
+                ->badge($counts['manager_of_customer_service_manager']);
+
+            $tabs['customer service manager'] = Tab::make(__('user.tabs.customer_service_manager'))
                 ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'customer service manager')))
                 ->badge($counts['customer_service_manager']);
 
-            $tabs['customer service'] = Tab::make(__('user.tabs.employee'))
+            $tabs['customer service'] = Tab::make(__('user.tabs.customer_service'))
                 ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'customer service')))
                 ->badge($counts['customer_service']);
 
@@ -61,7 +66,7 @@ class ListUsers extends ListRecords
                 ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'agent')))
                 ->badge($counts['agent']);
 
-            $tabs['report manager'] = Tab::make(__('user.tabs.reporter'))
+            $tabs['report manager'] = Tab::make(__('user.tabs.report_manager'))
                 ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'report manager')))
                 ->badge($counts['report_manager']);
         }

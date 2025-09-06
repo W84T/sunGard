@@ -9,8 +9,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class Earning extends Model
 {
-    use HasFactory, SoftDeletes;
-    use HasRoles;
+    use SoftDeletes, HasRoles;
 
     protected $guarded = [];
 }

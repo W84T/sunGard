@@ -64,12 +64,14 @@ class UserForm
                                 titleAttribute: 'name',
                                 modifyQueryUsing: function ($query) {
                                     $user = auth()->user();
-                                    $slugs = $user->roles->pluck('slug')
-                                        ->toArray();
+                                    $slugs = $user->roles->pluck('slug')->toArray();
+
+                                    $allowed = [];
 
                                     if (in_array('admin', $slugs)) {
-                                        return $query->whereIn('slug', [
+                                        $allowed = array_merge($allowed, [
                                             'admin',
+                                            'manager of customer service manager',
                                             'customer service manager',
                                             'branch manager',
                                             'report manager',
@@ -78,22 +80,30 @@ class UserForm
                                     }
 
                                     if (in_array('customer service manager', $slugs)) {
-                                        return $query->whereIn('slug', [
-                                            'customer service',
-                                        ]);
+                                        $allowed = array_merge($allowed, ['customer service']);
                                     }
 
                                     if (in_array('marketer', $slugs)) {
-                                        return $query->where('slug', 'agent');
+                                        $allowed = array_merge($allowed, ['agent']);
                                     }
 
-                                    return $query->whereRaw('1 = 0');
+                                    if(in_array('manager of customer service manager', $slugs)) {
+                                        $allowed = array_merge($allowed, ['customer service manager']);
+                                    }
+
+                                    // Fallback: deny all
+                                    if (empty($allowed)) {
+                                        return $query->whereRaw('1 = 0');
+                                    }
+
+                                    return $query->whereIn('slug', $allowed);
                                 }
                             )
                             ->live()
                             ->required()
                             ->preload()
                             ->searchable(),
+
 
                         Grid::make(2)
                             ->schema([
