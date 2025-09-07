@@ -5,7 +5,7 @@ return [
     'plural' => 'Exhibitions',
 
     'form' => [
-    1    'name' => 'Name',
+        'name' => 'Name',
         'address' => 'Address',
         'logo_address' => 'Logo Address',
     ],

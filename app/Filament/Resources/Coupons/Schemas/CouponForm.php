@@ -14,6 +14,7 @@ use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 
 class CouponForm
@@ -129,12 +130,27 @@ class CouponForm
                                     ->relationship(
                                         name: 'agent',
                                         titleAttribute: 'name',
-                                        modifyQueryUsing: fn(Builder $query) => $query->whereHas('roles', fn(Builder $query) => $query->where('name', 'agent'))
+                                        modifyQueryUsing: fn(Builder $query) => $query->whereHas('roles', fn(Builder $query) => $query->where('slug', 'agent'))
                                     )
-                                    ->visible($user->roles->contains('slug', 'admin') || $user->roles->contains('slug', 'employee'))
+                                    ->visible($user->roles->contains('slug', 'admin') || $user->roles->contains('slug', 'customer service manager'))
                                     ->searchable()
                                     ->preload()
                                     ->required()
+                                    ->live()
+                                    ->afterStateUpdated(function ($state, callable $set) {
+                                        if ($state) {
+                                            $agent = \App\Models\User::find($state);
+
+                                            if ($agent) {
+                                                $set('exhibition_id', $agent->exhibition_id);
+                                                $set('branch_id', $agent->branch_id);
+                                            }
+                                        } else {
+                                            // reset values if agent cleared
+                                            $set('exhibition_id', null);
+                                            $set('branch_id', null);
+                                        }
+                                    })
                                     ->label(__('coupon.form.agent')),
 
                                 Select::make('employee_id')
@@ -154,7 +170,7 @@ class CouponForm
                                     ->searchable()
                                     ->preload()
                                     ->default(fn() => $user->roles->contains('slug', 'agent') ? $user->exhibition_id : null)
-                                    ->disabled(fn() => $user->roles->contains('slug', 'agent'))
+                                    ->disabled()
                                     ->dehydrated()
                                     ->required(),
 
@@ -166,11 +182,11 @@ class CouponForm
                                     ->searchable()
                                     ->preload()
                                     ->default(fn() => $user->roles->contains('slug', 'agent') ? $user->branch_id : null)
-                                    ->disabled(fn() => $user->roles->contains('slug', 'agent'))
+                                    ->disabled()
                                     ->dehydrated()
                                     ->live()
-                                    ->preload()
                                     ->required(),
+
                             ]),
                         Section::make(__('coupon.form.status_reservation'))
                             ->columns(1)

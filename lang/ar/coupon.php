@@ -37,6 +37,7 @@ return [
         'reached_at' => 'تاريخ الوصول',
         'exhibition_name' => 'اسم المعرض',
         'sungard_branch_name' => 'اسم فرع سن جارد',
+        'note' => 'ملاحظة من مدير فرع سنغارد'
     ],
 
     'table' => [
@@ -82,6 +83,7 @@ return [
         'reached_at' => 'تاريخ الوصول',
         'reservation_date' => 'تاريخ الحجز',
         'sungard_branch_name' => 'اسم فرع سن جارد',
+        'note' => 'ملاحظة من مدير فرع سنغارد'
     ],
 
     'actions' => [

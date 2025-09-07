@@ -37,6 +37,7 @@ return [
         'reached_at' => 'Reached At',
         'exhibition_name' => 'Exhibition Name',
         'sungard_branch_name' => 'Sungard Branch Name',
+        'note' => 'Note from Sungard Manager'
     ],
 
     'table' => [
@@ -82,6 +83,7 @@ return [
         'reached_at' => 'Reached At',
         'reservation_date' => 'Reservation Date',
         'sungard_branch_name' => 'Sungard Branch Name',
+        'note' => 'Note from Sungard Manager'
     ],
 
     'actions' => [
