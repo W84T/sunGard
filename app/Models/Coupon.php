@@ -7,6 +7,7 @@ use ArPHP\I18N\Arabic;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
@@ -106,6 +107,14 @@ class Coupon extends Model
     {
         return $this->hasMany(Ticket::class, 'coupon_id');
     }
+
+    public function openTicket(): HasOne
+    {
+        return $this->hasOne(Ticket::class, 'coupon_id')
+            ->where('status', 'open')
+            ->latest();
+    }
+
 
     /*
     |--------------------------------------------------------------------------

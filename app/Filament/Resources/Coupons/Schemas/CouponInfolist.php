@@ -43,7 +43,16 @@ class CouponInfolist
                             default => 'gray',
                         })
                         ->grow(false),
-                ])
+
+                    TextEntry::make('openTicket.status')
+                        ->hiddenLabel()
+                        ->badge()
+                        ->size(TextSize::Large)
+                        ->weight(FontWeight::Black)
+                        ->hidden(fn ($state) => $state !== 'open') // hide if not open
+                        ->formatStateUsing(fn ($state) => $state === 'open' ? __('status.ticket') : null)
+
+        ])
                     ->columnSpan('full'),
 
                 Group::make()
