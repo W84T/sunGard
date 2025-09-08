@@ -3,7 +3,6 @@
 namespace App\Filament\Actions;
 
 use App\Models\Coupon;
-use App\Models\SungardBranch; // ✅ singular, adjust if your model is plural
 use App\Models\SungardBranches;
 use App\Status;
 use Filament\Actions\Action;
@@ -21,6 +20,7 @@ class ChangeStatusAction
 
         return Action::make(__('coupon.action.change_status'))
             ->icon('heroicon-o-pencil-square')
+            ->label(__('coupon.actions.change_status'))
             ->visible(fn ($record) => auth()->user()->can('changeStatus', $record))
             ->schema(fn (Action $action): array => [
 

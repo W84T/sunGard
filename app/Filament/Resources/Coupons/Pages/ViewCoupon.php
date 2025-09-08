@@ -24,7 +24,7 @@ class ViewCoupon extends ViewRecord
                 ->visible(fn ($record) => auth()->user()->can('revision', $record)),
 
             Action::make('print')
-                ->label('Print')
+                ->label(__('coupon.print'))
                 ->icon('heroicon-o-printer')
                 ->action(fn () => 'window.print()')
                 ->requiresConfirmation(false)

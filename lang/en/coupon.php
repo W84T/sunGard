@@ -4,6 +4,7 @@ return [
     'singular' => 'Coupon',
     'plural' => 'Coupons',
     'create' => 'Create Coupon',
+    'print' => 'Print',
     'tabs' => [
         'all' => 'All',
         'not_scheduled' => 'Not Scheduled',

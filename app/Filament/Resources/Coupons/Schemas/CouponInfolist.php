@@ -157,6 +157,11 @@ class CouponInfolist
                                     ->label(__('coupon.infolist.sungard_branch_name'))
                                     ->visible(fn($record) => filled($record->sungard_branch_id)),
 
+                                TextEntry::make('note')
+                                    ->label(__('coupon.infolist.note'))
+                                    ->html()
+                                    ->visible(fn($record) => filled($record->note)),
+
                             ]),
                     ]),
             ]);

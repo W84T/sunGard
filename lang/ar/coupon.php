@@ -4,6 +4,7 @@ return [
     'singular' => 'كوبون',
     'plural' => 'كوبونات',
     'create' => 'إنشاء كوبون جديد',
+    'print' => 'طباعة',
     'tabs' => [
         'all' => 'الكل',
         'not_scheduled' => 'غير مجدول',
