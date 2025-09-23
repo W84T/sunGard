@@ -5,14 +5,15 @@ return [
     'plural' => 'المستخدمون',
 
     'tabs' => [
-        'admin' => 'مدير النظام',
-        'branch_manager' => 'مدير فرع سنغارد',
-        'customer_service_manager' => 'مدير خدمة العملاء',
-        'customer_service' => 'خدمة العملاء',
-        'marketer' => 'مسوّق',
-        'agent' => 'وكيل',
-        'report_manager' => 'مدير التقارير',
-        'manager_of_customer_service_manager' => 'مدير لمدير خدمة العملاء',
+        'all' => 'الكُلّ',
+        'admin' => 'مُدير النِّظام',
+        'branch_manager' => 'مُدير فَرع سَنغارد',
+        'customer_service_manager' => 'مُدير خِدمة العُملاء',
+        'customer_service' => 'خِدمة العُملاء',
+        'marketer' => 'مُسَوِّق',
+        'agent' => 'وَكيل',
+        'report_manager' => 'مُدير التَّقارير',
+        'manager_of_customer_service_manager' => 'مُديرٌ لِمُديرِ خِدمةِ العُملاء',
     ],
 
     'slug' => [

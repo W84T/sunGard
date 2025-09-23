@@ -29,7 +29,8 @@ class ListUsers extends ListRecords
         SUM(roles.slug = 'customer service') AS customer_service,
         SUM(roles.slug = 'marketer') AS marketer,
         SUM(roles.slug = 'agent') AS agent,
-        SUM(roles.slug = 'report manager') AS report_manager
+        SUM(roles.slug = 'report manager') AS report_manager,
+        COUNT(users.id) AS total_users
     ")
             ->first()
             ->toArray();
@@ -38,6 +39,10 @@ class ListUsers extends ListRecords
         $tabs = [];
 
         if ($user->hasRoleSlug('admin')) {
+            $tabs['all'] = Tab::make(__('user.tabs.all'))
+                ->modifyQueryUsing(fn (Builder $query) => $query)
+                ->badge($counts['total_users']);
+
             $tabs['admin'] = Tab::make(__('user.tabs.admin'))
                 ->modifyQueryUsing(fn(Builder $query) => $query->whereHas('roles', fn($q) => $q->where('slug', 'admin')))
                 ->badge($counts['admin']);

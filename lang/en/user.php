@@ -5,6 +5,7 @@ return [
     'plural' => 'Users',
 
     'tabs' => [
+        'all' => 'All',
         'admin' => 'Administrator',
         'branch_manager' => 'Branch Manager',
         'customer_service_manager' => 'Customer Service Manager',
