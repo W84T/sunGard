@@ -14,7 +14,7 @@ class Deattach
             ->label(__('user.action.detach'))
             ->icon(Phosphor::X)
             ->color('danger')
-            ->visible(fn() => auth()->user()->can('attach_users::user'))
+            ->visible(fn() => auth()->user()->can('Attach:User'))
             ->requiresConfirmation()
             ->action(function ($record) {
                 $record->update(['created_by' => null]);
@@ -27,7 +27,7 @@ class Deattach
             ->label(__('user.action.detach'))
             ->icon(Phosphor::X)
             ->requiresConfirmation()
-            ->visible(fn() => auth()->user()->can('attach_users::user'))
+            ->visible(fn() => auth()->user()->can('Attach:User'))
             ->action(function ($records) {
                 foreach ($records as $record) {
                     $record->update(['created_by' => null]);

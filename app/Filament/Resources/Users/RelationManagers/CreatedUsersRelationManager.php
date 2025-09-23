@@ -55,7 +55,7 @@ class CreatedUsersRelationManager extends RelationManager
                 Action::make('attach_user')
                     ->label(__('user.action.attach'))
                     ->icon(Phosphor::Paperclip)
-                    ->visible(fn() => auth()->user()->can('attach_users::user'))
+                    ->visible(fn() => auth()->user()->can('Attach:User'))
                     ->color('gray')
                     ->schema(function () {
                         $owner = $this->getOwnerRecord();
