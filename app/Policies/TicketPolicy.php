@@ -1,108 +1,70 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
-use App\Models\User;
+use Illuminate\Foundation\Auth\User as AuthUser;
 use App\Models\Ticket;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TicketPolicy
 {
     use HandlesAuthorization;
-
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->can('view_any_tickets::ticket');
+        return $authUser->can('ViewAny:Ticket');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Ticket $ticket): bool
+    public function view(AuthUser $authUser, Ticket $ticket): bool
     {
-        return $user->can('view_tickets::ticket');
+        return $authUser->can('View:Ticket');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->can('create_tickets::ticket');
+        return $authUser->can('Create:Ticket');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Ticket $ticket): bool
+    public function update(AuthUser $authUser, Ticket $ticket): bool
     {
-        return $user->can('update_tickets::ticket');
+        return $authUser->can('Update:Ticket');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Ticket $ticket): bool
+    public function delete(AuthUser $authUser, Ticket $ticket): bool
     {
-        return $user->can('delete_tickets::ticket');
+        return $authUser->can('Delete:Ticket');
     }
 
-    /**
-     * Determine whether the user can bulk delete.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, Ticket $ticket): bool
     {
-        return $user->can('delete_any_tickets::ticket');
+        return $authUser->can('Restore:Ticket');
     }
 
-    /**
-     * Determine whether the user can permanently delete.
-     */
-    public function forceDelete(User $user, Ticket $ticket): bool
+    public function forceDelete(AuthUser $authUser, Ticket $ticket): bool
     {
-        return $user->can('force_delete_tickets::ticket');
+        return $authUser->can('ForceDelete:Ticket');
     }
 
-    /**
-     * Determine whether the user can permanently bulk delete.
-     */
-    public function forceDeleteAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->can('force_delete_any_tickets::ticket');
+        return $authUser->can('ForceDeleteAny:Ticket');
     }
 
-    /**
-     * Determine whether the user can restore.
-     */
-    public function restore(User $user, Ticket $ticket): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->can('restore_tickets::ticket');
+        return $authUser->can('RestoreAny:Ticket');
     }
 
-    /**
-     * Determine whether the user can bulk restore.
-     */
-    public function restoreAny(User $user): bool
+    public function replicate(AuthUser $authUser, Ticket $ticket): bool
     {
-        return $user->can('restore_any_tickets::ticket');
+        return $authUser->can('Replicate:Ticket');
     }
 
-    /**
-     * Determine whether the user can replicate.
-     */
-    public function replicate(User $user, Ticket $ticket): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->can('{{ Replicate }}');
+        return $authUser->can('Reorder:Ticket');
     }
 
-    /**
-     * Determine whether the user can reorder.
-     */
-    public function reorder(User $user): bool
-    {
-        return $user->can('{{ Reorder }}');
-    }
 }

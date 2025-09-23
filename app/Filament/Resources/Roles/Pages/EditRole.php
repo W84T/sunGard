@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Filament\Resources\RoleResource\Pages;
+declare(strict_types=1);
 
-use App\Filament\Resources\RoleResource;
+namespace App\Filament\Resources\Roles\Pages;
+
+use App\Filament\Resources\Roles\RoleResource;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
@@ -18,26 +20,23 @@ class EditRole extends EditRecord
     protected function getActions(): array
     {
         return [
-            DeleteAction::make()
-                ->color('danger'),
+            DeleteAction::make(),
         ];
     }
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $this->permissions = collect($data)
-            ->filter(function (mixed $permission, string $key): bool {
-                return ! in_array($key, ['name', 'slug', 'guard_name', 'select_all', Utils::getTenantModelForeignKey()]);
-            })
+            ->filter(fn (mixed $permission, string $key): bool => ! in_array($key, ['name', 'slug', 'guard_name', 'select_all', Utils::getTenantModelForeignKey()]))
             ->values()
             ->flatten()
             ->unique();
 
-        if (Arr::has($data, Utils::getTenantModelForeignKey())) {
+        if (Utils::isTenancyEnabled() && Arr::has($data, Utils::getTenantModelForeignKey()) && filled($data[Utils::getTenantModelForeignKey()])) {
             return Arr::only($data, ['name', 'guard_name', Utils::getTenantModelForeignKey()]);
         }
 
-        return Arr::only($data, ['name', 'slug', 'guard_name']);
+        return Arr::only($data, ['name', 'slub', 'guard_name']);
     }
 
     protected function afterSave(): void
@@ -50,6 +49,7 @@ class EditRole extends EditRecord
             ]));
         });
 
+        // @phpstan-ignore-next-line
         $this->record->syncPermissions($permissionModels);
     }
 }

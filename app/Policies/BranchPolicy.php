@@ -1,108 +1,70 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
-use App\Models\User;
+use Illuminate\Foundation\Auth\User as AuthUser;
 use App\Models\Branch;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class BranchPolicy
 {
     use HandlesAuthorization;
-
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->can('view_any_branches::branch');
+        return $authUser->can('ViewAny:Branch');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Branch $branch): bool
+    public function view(AuthUser $authUser, Branch $branch): bool
     {
-        return $user->can('view_branches::branch');
+        return $authUser->can('View:Branch');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->can('create_branches::branch');
+        return $authUser->can('Create:Branch');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Branch $branch): bool
+    public function update(AuthUser $authUser, Branch $branch): bool
     {
-        return $user->can('update_branches::branch');
+        return $authUser->can('Update:Branch');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Branch $branch): bool
+    public function delete(AuthUser $authUser, Branch $branch): bool
     {
-        return $user->can('delete_branches::branch');
+        return $authUser->can('Delete:Branch');
     }
 
-    /**
-     * Determine whether the user can bulk delete.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, Branch $branch): bool
     {
-        return $user->can('delete_any_branches::branch');
+        return $authUser->can('Restore:Branch');
     }
 
-    /**
-     * Determine whether the user can permanently delete.
-     */
-    public function forceDelete(User $user, Branch $branch): bool
+    public function forceDelete(AuthUser $authUser, Branch $branch): bool
     {
-        return $user->can('force_delete_branches::branch');
+        return $authUser->can('ForceDelete:Branch');
     }
 
-    /**
-     * Determine whether the user can permanently bulk delete.
-     */
-    public function forceDeleteAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->can('force_delete_any_branches::branch');
+        return $authUser->can('ForceDeleteAny:Branch');
     }
 
-    /**
-     * Determine whether the user can restore.
-     */
-    public function restore(User $user, Branch $branch): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->can('restore_branches::branch');
+        return $authUser->can('RestoreAny:Branch');
     }
 
-    /**
-     * Determine whether the user can bulk restore.
-     */
-    public function restoreAny(User $user): bool
+    public function replicate(AuthUser $authUser, Branch $branch): bool
     {
-        return $user->can('restore_any_branches::branch');
+        return $authUser->can('Replicate:Branch');
     }
 
-    /**
-     * Determine whether the user can replicate.
-     */
-    public function replicate(User $user, Branch $branch): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->can('{{ Replicate }}');
+        return $authUser->can('Reorder:Branch');
     }
 
-    /**
-     * Determine whether the user can reorder.
-     */
-    public function reorder(User $user): bool
-    {
-        return $user->can('{{ Reorder }}');
-    }
 }

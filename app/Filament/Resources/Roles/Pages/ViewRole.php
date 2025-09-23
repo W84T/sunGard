@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Filament\Resources\RoleResource\Pages;
+declare(strict_types=1);
 
-use App\Filament\Resources\RoleResource;
+namespace App\Filament\Resources\Roles\Pages;
+
+use App\Filament\Resources\Roles\RoleResource;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 
@@ -13,8 +15,7 @@ class ViewRole extends ViewRecord
     protected function getActions(): array
     {
         return [
-            EditAction::make()
-                ->color('primary'),
+            EditAction::make(),
         ];
     }
 }

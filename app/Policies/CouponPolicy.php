@@ -1,129 +1,92 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
-use App\Models\Coupon;
 use App\Models\User;
 use App\Status;
+use Illuminate\Foundation\Auth\User as AuthUser;
+use App\Models\Coupon;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CouponPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->can('view_any_coupons::coupon');
+        return $authUser->can('ViewAny:Coupon');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Coupon $coupon): bool
+    public function view(AuthUser $authUser, Coupon $coupon): bool
     {
-        if($user->isCustomerService() && !$coupon->status ){
+        if($authUser->isCustomerService() && !$coupon->status ){
             return false;
         }
-        return $user->can('view_coupons::coupon');
+
+        return $authUser->can('View:Coupon');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->can('create_coupons::coupon');
+        return $authUser->can('Create:Coupon');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Coupon $coupon): bool
+    public function update(AuthUser $authUser, Coupon $coupon): bool
     {
-        return $user->can('update_coupons::coupon');
+        return $authUser->can('Update:Coupon');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Coupon $coupon): bool
+    public function delete(AuthUser $authUser, Coupon $coupon): bool
     {
-        return $user->can('delete_coupons::coupon');
+        return $authUser->can('Delete:Coupon');
     }
 
-    /**
-     * Determine whether the user can bulk delete.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, Coupon $coupon): bool
     {
-        return $user->can('delete_any_coupons::coupon');
+        return $authUser->can('Restore:Coupon');
     }
 
-    /**
-     * Determine whether the user can permanently delete.
-     */
-    public function forceDelete(User $user, Coupon $coupon): bool
+    public function forceDelete(AuthUser $authUser, Coupon $coupon): bool
     {
-        return $user->can('force_delete_coupons::coupon');
+        return $authUser->can('ForceDelete:Coupon');
     }
 
-    /**
-     * Determine whether the user can permanently bulk delete.
-     */
-    public function forceDeleteAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->can('force_delete_any_coupons::coupon');
+        return $authUser->can('ForceDeleteAny:Coupon');
     }
 
-    /**
-     * Determine whether the user can restore.
-     */
-    public function restore(User $user, Coupon $coupon): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->can('restore_coupons::coupon');
+        return $authUser->can('RestoreAny:Coupon');
     }
 
-    /**
-     * Determine whether the user can bulk restore.
-     */
-    public function restoreAny(User $user): bool
+    public function replicate(AuthUser $authUser, Coupon $coupon): bool
     {
-        return $user->can('restore_any_coupons::coupon');
+        return $authUser->can('Replicate:Coupon');
     }
 
-    /**
-     * Determine whether the user can replicate.
-     */
-    public function replicate(User $user, Coupon $coupon): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->can('{{ Replicate }}');
+        return $authUser->can('Reorder:Coupon');
     }
 
-    /**
-     * Determine whether the user can reorder.
-     */
-    public function reorder(User $user): bool
+    public function submitTicket(AuthUser $authUser, Coupon $coupon): bool
     {
-        return $user->can('{{ Reorder }}');
+        return $coupon->status && $authUser->can('SubmitTicket:Coupon');
     }
 
-    public function submitTicket(User $user, Coupon $coupon): bool
+    public function reserve(AuthUser $authUser, Coupon $coupon): bool
     {
-        return $coupon->status && $user->can('submit_ticket_coupons::coupon');
+        return !$coupon->employee_id &&$authUser->can('ReserveCoupon:Coupon');
     }
 
-    public function reserve(User $user, Coupon $coupon): bool
-    {
-        return !$coupon->employee_id &&$user->can('reserve_coupon_coupons::coupon');
-    }
-
-    public function changeStatus(User $user, Coupon $coupon): bool
+    public function changeStatus(AuthUser $authUser, Coupon $coupon): bool
     {
         // Keep the permission check
-        if (!$user->can('change_status_coupons::coupon')) {
+        if (!$authUser->can('ChangeStatus:Coupon')) {
             return false;
         }
 
@@ -158,9 +121,8 @@ class CouponPolicy
         return true;
     }
 
-    public function revision(User $user, Coupon $coupon): bool
+    public function revision(AuthUser $authUser, Coupon $coupon): bool
     {
-        return $user->can('revision_coupons::coupon');
+        return $authUser->can('Revision:Coupon');
     }
-
 }
