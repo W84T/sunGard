@@ -11,7 +11,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class ExhibitionPolicy
 {
     use HandlesAuthorization;
-    
+
     public function viewAny(AuthUser $authUser): bool
     {
         return $authUser->can('ViewAny:Exhibition');
@@ -65,6 +65,11 @@ class ExhibitionPolicy
     public function reorder(AuthUser $authUser): bool
     {
         return $authUser->can('Reorder:Exhibition');
+    }
+
+    public function addPlansAndDiscounts(AuthUser $authUser, Exhibition $exhibition): bool
+    {
+        return $authUser->can('AddPlansAndDiscounts:Exhibition');
     }
 
 }

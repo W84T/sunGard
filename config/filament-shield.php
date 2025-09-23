@@ -1,5 +1,9 @@
 <?php
 
+use App\Filament\Resources\Coupons\CouponResource;
+use App\Filament\Resources\Exhibitions\ExhibitionResource;
+use App\Filament\Resources\Users\UserResource;
+
 return [
 
     /*
@@ -120,8 +124,16 @@ return [
         'merge' => true,
         'generate' => true,
         'methods' => [
-            'viewAny', 'view', 'create', 'update', 'delete', 'restore',
-            'forceDelete', 'forceDeleteAny', 'restoreAny', 'replicate', 'reorder',
+            'view',
+            'view_any',
+            'create',
+            'update',
+            'restore',
+            'restore_any',
+            'delete',
+            'delete_any',
+            'force_delete',
+            'force_delete_any',
         ],
         'single_parameter_methods' => [
             'viewAny',
@@ -145,7 +157,7 @@ return [
     */
 
     'localization' => [
-        'enabled' => false,
+        'enabled' => true,
         'key' => 'filament-shield::filament-shield',
     ],
 
@@ -170,6 +182,63 @@ return [
                 'update',
                 'delete',
             ],
+            CouponResource::class => [
+                'view',
+                'view_any',
+
+                'create',
+                'update',
+
+                'restore',
+                'restore_any',
+
+                'delete',
+                'delete_any',
+
+                'force_delete',
+                'force_delete_any',
+
+                'submit_ticket',
+                'change_status',
+                'reserve_coupon',
+                'revision'
+            ],
+            UserResource::class => [
+                'view',
+                'view_any',
+
+                'create',
+                'update',
+
+                'restore',
+                'restore_any',
+
+                'delete',
+                'delete_any',
+
+                'force_delete',
+                'force_delete_any',
+
+                'attach'
+            ],
+            ExhibitionResource::class => [
+                'view',
+                'view_any',
+
+                'create',
+                'update',
+
+                'restore',
+                'restore_any',
+
+                'delete',
+                'delete_any',
+
+                'force_delete',
+                'force_delete_any',
+
+                'add_plans_and_discounts',
+            ]
         ],
         'exclude' => [
             //
