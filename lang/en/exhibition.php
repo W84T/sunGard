@@ -8,6 +8,8 @@ return [
         'name' => 'Name',
         'address' => 'Address',
         'logo_address' => 'Logo Address',
+        'plans' => 'Offers',
+        'plan_value' => 'Offer'
     ],
 
     'table' => [

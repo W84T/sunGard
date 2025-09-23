@@ -11,7 +11,6 @@ use App\Filament\Resources\Coupons\RelationManagers\TicketsRelationManager;
 use App\Filament\Resources\Coupons\Schemas\CouponForm;
 use App\Filament\Resources\Coupons\Schemas\CouponInfolist;
 use App\Filament\Resources\Coupons\Tables\CouponsTable;
-use App\Filament\Resources\Tickets\TicketResource;
 use App\Models\Coupon;
 use App\Models\User;
 use BackedEnum;

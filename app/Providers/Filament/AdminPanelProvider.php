@@ -28,6 +28,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
@@ -80,6 +81,7 @@ class AdminPanelProvider extends PanelProvider
 
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
+
                 //                AccountWidget::class,
                 //                FilamentInfoWidget::class,
                 //                MyCalendarWidget::class,
@@ -118,6 +120,7 @@ class AdminPanelProvider extends PanelProvider
             )
             ->plugins([
                 FilamentShieldPlugin::make(),
+                FilamentApexChartsPlugin::make(),
             ])
             ->authMiddleware([
                 Authenticate::class,

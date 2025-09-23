@@ -127,3 +127,40 @@
             box-shadow: none !important;
         }
     }
+
+
+    @layer components {
+        /* === Sidebar === */
+        .fi-sidebar {
+            @apply overflow-hidden;
+            transition: width 300ms ease-in-out;
+        }
+
+        .fi-sidebar-open {
+            @apply w-64;
+        }
+
+        .fi-sidebar:not(.fi-sidebar-open) {
+            @apply w-24 ;
+        }
+
+
+        /* When collapsed, keep icons aligned */
+        .fi-sidebar:not(.fi-sidebar-open) .fi-sidebar-item-btn {
+            @apply justify-start px-0;
+        }
+
+        /* === Label === */
+        .fi-sidebar-item-label {
+            @apply transition-all duration-300;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        /* Instead of only opacity, also animate max-width
+           so space for the label remains during width change */
+        .fi-sidebar:not(.fi-sidebar-open) .fi-sidebar-item-label {
+            opacity: 0;
+            max-width: 0;        /* smoothly shrinks text */
+        }
+    }

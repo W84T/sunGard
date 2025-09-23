@@ -53,4 +53,9 @@ return [
         'created_at' => 'تاريخ الإنشاء',
         'updated_at' => 'تاريخ التعديل',
     ],
+    'action' => [
+        'attach' => 'إرفاق',
+        'detach' => 'فصل',
+        'user' => 'مستخدمين'
+    ]
 ];

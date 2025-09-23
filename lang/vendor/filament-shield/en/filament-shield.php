@@ -91,7 +91,7 @@ return [
         'replicate' => 'Replicate',
         'submit_ticket' => 'Report a Problem / Support Ticket',
         'change_status' => 'Change Coupon Status',
-        'reserve_coupon' => 'Reserve Coupon (For Customer Service Only)'
-
+        'reserve_coupon' => 'Reserve Coupon (For Customer Service Only)',
+        'attach' => 'Attach / Deattach',
     ],
 ];

@@ -8,6 +8,9 @@ return [
         'name' => 'الاسم',
         'address' => 'العنوان',
         'logo_address' => 'عنوان الشعار',
+        'discount' => 'التخفيض',
+        'plans' => 'عروض',
+        'plan_value' => 'العرض'
     ],
 
     'table' => [

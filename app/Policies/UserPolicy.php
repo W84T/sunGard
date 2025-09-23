@@ -145,4 +145,9 @@ class UserPolicy
     {
         return $user->can('{{ Reorder }}');
     }
+
+    public function attach(User $user): bool
+    {
+        return $user->can('attach_users::user');
+    }
 }
