@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
-use App\Models\User;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use App\Models\Exhibition;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -12,7 +11,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class ExhibitionPolicy
 {
     use HandlesAuthorization;
-
+    
     public function viewAny(AuthUser $authUser): bool
     {
         return $authUser->can('ViewAny:Exhibition');
@@ -68,8 +67,4 @@ class ExhibitionPolicy
         return $authUser->can('Reorder:Exhibition');
     }
 
-    public function addPlansAndDiscounts(AuthUser $authUser, Exhibition $exhibition): bool
-    {
-        return $authUser->can('AddPlansAndDiscounts:Exhibition');
-    }
 }
