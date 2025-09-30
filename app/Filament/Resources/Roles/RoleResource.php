@@ -177,4 +177,9 @@ class RoleResource extends Resource
     {
         return FilamentShieldPlugin::get();
     }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return null; // No group
+    }
 }

@@ -119,7 +119,12 @@ class AdminPanelProvider extends PanelProvider
                 },
             )
             ->plugins([
-                FilamentShieldPlugin::make(),
+                FilamentShieldPlugin::make()
+                    ->navigationIcon(Phosphor::Shield)
+                    ->activeNavigationIcon(Phosphor::Shield->getIconForWeight(PhosphorWeight::Duotone))
+                    ->navigationSort(10)
+                    ->navigationGroup(null),
+
                 FilamentApexChartsPlugin::make(),
             ])
             ->authMiddleware([

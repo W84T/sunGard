@@ -8,6 +8,8 @@ use App\Observers\CouponImageObserver;
 use App\Observers\CouponObserver;
 use App\Observers\TicketObserver;
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
+use Filament\Support\Assets\Js;
+use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -33,6 +35,9 @@ class AppServiceProvider extends ServiceProvider
                 ->locales(['ar', 'en']);
         });
 
+//        FilamentAsset::register([
+//            Js::make('app', __DIR__ . '/../../resources/js/app.js')->module(),
+//        ]);
         //        FilamentAsset::register([
         //            Js::make('photoswipe', Vite::asset('resources/js/app.js'))->module(),
         //            Css::make('photoswipe', Vite::asset('resources/css/app.css')),
