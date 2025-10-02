@@ -32,14 +32,3 @@ Route::get('/coupons/{coupon}/preview', function (Coupon $coupon, CouponImageSer
         'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
     ]);
 })->name('coupon.preview');
-
-
-Route::get('/send-notification/{user}', function (User $user) {
-    $title  = request()->query('title', 'تنبيه جديد');
-    $body   = request()->query('body', 'لديك إشعار جديد');
-    $status = request()->query('status', 'success');
-
-    $user->notify(new GenericNotification($title, $body, $status));
-
-    return response()->json(['message' => 'Notification sent!']);
-});
